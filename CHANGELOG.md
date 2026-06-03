@@ -14,6 +14,14 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.4.0] — 2026-06-03
+
+**Dados (lidos via navegador, direto da fonte renderizada)**
+- Base atualizada para **230 nomeações em 25 órgãos** (antes 201/22).
+- Novos órgãos: **RN** (1), **SC** (1) e **DF** (12 analistas — PORTARIA 148).
+- Correções/atualizações: **PI** 15→23, **MA** 11→15, **RJ** 2→4, **MT** 2→3.
+- Faltam convocar (3): Alagoas, Rio Grande do Sul e Tocantins.
+
 ## [1.3.0] — 2026-06-03
 
 **Novidades**
