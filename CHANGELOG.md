@@ -14,6 +14,14 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.3.0] — 2026-06-03
+
+**Novidades**
+- Gráfico de **ritmo mensal** (nomeações por mês) + indicador de "ritmo recente".
+- **Busca sem acento**: encontrar "Joao" acha "João".
+- **Link direto por estado**: abrir `.../tse-dashboard/#SP` já mostra filtrado por SP
+  (o filtro de estado também atualiza o endereço, facilitando compartilhar).
+
 ## [1.2.0] — 2026-06-03
 
 **Correções**

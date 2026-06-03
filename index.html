@@ -91,6 +91,16 @@
       <div class="relative" style="height:300px"><canvas id="chartTempo"></canvas></div>
     </section>
 
+    <!-- ===================== RITMO MENSAL ===================== -->
+    <section class="glass rounded-2xl p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+        <h3 class="font-bold text-white">Ritmo de convocações (por mês)</h3>
+        <span id="ritmoTxt" class="text-xs text-emerald-300 font-semibold"></span>
+      </div>
+      <p class="text-xs text-slate-400 mb-3">Quantas nomeações de TI saíram em cada mês.</p>
+      <div class="relative" style="height:260px"><canvas id="chartMes"></canvas></div>
+    </section>
+
     <!-- ===================== COBERTURA NACIONAL ===================== -->
     <section class="glass rounded-2xl p-5">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
@@ -151,8 +161,9 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.2.0';
+    const APP_VERSION = '1.3.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
+    const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
     const TODOS_ORGAOS = {
       TSE:'TSE', AC:'Acre', AL:'Alagoas', AP:'Amapá', AM:'Amazonas', BA:'Bahia', CE:'Ceará',
@@ -203,16 +214,23 @@
         document.getElementById(id).addEventListener('input', renderTabela);
       });
       document.getElementById('btnCSV').addEventListener('click', exportarCSV);
+      // Link direto por estado (ex.: .../tse-dashboard/#SP abre já filtrado)
+      const hashUf = (location.hash || '').replace('#','').toUpperCase();
+      if(hashUf && TODOS_ORGAOS[hashUf]) selUF.value = hashUf;
+      selUF.addEventListener('change', () => {
+        if(selUF.value) location.hash = selUF.value;
+        else history.replaceState(null, '', location.pathname + location.search);
+      });
     }
 
     function dadosFiltrados(){
       const uf = document.getElementById('filtroUF').value;
       const cargo = document.getElementById('filtroCargo').value;
-      const q = document.getElementById('busca').value.trim().toLowerCase();
+      const q = norm(document.getElementById('busca').value.trim());
       return DADOS.filter(d=>
         (!uf || d.uf===uf) &&
         (!cargo || d.cargo===cargo) &&
-        (!q || (d.nome||'').toLowerCase().includes(q))
+        (!q || norm(d.nome).includes(q))
       );
     }
 
@@ -337,6 +355,22 @@
           plugins:{legend:{display:false}},
           scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(255,255,255,.05)'}, ticks:{precision:0}} } }
       });
+
+      // Ritmo mensal (barras) + ritmo recente
+      const porMes = {};
+      DADOS.filter(d=>d.data).forEach(d=>{ const m=d.data.slice(0,7); porMes[m]=(porMes[m]||0)+1; });
+      const meses = Object.keys(porMes).sort();
+      charts.mes = new Chart(document.getElementById('chartMes'), {
+        type:'bar',
+        data:{ labels: meses.map(m=>{const[a,b]=m.split('-');return b+'/'+a;}),
+          datasets:[{ data: meses.map(m=>porMes[m]), backgroundColor:'#a78bfa', borderRadius:6, maxBarThickness:38 }]},
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+          scales:{ x:{grid:{display:false}}, y:{grid:{color:'rgba(255,255,255,.05)'}, ticks:{precision:0}} } }
+      });
+      const ult = meses.slice(-3).map(m=>porMes[m]);
+      const media = ult.length ? Math.round(ult.reduce((a,b)=>a+b,0)/ult.length) : 0;
+      const elR = document.getElementById('ritmoTxt');
+      if(elR) elR.textContent = media ? `ritmo recente: ~${media}/mês` : '';
     }
 
     function renderTabela(){
