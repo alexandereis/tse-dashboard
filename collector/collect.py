@@ -33,7 +33,7 @@ from config import (
 )
 from parser import (
     limpar_html, sem_acento, identificar_orgao, extrair_cargo,
-    extrair_especialidade, eh_ti, extrair_nomes,
+    extrair_especialidade, eh_ti, extrair_nomes, extrair_nomeados,
 )
 
 # Caminhos (relativos à raiz do projeto).
@@ -81,15 +81,20 @@ def extrair_params_json(html):
         <script id="params" type="application/json">{...}</script>
     que contém os resultados em JSON. Esta função devolve esse dicionário.
     """
-    m = re.search(
-        r'<script[^>]*id="params"[^>]*>(.*?)</script>', html, re.DOTALL
-    )
-    if not m:
-        return None
-    try:
-        return json.loads(m.group(1))
-    except json.JSONDecodeError:
-        return None
+    # O DOU coloca os resultados num <script type="application/json"> cujo id já
+    # mudou de nome ao longo do tempo (ex.: "params" → "..._BuscaDouPortlet_params").
+    # Por isso procuramos QUALQUER script JSON que contenha "jsonArray".
+    for m in re.finditer(
+        r'<script[^>]*type="application/json"[^>]*>(.*?)</script>', html, re.DOTALL
+    ):
+        bloco = m.group(1).strip()
+        if "jsonArray" not in bloco:
+            continue
+        try:
+            return json.loads(bloco)
+        except json.JSONDecodeError:
+            continue
+    return None
 
 
 def buscar_pagina(consulta, pagina):
@@ -174,34 +179,32 @@ def processar_portaria(item):
     if not sigla:
         return []
 
-    # Só interessa se a portaria fala de cargo de TI.
-    if not eh_ti(titulo, texto):
+    # Extrai os nomeados de TI (já com classificação, cargo e especialidade).
+    # O próprio extrair_nomeados filtra só quem é de Tecnologia da Informação,
+    # mesmo que a portaria nomeie gente de várias áreas (caso comum).
+    nomeados = extrair_nomeados(texto)
+    if not nomeados:
         return []
 
-    cargo = extrair_cargo(titulo) or extrair_cargo(texto) or ""
-    especialidade = extrair_especialidade(texto)
-
-    # Número da portaria (rótulo curto para o link).
-    mport = re.search(r"PORTARIA[^\d]*(\d+)", titulo, re.IGNORECASE)
-    rotulo_portaria = f"PORTARIA Nº {mport.group(1)}" if mport else (titulo[:40] or "Portaria")
-
-    nomes = extrair_nomes(texto)
-    if not nomes:
-        return []
+    # Rótulo curto da portaria/ato para o link.
+    mport = re.search(r"(PORTARIA|ATO)[^\d]*(\d[\d.]*)", titulo, re.IGNORECASE)
+    rotulo_portaria = (f"{mport.group(1).upper()} Nº {mport.group(2)}"
+                       if mport else (titulo[:45] or "Portaria"))
 
     info = ORGAOS[sigla]
-    data_br = re.search(r"\d{2}/\d{2}/\d{4}", pub_date)
-    data_br = data_br.group(0) if data_br else pub_date
+    mdata = re.search(r"\d{2}/\d{2}/\d{4}", pub_date)
+    data_br = mdata.group(0) if mdata else pub_date
 
     registros = []
-    for nome in nomes:
+    for nd in nomeados:
         registros.append({
             "uf": sigla,
             "orgao": info["rotulo"],
-            "cargo": cargo or "Não identificado",
+            "cargo": nd["cargo"],
             "area": "TI",
-            "especialidade": especialidade,
-            "nome": nome,
+            "especialidade": nd["especialidade"] or "Tecnologia da Informação",
+            "nome": nd["nome"],
+            "classificacao": nd["classificacao"],
             "data": data_iso(data_br),
             "data_br": data_br,
             "portaria": rotulo_portaria,

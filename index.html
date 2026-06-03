@@ -161,7 +161,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.4.0';
+    const APP_VERSION = '1.5.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
@@ -183,15 +183,28 @@
       return d.toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
     }
 
+    let ultimaAtualizacao = null;
+    let eventosLigados = false;
+
+    async function buscarJson(){
+      const r = await fetch('data/nomeacoes.json?_=' + Date.now());
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }
+
+    function aplicarDados(json, primeira){
+      DADOS = json.registros || [];
+      document.getElementById('updatedAt').textContent = fmtDataUpdate(json.atualizado_em);
+      ultimaAtualizacao = json.atualizado_em;
+      popularFiltros();
+      if(primeira) ligarEventos();
+      renderTudo();
+    }
+
     async function carregar(){
       try {
-        const r = await fetch('data/nomeacoes.json?_=' + Date.now());
-        if(!r.ok) throw new Error('HTTP ' + r.status);
-        const json = await r.json();
-        DADOS = json.registros || [];
-        document.getElementById('updatedAt').textContent = fmtDataUpdate(json.atualizado_em);
-        montarFiltros();
-        renderTudo();
+        aplicarDados(await buscarJson(), true);
+        iniciarAutoAtualizacao();
       } catch(e){
         const box = document.getElementById('erroBox');
         box.classList.remove('hidden');
@@ -200,21 +213,66 @@
       }
     }
 
-    function montarFiltros(){
-      const ufs = [...new Set(DADOS.map(d=>d.uf))].sort((a,b)=> a==='TSE'?-1:b==='TSE'?1:a.localeCompare(b));
+    // A cada 5 minutos verifica se há dados novos; se houver, atualiza a tela
+    // sozinha (sem F5) e mostra um aviso discreto.
+    function iniciarAutoAtualizacao(){
+      setInterval(async () => {
+        try {
+          const json = await buscarJson();
+          if(json.atualizado_em && json.atualizado_em !== ultimaAtualizacao){
+            const antes = DADOS.length;
+            aplicarDados(json, false);
+            const novos = DADOS.length - antes;
+            mostrarToast(novos > 0
+              ? `🔔 ${novos} nova(s) nomeação(ões) publicada(s) — painel atualizado!`
+              : '🔔 Painel atualizado com os dados mais recentes.');
+          }
+        } catch(e){ /* silencioso: tenta de novo no próximo ciclo */ }
+      }, 5 * 60 * 1000);
+    }
+
+    function mostrarToast(msg){
+      let t = document.getElementById('toast');
+      if(!t){
+        t = document.createElement('div');
+        t.id = 'toast';
+        t.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);'
+          + 'background:#4338CA;color:#fff;padding:11px 18px;border-radius:12px;font-size:14px;'
+          + 'font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.45);z-index:60;opacity:0;'
+          + 'transition:opacity .35s ease;max-width:90vw;text-align:center';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.style.opacity = '1';
+      setTimeout(() => { t.style.opacity = '0'; }, 7000);
+    }
+
+    // Monta as opções dos filtros. É idempotente: preserva a seleção atual,
+    // então pode rodar de novo quando os dados se atualizam sozinhos.
+    function popularFiltros(){
       const selUF = document.getElementById('filtroUF');
-      ufs.forEach(uf=>{
-        const nome = (DADOS.find(d=>d.uf===uf)||{}).orgao || uf;
-        selUF.insertAdjacentHTML('beforeend', `<option value="${uf}">${nome}</option>`);
-      });
-      const cargos = [...new Set(DADOS.map(d=>d.cargo))].sort();
       const selC = document.getElementById('filtroCargo');
-      cargos.forEach(c=> selC.insertAdjacentHTML('beforeend', `<option value="${c}">${c}</option>`));
+      const ufSel = selUF.value, cargoSel = selC.value;
+      const ufs = [...new Set(DADOS.map(d=>d.uf))].sort((a,b)=> a==='TSE'?-1:b==='TSE'?1:a.localeCompare(b));
+      selUF.innerHTML = '<option value="">Todos os órgãos</option>' + ufs.map(uf=>{
+        const nome = (DADOS.find(d=>d.uf===uf)||{}).orgao || uf;
+        return `<option value="${uf}">${nome}</option>`;
+      }).join('');
+      const cargos = [...new Set(DADOS.map(d=>d.cargo))].sort();
+      selC.innerHTML = '<option value="">Todos os cargos</option>'
+        + cargos.map(c=>`<option value="${c}">${c}</option>`).join('');
+      selUF.value = ufSel; selC.value = cargoSel;   // preserva o que estava selecionado
+    }
+
+    // Liga os eventos uma única vez (evita listeners duplicados nas atualizações).
+    function ligarEventos(){
+      if(eventosLigados) return;
+      eventosLigados = true;
       ['filtroUF','filtroCargo','busca'].forEach(id=>{
         document.getElementById(id).addEventListener('input', renderTabela);
       });
       document.getElementById('btnCSV').addEventListener('click', exportarCSV);
-      // Link direto por estado (ex.: .../tse-dashboard/#SP abre já filtrado)
+      const selUF = document.getElementById('filtroUF');
       const hashUf = (location.hash || '').replace('#','').toUpperCase();
       if(hashUf && TODOS_ORGAOS[hashUf]) selUF.value = hashUf;
       selUF.addEventListener('change', () => {
@@ -379,7 +437,7 @@
       tbody.innerHTML = dados.map((d,i)=>`
         <tr class="border-t border-white/5 hover:bg-white/5">
           <td class="px-4 py-3 text-slate-500">${i+1}</td>
-          <td class="px-4 py-3 font-medium text-white">${d.nome||''}</td>
+          <td class="px-4 py-3 font-medium text-white">${d.nome||''}${d.classificacao?` <span class="text-[10px] font-bold text-amber-300" title="classificação no concurso">${d.classificacao}º</span>`:''}</td>
           <td class="px-4 py-3"><span class="inline-flex items-center gap-1.5"><span class="text-[10px] font-bold bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded">${d.uf}</span>${d.orgao||''}</span></td>
           <td class="px-4 py-3">${d.cargo||''}</td>
           <td class="px-4 py-3 whitespace-nowrap">${d.data_br||''}</td>

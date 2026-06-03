@@ -160,3 +160,49 @@ def formatar_nome(bruto: str) -> str:
         else:
             partes.append(palavra.capitalize())
     return " ".join(partes)
+
+
+# ---------------------------------------------------------------------------
+# Extração ESTRUTURADA (formato padrão do DOU)
+# Ex.: "Art. 26 Nomear o candidato Fábio Freire Jacinto, classificado em 1º
+#       lugar ... cargo efetivo de Analista Judiciário, Área: Apoio
+#       Especializado, Especialidade: Tecnologia da Informação, Classe ..."
+# Captura nome + classificação + cargo + especialidade de cada nomeado, e
+# já filtra só os de TI pela especialidade.
+# ---------------------------------------------------------------------------
+_RE_NOMEADO = re.compile(
+    r"nomear\s+(?:o|a)\s+candidat[oa]\s+([A-ZÀ-Ú][^,]{3,70}?),\s+"
+    r"classificad[oa]\s+em\s+(\d+)\s*[ºo]?\s*lugar"
+    r"[\s\S]{0,600}?cargo\s+(?:efetivo\s+)?de\s+"
+    r"(Analista\s+Judici[áa]rio|T[ée]cnico\s+Judici[áa]rio)"
+    r"[\s\S]{0,300}?especialidade:?\s*([^,.;\n]{3,70})",
+    re.IGNORECASE,
+)
+
+
+def extrair_nomeados(texto):
+    """
+    Lê o texto de uma portaria e devolve uma lista de nomeados de TI, cada um
+    como: {nome, classificacao, cargo, especialidade}.
+
+    Usa o padrão estruturado do DOU (acima). Funciona para o TSE e para os TREs
+    que seguem esse formato formal — que é a maioria. Formatos muito fora do
+    padrão podem escapar; nesse caso o seed (dados conferidos) garante o painel.
+    """
+    out = []
+    vistos = set()
+    for m in _RE_NOMEADO.finditer(texto):
+        nome = formatar_nome(re.sub(r"\s+", " ", m.group(1)).strip())
+        cls = int(m.group(2))
+        cargo = ("Analista Judiciário" if "analista" in sem_acento(m.group(3))
+                 else "Técnico Judiciário")
+        esp = re.sub(r"\s+", " ", m.group(4)).strip()
+        if not eh_ti(esp):                 # só TI (pela especialidade)
+            continue
+        chave = sem_acento(nome)
+        if chave in vistos:
+            continue
+        vistos.add(chave)
+        out.append({"nome": nome, "classificacao": cls,
+                    "cargo": cargo, "especialidade": esp})
+    return out

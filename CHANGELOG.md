@@ -14,6 +14,22 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.5.0] — 2026-06-03
+
+**Automação de verdade (coletor do DOU)**
+- O coletor foi religado à fonte real: a busca do DOU entrega os resultados no
+  próprio HTML do servidor (validado), então o robô do GitHub Actions consegue
+  ler sem precisar de navegador.
+- Novo leitor tolerante ao `id` do bloco de resultados (que o DOU renomeou).
+- Extração estruturada por candidato — captura **nome, classificação, cargo e
+  especialidade**, filtrando só TI mesmo em portarias com várias áreas.
+  Validado contra a PORTARIA 148/DF: dos 17 nomeados, extraiu exatamente os 12 de TI.
+- A **classificação** ("Nº lugar") agora aparece ao lado do nome na lista.
+
+**Tela**
+- **Auto-atualização**: a página verifica novos dados a cada 5 min e se atualiza
+  sozinha (sem F5), com um aviso discreto quando há novidade.
+
 ## [1.4.0] — 2026-06-03
 
 **Dados (lidos via navegador, direto da fonte renderizada)**
