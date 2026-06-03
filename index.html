@@ -91,6 +91,20 @@
       <div class="relative" style="height:300px"><canvas id="chartTempo"></canvas></div>
     </section>
 
+    <!-- ===================== COBERTURA NACIONAL ===================== -->
+    <section class="glass rounded-2xl p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+        <div>
+          <h3 class="font-bold text-white">Cobertura nacional</h3>
+          <p class="text-xs text-slate-400">Órgãos da Justiça Eleitoral que já convocaram em TI (27 TREs + TSE).</p>
+        </div>
+        <p class="text-sm"><span id="covCount" class="font-black text-emerald-300 text-xl">0</span><span class="text-slate-400"> de 28 órgãos</span></p>
+      </div>
+      <div class="w-full bg-slate-800 rounded-full h-2 mb-4"><div id="covBar" class="bg-emerald-400 h-2 rounded-full transition-all" style="width:0%"></div></div>
+      <p class="text-xs text-slate-400 mb-2">Ainda sem nomeação de TI:</p>
+      <div id="covPend" class="flex flex-wrap gap-2"></div>
+    </section>
+
     <!-- ===================== FILTROS + TABELA ===================== -->
     <section class="glass rounded-2xl p-5">
       <div class="flex flex-col lg:flex-row lg:items-end gap-4 mb-5">
@@ -102,6 +116,7 @@
           <select id="filtroUF" class="bg-slate-800 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-400"><option value="">Todos os órgãos</option></select>
           <select id="filtroCargo" class="bg-slate-800 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-400"><option value="">Todos os cargos</option></select>
           <input id="busca" type="text" placeholder="🔎 Buscar nome..." class="col-span-2 lg:w-56 bg-slate-800 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-400" />
+          <button id="btnCSV" title="Baixar a lista filtrada em CSV" class="col-span-2 lg:col-span-1 bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 rounded-lg px-3 py-2 text-sm font-medium hover:bg-emerald-600/30 whitespace-nowrap">⬇ Baixar CSV</button>
         </div>
       </div>
 
@@ -136,8 +151,17 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.1.0';
+    const APP_VERSION = '1.2.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
+    // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
+    const TODOS_ORGAOS = {
+      TSE:'TSE', AC:'Acre', AL:'Alagoas', AP:'Amapá', AM:'Amazonas', BA:'Bahia', CE:'Ceará',
+      DF:'Distrito Federal', ES:'Espírito Santo', GO:'Goiás', MA:'Maranhão', MT:'Mato Grosso',
+      MS:'Mato Grosso do Sul', MG:'Minas Gerais', PA:'Pará', PB:'Paraíba', PR:'Paraná',
+      PE:'Pernambuco', PI:'Piauí', RJ:'Rio de Janeiro', RN:'Rio Grande do Norte',
+      RS:'Rio Grande do Sul', RO:'Rondônia', RR:'Roraima', SC:'Santa Catarina',
+      SP:'São Paulo', SE:'Sergipe', TO:'Tocantins'
+    };
     let DADOS = [];
     let charts = {};
 
@@ -178,6 +202,7 @@
       ['filtroUF','filtroCargo','busca'].forEach(id=>{
         document.getElementById(id).addEventListener('input', renderTabela);
       });
+      document.getElementById('btnCSV').addEventListener('click', exportarCSV);
     }
 
     function dadosFiltrados(){
@@ -191,7 +216,32 @@
       );
     }
 
-    function renderTudo(){ renderKPIs(); renderHoje(); renderGraficos(); renderTabela(); }
+    function renderTudo(){ renderKPIs(); renderHoje(); renderCobertura(); renderGraficos(); renderTabela(); }
+
+    function renderCobertura(){
+      const total = Object.keys(TODOS_ORGAOS).length; // 28
+      const comDados = new Set(DADOS.map(d => d.uf));
+      document.getElementById('covCount').textContent = comDados.size;
+      document.getElementById('covBar').style.width = Math.round(comDados.size / total * 100) + '%';
+      const pend = Object.keys(TODOS_ORGAOS).filter(uf => !comDados.has(uf));
+      document.getElementById('covPend').innerHTML = pend.length
+        ? pend.map(uf => `<span class="text-xs bg-slate-800 border border-white/10 rounded-full px-2.5 py-1 text-slate-300">${TODOS_ORGAOS[uf]} <span class="text-slate-500">(${uf})</span></span>`).join('')
+        : '<span class="text-xs text-emerald-300 font-semibold">Todos os 28 órgãos já convocaram! 🎉</span>';
+    }
+
+    function exportarCSV(){
+      const dados = dadosFiltrados().slice().sort((a,b) => (b.data||'').localeCompare(a.data||''));
+      const head = ['Nome','UF','Órgão','Cargo','Especialidade','Data','Portaria','Link'];
+      const esc = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
+      const linhas = dados.map(d => [d.nome,d.uf,d.orgao,d.cargo,d.especialidade,d.data_br,d.portaria,d.url].map(esc).join(','));
+      const csv = '﻿' + [head.join(','), ...linhas].join('\n'); // BOM p/ acentos no Excel
+      const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'nomeacoes-ti-tse-unificado.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
 
     function renderHoje(){
       const cont = document.getElementById('hojeLista');

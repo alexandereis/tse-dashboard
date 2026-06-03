@@ -14,6 +14,17 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.2.0] — 2026-06-03
+
+**Correções**
+- **Adrian Newey Santos** e **Rafael Souza Santos** (PORTARIA 201 e 202) estavam
+  listados em Espírito Santo, mas foram nomeados em **Sergipe** — corrigido.
+
+**Novidades**
+- Painel **“Cobertura nacional”**: mostra quantos dos **28 órgãos** (27 TREs + TSE)
+  já convocaram em TI e lista os que ainda não convocaram.
+- Botão **“Baixar CSV”**, que exporta a lista (respeitando os filtros aplicados).
+
 ## [1.1.0] — 2026-06-03
 
 **Novidades**

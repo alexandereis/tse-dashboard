@@ -11,3 +11,6 @@ Thumbs.db
 # Editores
 .vscode/
 .idea/
+
+# Arquivo temporário (pode apagar manualmente)
+_marcador_bash.txt

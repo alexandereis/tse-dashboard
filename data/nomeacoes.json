@@ -1,5 +1,5 @@
 {
-  "atualizado_em": "2026-06-02T23:57:12.713873+00:00",
+  "atualizado_em": "2026-06-03T11:29:53.943563+00:00",
   "total": 201,
   "registros": [
     {
@@ -133,28 +133,28 @@
       "fonte": "seed"
     },
     {
-      "uf": "ES",
-      "orgao": "Espírito Santo",
+      "uf": "SE",
+      "orgao": "Sergipe",
       "cargo": "Técnico Judiciário",
       "area": "TI",
       "especialidade": "Tecnologia da Informação",
       "nome": "Rafael Souza Santos",
       "data_br": "31/03/2026",
       "data": "2026-03-31",
-      "portaria": "ATO Nº 202",
+      "portaria": "PORTARIA Nº 202",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-202-de-27-de-marco-de-2026-696407583",
       "fonte": "seed"
     },
     {
-      "uf": "ES",
-      "orgao": "Espírito Santo",
+      "uf": "SE",
+      "orgao": "Sergipe",
       "cargo": "Técnico Judiciário",
       "area": "TI",
       "especialidade": "Tecnologia da Informação",
       "nome": "Adrian Newey Santos",
       "data_br": "31/03/2026",
       "data": "2026-03-31",
-      "portaria": "ATO Nº 201",
+      "portaria": "PORTARIA Nº 201",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-201-de-27-de-marco-de-2026-696376451",
       "fonte": "seed"
     },
