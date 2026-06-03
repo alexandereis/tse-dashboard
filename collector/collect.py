@@ -277,12 +277,24 @@ def main():
             add += 1
     print(f"\nNovos registros adicionados pelo DOU: {add}")
 
-    # 3) Ordena (mais recentes primeiro) e grava.
+    # 3) Ordena (mais recentes primeiro).
     registros = sorted(
         base.values(),
         key=lambda r: (r.get("data", ""), r.get("nome", "")),
         reverse=True,
     )
+
+    # 4) Só grava se houve mudança real em relação à execução anterior.
+    #    (Comparamos o CONTEÚDO dos registros, ignorando o horário de atualização.)
+    def assinatura(lista):
+        campos = ("uf", "cargo", "nome", "data", "data_br", "portaria", "url")
+        return sorted("|".join(str(r.get(c, "")) for c in campos) for r in lista)
+
+    if assinatura(registros) == assinatura(anterior):
+        print("\nNenhuma novidade no DOU desde a última execução. "
+              "Arquivo NÃO foi alterado (o site continua igual).")
+        return 0
+
     saida = {
         "atualizado_em": datetime.now(timezone.utc).isoformat(),
         "total": len(registros),
@@ -292,7 +304,7 @@ def main():
     with open(ARQ_DADOS, "w", encoding="utf-8") as f:
         json.dump(saida, f, ensure_ascii=False, indent=2)
 
-    print(f"\nOK! {len(registros)} registros gravados em data/nomeacoes.json")
+    print(f"\nOK! Houve novidade. {len(registros)} registros gravados em data/nomeacoes.json")
     return 0
 
 

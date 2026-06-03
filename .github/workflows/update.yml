@@ -3,10 +3,13 @@ name: Atualizar nomeações (coletor do DOU)
 # Quando este robô roda:
 on:
   schedule:
-    # Horários em UTC. O Brasil (BRT) é UTC-3.
-    # 11:00 UTC = 08:00 em Brasília  |  21:00 UTC = 18:00 em Brasília
-    - cron: "0 11 * * *"
-    - cron: "0 21 * * *"
+    # Horários em UTC — o Brasil (BRT) é UTC-3, então some 3h para achar a hora local.
+    # O coletor só salva/atualiza o site quando encontra algo NOVO (veja o passo de commit).
+    - cron: "0 5 * * *"    # 02:00 em Brasília
+    - cron: "0 6 * * *"    # 03:00 em Brasília
+    - cron: "0 13 * * *"   # 10:00 em Brasília
+    - cron: "0 16 * * *"   # 13:00 em Brasília
+    - cron: "0 21 * * *"   # 18:00 em Brasília
   workflow_dispatch: {}   # permite rodar manualmente pelo botão "Run workflow"
 
 # Permite que o robô grave (commit) o JSON atualizado de volta no repositório.

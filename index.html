@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel de Nomeações · Concurso TSE Unificado (TI)</title>
   <meta name="description" content="Dashboard em tempo real das nomeações de TI do Concurso TSE Unificado (Justiça Eleitoral), com dados do Diário Oficial da União." />
+  <link rel="icon" href="favicon.ico" sizes="any" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,6 +56,18 @@
       <div class="kpi glass rounded-2xl p-5"><p class="text-xs text-slate-400">Técnicos</p><p id="kpiTecnicos" class="text-3xl font-black text-violet-300 mt-1">0</p></div>
       <div class="kpi glass rounded-2xl p-5"><p class="text-xs text-slate-400">Órgãos com nomeação</p><p id="kpiOrgaos" class="text-3xl font-black text-emerald-300 mt-1">0</p></div>
       <div class="kpi glass rounded-2xl p-5 col-span-2 lg:col-span-1"><p class="text-xs text-slate-400">Última nomeação</p><p id="kpiUltima" class="text-xl font-black text-amber-300 mt-1">—</p></div>
+    </section>
+
+    <!-- ===================== CONVOCAÇÕES DO DIA ===================== -->
+    <section class="rounded-2xl p-5 border border-amber-400/30 bg-gradient-to-br from-amber-500/10 to-transparent">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <h3 id="hojeTitulo" class="font-bold text-white">Convocações do dia</h3>
+        </div>
+        <span id="hojeData" class="text-xs font-semibold text-amber-300"></span>
+      </div>
+      <div id="hojeLista" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
     </section>
 
     <!-- ===================== CHARTS ===================== -->
@@ -118,10 +131,12 @@
     <footer class="text-center text-xs text-slate-500 pt-4 pb-10">
       <p>Fonte: Diário Oficial da União (in.gov.br), Seção 2. Dados coletados automaticamente; podem conter imprecisões — confirme sempre na portaria oficial.</p>
       <p class="mt-1">Painel independente, sem vínculo com o TSE. Atualizado automaticamente via GitHub Actions.</p>
+      <p class="mt-2 text-slate-600">versão <span id="appVersion">—</span></p>
     </footer>
   </main>
 
   <script>
+    const APP_VERSION = '1.1.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
     let DADOS = [];
     let charts = {};
@@ -176,7 +191,41 @@
       );
     }
 
-    function renderTudo(){ renderKPIs(); renderGraficos(); renderTabela(); }
+    function renderTudo(){ renderKPIs(); renderHoje(); renderGraficos(); renderTabela(); }
+
+    function renderHoje(){
+      const cont = document.getElementById('hojeLista');
+      const titulo = document.getElementById('hojeTitulo');
+      const dataLbl = document.getElementById('hojeData');
+      if(!DADOS.length){ cont.innerHTML = ''; return; }
+      const hoje = new Date();
+      const z = n => String(n).padStart(2,'0');
+      const hojeISO = `${hoje.getFullYear()}-${z(hoje.getMonth()+1)}-${z(hoje.getDate())}`;
+      let alvo = DADOS.filter(d => d.data === hojeISO);
+      let label;
+      if(alvo.length){
+        titulo.textContent = 'Convocações de hoje';
+        label = 'Hoje, ' + hojeISO.split('-').reverse().join('/');
+      } else {
+        const maxData = DADOS.map(d=>d.data).filter(Boolean).sort().pop();
+        alvo = DADOS.filter(d => d.data === maxData);
+        titulo.textContent = 'Nenhuma convocação hoje — última divulgação';
+        label = maxData ? maxData.split('-').reverse().join('/') : '';
+      }
+      dataLbl.textContent = label + ' · ' + alvo.length + ' nomeação(ões)';
+      cont.innerHTML = alvo.map(d => `
+        <div class="glass rounded-xl p-3">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="text-[10px] font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">${d.uf}</span>
+            <span class="text-xs text-slate-400">${d.cargo||''}</span>
+          </div>
+          <p class="font-semibold text-white text-sm leading-snug">${d.nome||''}</p>
+          <div class="flex items-center justify-between mt-1.5 gap-2">
+            <span class="text-xs text-slate-400 truncate">${d.orgao||''}</span>
+            ${d.url?`<a href="${d.url}" target="_blank" rel="noopener" class="text-xs text-amber-400 hover:underline whitespace-nowrap">${d.portaria||'ver'} ↗</a>`:''}
+          </div>
+        </div>`).join('');
+    }
 
     function renderKPIs(){
       const total = DADOS.length;
@@ -257,6 +306,7 @@
         `Mostrando ${dados.length} de ${DADOS.length} nomeações.`;
     }
 
+    document.getElementById('appVersion').textContent = APP_VERSION;
     carregar();
   </script>
 </body>
