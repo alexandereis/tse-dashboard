@@ -74,8 +74,9 @@
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="glass rounded-2xl p-5 lg:col-span-2">
         <h3 class="font-bold text-white mb-1">Nomeações por órgão</h3>
-        <p class="text-xs text-slate-400 mb-3">Total de nomeados de TI em cada tribunal (TSE e TREs).</p>
-        <div class="relative" style="height:340px"><canvas id="chartEstado"></canvas></div>
+        <p class="text-xs text-slate-400 mb-3">Analista x Técnico em cada tribunal (TSE e TREs). Cor da sigla = região.</p>
+        <div class="relative" style="height:560px"><canvas id="chartEstado"></canvas></div>
+        <div id="regiaoLegenda" class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3 text-[11px] text-slate-400"></div>
       </div>
       <div class="glass rounded-2xl p-5">
         <h3 class="font-bold text-white mb-1">Por cargo</h3>
@@ -161,7 +162,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.5.0';
+    const APP_VERSION = '1.6.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
@@ -173,6 +174,18 @@
       RS:'Rio Grande do Sul', RO:'Rondônia', RR:'Roraima', SC:'Santa Catarina',
       SP:'São Paulo', SE:'Sergipe', TO:'Tocantins'
     };
+    // Cores por cargo (usadas em todo o painel): Analista = índigo, Técnico = violeta
+    const COR_ANALISTA = '#818cf8', COR_TECNICO = '#a78bfa';
+    const corCargo = c => /Analista/i.test(c) ? COR_ANALISTA : (/Técnico/i.test(c) ? COR_TECNICO : '#94a3b8');
+    // Região de cada órgão, para colorir/identificar visualmente
+    const REGIAO = {
+      TSE:'TSE', AC:'Norte',AP:'Norte',AM:'Norte',PA:'Norte',RO:'Norte',RR:'Norte',TO:'Norte',
+      AL:'Nordeste',BA:'Nordeste',CE:'Nordeste',MA:'Nordeste',PB:'Nordeste',PE:'Nordeste',PI:'Nordeste',RN:'Nordeste',SE:'Nordeste',
+      DF:'Centro-Oeste',GO:'Centro-Oeste',MT:'Centro-Oeste',MS:'Centro-Oeste',
+      ES:'Sudeste',MG:'Sudeste',RJ:'Sudeste',SP:'Sudeste', PR:'Sul',RS:'Sul',SC:'Sul'
+    };
+    const COR_REGIAO = { 'TSE':'#f59e0b','Norte':'#22d3ee','Nordeste':'#34d399','Centro-Oeste':'#fbbf24','Sudeste':'#818cf8','Sul':'#f472b6' };
+    const corOrgao = uf => COR_REGIAO[REGIAO[uf]] || '#94a3b8';
     let DADOS = [];
     let charts = {};
 
@@ -342,8 +355,8 @@
       cont.innerHTML = alvo.map(d => `
         <div class="glass rounded-xl p-3">
           <div class="flex items-center gap-1.5 mb-1">
-            <span class="text-[10px] font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded">${d.uf}</span>
-            <span class="text-xs text-slate-400">${d.cargo||''}</span>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded" style="background:${corOrgao(d.uf)}26;color:${corOrgao(d.uf)}">${d.uf}</span>
+            <span class="text-xs font-semibold" style="color:${corCargo(d.cargo)}">${d.cargo||''}</span>
           </div>
           <p class="font-semibold text-white text-sm leading-snug">${d.nome||''}</p>
           <div class="flex items-center justify-between mt-1.5 gap-2">
@@ -371,18 +384,23 @@
       Chart.defaults.color = '#94a3b8';
       Chart.defaults.font.family = 'Inter';
 
-      // Por órgão (barra horizontal)
+      // Por órgão (barra horizontal EMPILHADA: Analista x Técnico)
       const porUF = {};
-      DADOS.forEach(d=> porUF[d.orgao] = (porUF[d.orgao]||0)+1);
-      const entradas = Object.entries(porUF).sort((a,b)=>b[1]-a[1]);
+      DADOS.forEach(d=>{ const o=d.orgao; (porUF[o]=porUF[o]||{A:0,T:0}); if(/Analista/i.test(d.cargo)) porUF[o].A++; else porUF[o].T++; });
+      const entradas = Object.entries(porUF).sort((a,b)=>(b[1].A+b[1].T)-(a[1].A+a[1].T));
       charts.estado = new Chart(document.getElementById('chartEstado'), {
         type:'bar',
-        data:{ labels: entradas.map(e=>e[0]), datasets:[{ data: entradas.map(e=>e[1]),
-          backgroundColor:'#818cf8', borderRadius:6, maxBarThickness:26 }]},
+        data:{ labels: entradas.map(e=>e[0]), datasets:[
+          { label:'Analista', data: entradas.map(e=>e[1].A), backgroundColor:COR_ANALISTA, borderRadius:3, stack:'t', maxBarThickness:22 },
+          { label:'Técnico', data: entradas.map(e=>e[1].T), backgroundColor:COR_TECNICO, borderRadius:3, stack:'t', maxBarThickness:22 } ]},
         options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-          plugins:{legend:{display:false}},
-          scales:{ x:{grid:{color:'rgba(255,255,255,.05)'}, ticks:{precision:0}}, y:{grid:{display:false}} } }
+          plugins:{legend:{display:true, position:'top', labels:{boxWidth:12, color:'#cbd5e1'}}},
+          scales:{ x:{stacked:true, grid:{color:'rgba(255,255,255,.05)'}, ticks:{precision:0}}, y:{stacked:true, grid:{display:false}} } }
       });
+      // Legenda de regiões (cor das siglas)
+      const lr=document.getElementById('regiaoLegenda');
+      if(lr) lr.innerHTML = '<span class="text-slate-500">Região:</span> ' + Object.entries(COR_REGIAO).map(([r,cor])=>
+        `<span class="inline-flex items-center gap-1"><span style="width:9px;height:9px;border-radius:50%;background:${cor};display:inline-block"></span>${r}</span>`).join(' ');
 
       // Por cargo (doughnut)
       const porCargo = {};
@@ -391,12 +409,12 @@
       charts.cargo = new Chart(document.getElementById('chartCargo'), {
         type:'doughnut',
         data:{ labels: cl.map(e=>e[0]), datasets:[{ data: cl.map(e=>e[1]),
-          backgroundColor: PALETA, borderColor:'#0f172a', borderWidth:3 }]},
+          backgroundColor: cl.map(e=>corCargo(e[0])), borderColor:'#0f172a', borderWidth:3 }]},
         options:{ responsive:true, maintainAspectRatio:false, cutout:'62%',
           plugins:{legend:{display:false}} }
       });
       document.getElementById('cargoLegend').innerHTML = cl.map((e,i)=>
-        `<div class="flex items-center justify-between"><span class="flex items-center gap-2"><span class="h-3 w-3 rounded-full" style="background:${PALETA[i]}"></span>${e[0]}</span><span class="font-semibold text-white">${e[1]}</span></div>`
+        `<div class="flex items-center justify-between"><span class="flex items-center gap-2"><span class="h-3 w-3 rounded-full" style="background:${corCargo(e[0])}"></span>${e[0]}</span><span class="font-semibold text-white">${e[1]}</span></div>`
       ).join('');
 
       // Evolução acumulada
@@ -438,8 +456,8 @@
         <tr class="border-t border-white/5 hover:bg-white/5">
           <td class="px-4 py-3 text-slate-500">${i+1}</td>
           <td class="px-4 py-3 font-medium text-white">${d.nome||''}${d.classificacao?` <span class="text-[10px] font-bold text-amber-300" title="classificação no concurso">${d.classificacao}º</span>`:''}</td>
-          <td class="px-4 py-3"><span class="inline-flex items-center gap-1.5"><span class="text-[10px] font-bold bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded">${d.uf}</span>${d.orgao||''}</span></td>
-          <td class="px-4 py-3">${d.cargo||''}</td>
+          <td class="px-4 py-3"><span class="inline-flex items-center gap-1.5"><span class="text-[10px] font-bold px-1.5 py-0.5 rounded" style="background:${corOrgao(d.uf)}26;color:${corOrgao(d.uf)}">${d.uf}</span>${d.orgao||''}</span></td>
+          <td class="px-4 py-3"><span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:${corCargo(d.cargo)}26;color:${corCargo(d.cargo)}">${d.cargo||''}</span></td>
           <td class="px-4 py-3 whitespace-nowrap">${d.data_br||''}</td>
           <td class="px-4 py-3">${d.url?`<a href="${d.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:underline whitespace-nowrap">${d.portaria||'Ver'} ↗</a>`:(d.portaria||'')}</td>
         </tr>`).join('') ||

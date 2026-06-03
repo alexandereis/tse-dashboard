@@ -14,6 +14,16 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.6.0] — 2026-06-03
+
+**Mais visual e profissional**
+- Distinção clara por **cargo** em todo o painel: Analista (índigo) x Técnico (violeta)
+  — pílulas coloridas na lista, nos cards do dia e no gráfico de rosca.
+- Gráfico "por órgão" virou **barra empilhada Analista × Técnico**, dá pra ver de
+  relance o peso de cada cargo em cada tribunal.
+- **Órgãos coloridos por região** (Norte, Nordeste, Centro-Oeste, Sudeste, Sul + TSE),
+  com legenda — facilita identificar e comparar os tribunais.
+
 ## [1.5.0] — 2026-06-03
 
 **Automação de verdade (coletor do DOU)**
