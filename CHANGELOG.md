@@ -14,6 +14,12 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.9.2] — 2026-06-03
+
+- **Correção da imagem de compartilhamento**: em vez de "fotografar" a seção da
+  página (que saía desalinhada por causa do recorte de texto), o botão agora gera
+  um card próprio, com layout limpo e alinhado, pronto para compartilhar.
+
 ## [1.9.1] — 2026-06-03
 
 - Crédito **"Desenvolvido por Alexander Reis"** no rodapé, com o ícone do LinkedIn

@@ -242,7 +242,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.9.1';
+    const APP_VERSION = '1.9.2';
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
     const TODOS_ORGAOS = {
@@ -361,25 +361,62 @@
     }
     function alternarTema(){ aplicarTema(document.body.classList.contains('light') ? 'escuro' : 'claro'); }
 
-    // Gera uma imagem das "Convocações do dia" para compartilhar (ou baixar)
+    // Gera uma IMAGEM DEDICADA (card limpo, fora da tela) para compartilhar.
+    // Não "fotografa" a seção da página (o html2canvas corta layouts com flex/truncate);
+    // monta um card próprio com largura fixa e espaçamento explícito.
     async function compartilharDia(){
-      const alvo = document.getElementById('hojeLista').closest('section');
       if(typeof html2canvas !== 'function'){ mostrarToast('Recurso de imagem indisponível.'); return; }
+      const z = n => String(n).padStart(2,'0');
+      const hoje = new Date();
+      const hojeISO = `${hoje.getFullYear()}-${z(hoje.getMonth()+1)}-${z(hoje.getDate())}`;
+      let itens = DADOS.filter(d => d.data === hojeISO), titulo, dataLabel;
+      if(itens.length){ titulo = 'Convocações de hoje'; dataLabel = hojeISO.split('-').reverse().join('/'); }
+      else {
+        const m = DADOS.map(d=>d.data).filter(Boolean).sort().pop();
+        itens = DADOS.filter(d=>d.data===m); titulo = 'Última divulgação';
+        dataLabel = m ? m.split('-').reverse().join('/') : '';
+      }
+      const card = document.createElement('div');
+      card.style.cssText = 'position:fixed;top:0;left:-10000px;width:1000px;background:#0b1020;color:#fff;font-family:Inter,system-ui,sans-serif;padding:36px;box-sizing:border-box';
+      card.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="width:46px;height:46px;border-radius:12px;background:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px">TI</div>
+          <div>
+            <div style="font-size:22px;font-weight:800">Painel de Nomeações — TSE Unificado</div>
+            <div style="font-size:14px;color:#a5b4fc">${titulo} · ${dataLabel} · ${itens.length} nomeação(ões)</div>
+          </div>
+        </div>
+        <div style="height:2px;background:#1e293b;margin-bottom:18px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          ${itens.map(d=>`
+            <div style="border:1px solid #1e293b;border-radius:12px;padding:14px 16px;background:#0f172a">
+              <div style="margin-bottom:6px">
+                <span style="font-size:11px;font-weight:800;color:${corOrgao(d.uf)};background:${corOrgao(d.uf)}26;padding:2px 7px;border-radius:5px">${d.uf}</span>
+                <span style="font-size:13px;font-weight:700;color:${corCargo(d.cargo)};margin-left:6px">${d.cargo||''}</span>
+              </div>
+              <div style="font-size:16px;font-weight:700;line-height:1.3">${d.nome||''}</div>
+              <div style="font-size:12px;color:#94a3b8;margin-top:6px">${d.orgao||''} · ${d.portaria||''}</div>
+            </div>`).join('')}
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:22px;font-size:12px;color:#64748b">
+          <span>alexandereis.github.io/tse-dashboard · Diário Oficial da União</span>
+          <span>Desenvolvido por Alexander Reis</span>
+        </div>`;
+      document.body.appendChild(card);
       try {
-        const bg = getComputedStyle(document.body).backgroundColor;
-        const canvas = await html2canvas(alvo, { backgroundColor: bg, scale: 2, useCORS: true });
+        const canvas = await html2canvas(card, { backgroundColor:'#0b1020', scale:2 });
+        card.remove();
         canvas.toBlob(async (blob) => {
           if(!blob){ mostrarToast('Não foi possível gerar a imagem.'); return; }
-          const file = new File([blob], 'convocacoes-do-dia.png', { type:'image/png' });
+          const file = new File([blob], 'convocacoes-tse-ti.png', { type:'image/png' });
           if(navigator.canShare && navigator.canShare({ files:[file] })){
-            try { await navigator.share({ files:[file], title:'Convocações do dia — TSE Unificado (TI)' }); return; } catch(e){}
+            try { await navigator.share({ files:[file], title:'Convocações — TSE Unificado (TI)' }); return; } catch(e){}
           }
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob); a.download = 'convocacoes-do-dia.png'; a.click();
-          URL.revokeObjectURL(a.href);
+          const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+          a.download = 'convocacoes-tse-ti.png'; a.click(); URL.revokeObjectURL(a.href);
           mostrarToast('Imagem salva! É só compartilhar.');
         });
-      } catch(e){ mostrarToast('Não foi possível gerar a imagem.'); }
+      } catch(e){ card.remove(); mostrarToast('Não foi possível gerar a imagem.'); }
     }
 
     // Monta as opções dos filtros. É idempotente: preserva a seleção atual,
