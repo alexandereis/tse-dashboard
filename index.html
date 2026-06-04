@@ -20,6 +20,10 @@
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
     .fade-in { animation: fade .4s ease both; }
     @keyframes fade { from { opacity:0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+    .aba { padding:.6rem 1rem; font-size:.9rem; font-weight:600; color:#94a3b8; background:transparent; border:0; border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap; }
+    .aba:hover { color:#e2e8f0; }
+    .aba.ativa { color:#fff; border-bottom-color:#818cf8; }
+    [data-aba] { animation: fade .35s ease both; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-200 min-h-screen">
@@ -49,8 +53,16 @@
       <p class="text-slate-400 mt-1 max-w-2xl">Acompanhe em um só lugar todas as nomeações de Analistas e Técnicos de TI publicadas no Diário Oficial da União, por estado, cargo e data.</p>
     </section>
 
+    <!-- ===================== ABAS ===================== -->
+    <nav id="abas" class="flex flex-wrap gap-1 border-b border-white/10">
+      <button data-aba="geral" class="aba ativa">Visão Geral</button>
+      <button data-aba="estado" class="aba">Por Estado</button>
+      <button data-aba="cargo" class="aba">Por Cargo</button>
+      <button data-aba="lista" class="aba">Lista Completa</button>
+    </nav>
+
     <!-- ===================== KPIs ===================== -->
-    <section class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+    <section data-aba="geral" class="grid grid-cols-2 lg:grid-cols-5 gap-4">
       <div class="kpi glass rounded-2xl p-5"><p class="text-xs text-slate-400">Total nomeados</p><p id="kpiTotal" class="text-3xl font-black text-white mt-1">0</p></div>
       <div class="kpi glass rounded-2xl p-5"><p class="text-xs text-slate-400">Analistas</p><p id="kpiAnalistas" class="text-3xl font-black text-indigo-300 mt-1">0</p></div>
       <div class="kpi glass rounded-2xl p-5"><p class="text-xs text-slate-400">Técnicos</p><p id="kpiTecnicos" class="text-3xl font-black text-violet-300 mt-1">0</p></div>
@@ -59,7 +71,7 @@
     </section>
 
     <!-- ===================== CONVOCAÇÕES DO DIA ===================== -->
-    <section class="rounded-2xl p-5 border border-amber-400/30 bg-gradient-to-br from-amber-500/10 to-transparent">
+    <section data-aba="geral" class="rounded-2xl p-5 border border-amber-400/30 bg-gradient-to-br from-amber-500/10 to-transparent">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
         <div class="flex items-center gap-2">
           <span class="h-2.5 w-2.5 rounded-full bg-amber-400 animate-pulse"></span>
@@ -71,7 +83,7 @@
     </section>
 
     <!-- ===================== MAPA DO BRASIL ===================== -->
-    <section class="glass rounded-2xl p-5">
+    <section data-aba="geral" class="glass rounded-2xl p-5">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
         <h3 class="font-bold text-white">Mapa de nomeações por estado</h3>
         <span class="text-xs text-slate-400">Clique num estado para filtrar a lista ↓</span>
@@ -80,30 +92,43 @@
       <div id="mapaGrid" class="relative mx-auto" style="width:268px;height:350px"></div>
     </section>
 
-    <!-- ===================== CHARTS ===================== -->
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div class="glass rounded-2xl p-5 lg:col-span-2">
-        <h3 class="font-bold text-white mb-1">Nomeações por órgão</h3>
-        <p class="text-xs text-slate-400 mb-3">Analista x Técnico em cada tribunal (TSE e TREs). Cor da sigla = região.</p>
-        <div class="relative" style="height:560px"><canvas id="chartEstado"></canvas></div>
-        <div id="regiaoLegenda" class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3 text-[11px] text-slate-400"></div>
+    <!-- ===================== POR ESTADO: cards ===================== -->
+    <section data-aba="estado" class="glass rounded-2xl p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+        <h3 class="font-bold text-white">Panorama por órgão</h3>
+        <span class="text-xs text-slate-400">Clique num card para ver a lista daquele órgão</span>
       </div>
-      <div class="glass rounded-2xl p-5">
-        <h3 class="font-bold text-white mb-1">Por cargo</h3>
-        <p class="text-xs text-slate-400 mb-3">Analista x Técnico.</p>
-        <div class="relative" style="height:200px"><canvas id="chartCargo"></canvas></div>
-        <div id="cargoLegend" class="mt-3 space-y-1 text-sm"></div>
-      </div>
+      <p class="text-xs text-slate-400 mb-4">Cada tribunal com o total e a divisão Analista (índigo) / Técnico (violeta).</p>
+      <div id="estadosGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
     </section>
 
-    <section class="glass rounded-2xl p-5">
+    <!-- ===================== POR ESTADO: gráfico ===================== -->
+    <section data-aba="estado" class="glass rounded-2xl p-5">
+      <h3 class="font-bold text-white mb-1">Nomeações por órgão</h3>
+      <p class="text-xs text-slate-400 mb-3">Analista x Técnico em cada tribunal (TSE e TREs). Cor da sigla = região.</p>
+      <div class="relative" style="height:560px"><canvas id="chartEstado"></canvas></div>
+      <div id="regiaoLegenda" class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-3 text-[11px] text-slate-400"></div>
+    </section>
+
+    <!-- ===================== POR CARGO ===================== -->
+    <section data-aba="cargo" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="glass rounded-2xl p-5">
+        <h3 class="font-bold text-white mb-1">Distribuição por cargo</h3>
+        <p class="text-xs text-slate-400 mb-3">Analista x Técnico.</p>
+        <div class="relative" style="height:220px"><canvas id="chartCargo"></canvas></div>
+        <div id="cargoLegend" class="mt-3 space-y-1 text-sm"></div>
+      </div>
+      <div id="cargoCompara" class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+    </section>
+
+    <section data-aba="geral" class="glass rounded-2xl p-5">
       <h3 class="font-bold text-white mb-1">Evolução das nomeações (acumulado)</h3>
       <p class="text-xs text-slate-400 mb-3">Quantidade total de nomeados ao longo do tempo.</p>
       <div class="relative" style="height:300px"><canvas id="chartTempo"></canvas></div>
     </section>
 
     <!-- ===================== RITMO MENSAL ===================== -->
-    <section class="glass rounded-2xl p-5">
+    <section data-aba="geral" class="glass rounded-2xl p-5">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
         <h3 class="font-bold text-white">Ritmo de convocações (por mês)</h3>
         <span id="ritmoTxt" class="text-xs text-emerald-300 font-semibold"></span>
@@ -113,7 +138,7 @@
     </section>
 
     <!-- ===================== COBERTURA NACIONAL ===================== -->
-    <section class="glass rounded-2xl p-5">
+    <section data-aba="estado" class="glass rounded-2xl p-5">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
         <div>
           <h3 class="font-bold text-white">Cobertura nacional</h3>
@@ -127,7 +152,7 @@
     </section>
 
     <!-- ===================== FILTROS + TABELA ===================== -->
-    <section class="glass rounded-2xl p-5">
+    <section data-aba="lista" class="glass rounded-2xl p-5">
       <div class="flex flex-col lg:flex-row lg:items-end gap-4 mb-5">
         <div class="flex-1">
           <h3 class="font-bold text-white">Lista de nomeados</h3>
@@ -173,7 +198,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.7.0';
+    const APP_VERSION = '1.8.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
@@ -240,6 +265,7 @@
     async function carregar(){
       try {
         aplicarDados(await buscarJson(), true);
+        trocarAba('geral');
         iniciarAutoAtualizacao();
       } catch(e){
         const box = document.getElementById('erroBox');
@@ -324,16 +350,22 @@
         renderTabela();
         document.getElementById('tabela').scrollIntoView({behavior:'smooth', block:'start'});
       });
-      // Clique no mapa filtra a lista
-      document.getElementById('mapaGrid').addEventListener('click', e=>{
-        const el = e.target.closest('[data-uf]');
-        if(!el) return;
-        const uf = el.dataset.uf;
+      // Filtrar por um órgão e ir para a aba "Lista Completa" (mapa e cards)
+      const irParaLista = (uf) => {
         const sel = document.getElementById('filtroUF');
         sel.value = uf; location.hash = uf; paginaAtual = 1;
         renderTabela();
-        document.getElementById('tabela').scrollIntoView({behavior:'smooth', block:'center'});
+        trocarAba('lista');
+        window.scrollTo({top:0, behavior:'smooth'});
+      };
+      document.getElementById('mapaGrid').addEventListener('click', e=>{
+        const el = e.target.closest('[data-uf]'); if(el) irParaLista(el.dataset.uf);
       });
+      document.getElementById('estadosGrid').addEventListener('click', e=>{
+        const el = e.target.closest('[data-uf]'); if(el) irParaLista(el.dataset.uf);
+      });
+      // Botões das abas
+      document.querySelectorAll('#abas .aba').forEach(b=> b.addEventListener('click', ()=> trocarAba(b.dataset.aba)));
       const selUF = document.getElementById('filtroUF');
       const hashUf = (location.hash || '').replace('#','').toUpperCase();
       if(hashUf && TODOS_ORGAOS[hashUf]) selUF.value = hashUf;
@@ -355,7 +387,68 @@
       );
     }
 
-    function renderTudo(){ renderKPIs(); renderHoje(); renderCobertura(); renderMapa(); renderGraficos(); renderTabela(); }
+    function renderTudo(){ renderKPIs(); renderHoje(); renderCobertura(); renderMapa(); renderEstados(); renderCargos(); renderGraficos(); renderTabela(); }
+
+    // Troca de abas: mostra só as seções da aba escolhida
+    function trocarAba(aba){
+      document.querySelectorAll('section[data-aba]').forEach(s=>{ s.style.display = (s.dataset.aba===aba) ? '' : 'none'; });
+      document.querySelectorAll('#abas .aba').forEach(b=> b.classList.toggle('ativa', b.dataset.aba===aba));
+      // gráficos em abas escondidas nascem com tamanho 0; ao exibir, redimensiona
+      setTimeout(()=>{ Object.values(charts).forEach(c=>{ try{ c && c.resize(); }catch(e){} }); }, 40);
+    }
+
+    // Cards "Panorama por órgão" (aba Por Estado)
+    function renderEstados(){
+      const cont = document.getElementById('estadosGrid');
+      if(!cont) return;
+      const por = {};
+      DADOS.forEach(d=>{ const uf=d.uf; (por[uf]=por[uf]||{A:0,T:0,ultima:'',orgao:d.orgao});
+        if(/Analista/i.test(d.cargo)) por[uf].A++; else por[uf].T++;
+        if((d.data||'')>(por[uf].ultima||'')) por[uf].ultima=d.data; });
+      const lista = Object.entries(por).map(([uf,v])=>({uf,...v,total:v.A+v.T}))
+        .sort((a,b)=> a.uf==='TSE'?-1:b.uf==='TSE'?1:b.total-a.total);
+      cont.innerHTML = lista.map(o=>{
+        const pa = o.total ? Math.round(o.A/o.total*100) : 0;
+        const cor = corOrgao(o.uf);
+        const ult = o.ultima ? o.ultima.split('-').reverse().join('/') : '—';
+        return `<div role="button" data-uf="${o.uf}" class="rounded-xl p-3 cursor-pointer transition-colors hover:bg-white/5 border border-white/10" style="border-left:3px solid ${cor}">
+          <div class="flex items-center justify-between gap-2">
+            <span class="inline-flex items-center gap-1.5 min-w-0"><span class="text-[10px] font-bold px-1.5 py-0.5 rounded" style="background:${cor}26;color:${cor}">${o.uf}</span><span class="text-sm font-semibold text-white truncate">${o.orgao}</span></span>
+            <span class="text-lg font-black text-white">${o.total}</span>
+          </div>
+          <div class="mt-2 h-2 w-full rounded-full overflow-hidden bg-slate-800 flex">
+            <div style="width:${pa}%;background:${COR_ANALISTA}"></div><div style="width:${100-pa}%;background:${COR_TECNICO}"></div>
+          </div>
+          <div class="flex items-center justify-between mt-1.5 text-[11px] text-slate-400">
+            <span><span style="color:${COR_ANALISTA}">●</span> ${o.A} Anal. · <span style="color:${COR_TECNICO}">●</span> ${o.T} Téc.</span>
+            <span>últ. ${ult}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Comparativo Analista x Técnico (aba Por Cargo)
+    function renderCargos(){
+      const cont = document.getElementById('cargoCompara');
+      if(!cont) return;
+      const total = DADOS.length || 1;
+      const card = (ehAnalista, cor) => {
+        const regs = DADOS.filter(d => ehAnalista ? /Analista/i.test(d.cargo) : /Técnico/i.test(d.cargo));
+        const n = regs.length, pct = Math.round(n/total*100);
+        const orgs = new Set(regs.map(r=>r.uf)).size;
+        const ult = regs.map(r=>r.data).filter(Boolean).sort().pop();
+        const po = {}; regs.forEach(r=> po[r.orgao]=(po[r.orgao]||0)+1);
+        const top = Object.entries(po).sort((a,b)=>b[1]-a[1]).slice(0,5);
+        return `<div class="glass rounded-2xl p-5" style="border-top:3px solid ${cor}">
+          <h4 class="font-bold text-white">${ehAnalista?'Analista Judiciário':'Técnico Judiciário'}</h4>
+          <p class="text-4xl font-black mt-1" style="color:${cor}">${n}</p>
+          <p class="text-xs text-slate-400">${pct}% do total · ${orgs} órgão(s) · última ${ult?ult.split('-').reverse().join('/'):'—'}</p>
+          <p class="text-xs text-slate-400 mt-3 mb-1 font-semibold">Órgãos que mais convocaram:</p>
+          ${top.map(([o,c])=>`<div class="flex items-center justify-between text-sm py-0.5"><span class="text-slate-300 truncate">${o}</span><span class="font-semibold text-white">${c}</span></div>`).join('') || '<span class="text-xs text-slate-500">—</span>'}
+        </div>`;
+      };
+      cont.innerHTML = card(true, COR_ANALISTA) + card(false, COR_TECNICO);
+    }
 
     function renderMapa(){
       const cont = document.getElementById('mapaGrid');

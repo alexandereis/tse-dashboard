@@ -14,6 +14,16 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.8.0] — 2026-06-03
+
+**Layout profissional em abas** (inspirado no painel da Embrapa)
+- Abas: **Visão Geral · Por Estado · Por Cargo · Lista Completa**.
+- **Por Estado**: grid de cards por órgão, cada um com total e a barra de divisão
+  Analista (índigo) / Técnico (violeta); clicar abre a lista daquele órgão.
+- **Por Cargo**: comparativo lado a lado Analista x Técnico (total, %, nº de órgãos,
+  última data e os órgãos que mais convocaram em cada cargo).
+- Mapa e cards levam direto para a Lista já filtrada pelo órgão.
+
 ## [1.7.0] — 2026-06-03
 
 **Novidades**
