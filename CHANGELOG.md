@@ -14,6 +14,11 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.9.1] — 2026-06-03
+
+- Crédito **"Desenvolvido por Alexander Reis"** no rodapé, com o ícone do LinkedIn
+  linkando para o perfil.
+
 ## [1.9.0] — 2026-06-03
 
 **Novidades**
