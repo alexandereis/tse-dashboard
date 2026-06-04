@@ -14,6 +14,14 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.7.0] — 2026-06-03
+
+**Novidades**
+- **Mapa do Brasil (heatmap)**: cada estado colorido pelo volume de nomeações de TI;
+  clicar num estado filtra a lista.
+- **Tabela com ordenação e paginação**: clique nas colunas (Nome, Órgão, Cargo, Data)
+  para ordenar; navegação por páginas (25 por página) nas 230+ nomeações.
+
 ## [1.6.0] — 2026-06-03
 
 **Mais visual e profissional**

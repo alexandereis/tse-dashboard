@@ -70,6 +70,16 @@
       <div id="hojeLista" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
     </section>
 
+    <!-- ===================== MAPA DO BRASIL ===================== -->
+    <section class="glass rounded-2xl p-5">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+        <h3 class="font-bold text-white">Mapa de nomeações por estado</h3>
+        <span class="text-xs text-slate-400">Clique num estado para filtrar a lista ↓</span>
+      </div>
+      <p class="text-xs text-slate-400 mb-4">Quanto mais forte a cor, mais nomeações de TI no estado.</p>
+      <div id="mapaGrid" class="relative mx-auto" style="width:268px;height:350px"></div>
+    </section>
+
     <!-- ===================== CHARTS ===================== -->
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="glass rounded-2xl p-5 lg:col-span-2">
@@ -136,10 +146,10 @@
           <thead class="bg-slate-800/70 text-slate-300 text-xs uppercase tracking-wide">
             <tr>
               <th class="px-4 py-3 text-left">#</th>
-              <th class="px-4 py-3 text-left">Nome</th>
-              <th class="px-4 py-3 text-left">Órgão</th>
-              <th class="px-4 py-3 text-left">Cargo</th>
-              <th class="px-4 py-3 text-left">Data</th>
+              <th class="px-4 py-3 text-left cursor-pointer select-none hover:text-white" data-col="nome">Nome <span class="seta"></span></th>
+              <th class="px-4 py-3 text-left cursor-pointer select-none hover:text-white" data-col="uf">Órgão <span class="seta"></span></th>
+              <th class="px-4 py-3 text-left cursor-pointer select-none hover:text-white" data-col="cargo">Cargo <span class="seta"></span></th>
+              <th class="px-4 py-3 text-left cursor-pointer select-none hover:text-white" data-col="data">Data <span class="seta"></span></th>
               <th class="px-4 py-3 text-left">Diário Oficial</th>
             </tr>
           </thead>
@@ -147,6 +157,7 @@
         </table>
       </div>
       <p id="contador" class="text-xs text-slate-400 mt-3"></p>
+      <div id="paginacao" class="flex flex-wrap items-center justify-center gap-1.5 mt-3"></div>
     </section>
 
     <!-- ===================== FONTE / ERRO ===================== -->
@@ -162,7 +173,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.6.0';
+    const APP_VERSION = '1.7.0';
     const PALETA = ['#818cf8','#a78bfa','#34d399','#fbbf24','#60a5fa','#f472b6','#22d3ee','#fb923c','#4ade80','#e879f9'];
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
@@ -186,8 +197,20 @@
     };
     const COR_REGIAO = { 'TSE':'#f59e0b','Norte':'#22d3ee','Nordeste':'#34d399','Centro-Oeste':'#fbbf24','Sudeste':'#818cf8','Sul':'#f472b6' };
     const corOrgao = uf => COR_REGIAO[REGIAO[uf]] || '#94a3b8';
+    // Posição [coluna, linha] de cada estado num mapa-grade do Brasil (TSE não é estado).
+    const GRID_BR = {
+      RR:[3,0], AP:[4,0],
+      AM:[2,1], PA:[3,1], MA:[4,1], CE:[5,1], RN:[6,1],
+      AC:[1,2], RO:[2,2], TO:[3,2], PI:[4,2], PE:[5,2], PB:[6,2],
+      MT:[2,3], GO:[3,3], BA:[4,3], SE:[5,3], AL:[6,3],
+      MS:[2,4], DF:[3,4], MG:[4,4], ES:[5,4],
+      SP:[3,5], RJ:[4,5],
+      PR:[3,6], SC:[3,7], RS:[3,8]
+    };
     let DADOS = [];
     let charts = {};
+    let ordenarPor = 'data', ordenarDir = -1, paginaAtual = 1;
+    const POR_PAGINA = 25;
 
     function fmtDataUpdate(iso){
       if(!iso) return '—';
@@ -281,16 +304,43 @@
     function ligarEventos(){
       if(eventosLigados) return;
       eventosLigados = true;
+      const aoFiltrar = () => { paginaAtual = 1; renderTabela(); };
       ['filtroUF','filtroCargo','busca'].forEach(id=>{
-        document.getElementById(id).addEventListener('input', renderTabela);
+        document.getElementById(id).addEventListener('input', aoFiltrar);
       });
       document.getElementById('btnCSV').addEventListener('click', exportarCSV);
+      // Ordenar ao clicar nas colunas
+      document.querySelectorAll('th[data-col]').forEach(th=>th.addEventListener('click', ()=>{
+        const c = th.dataset.col;
+        if(ordenarPor===c) ordenarDir = -ordenarDir;
+        else { ordenarPor = c; ordenarDir = (c==='data') ? -1 : 1; }
+        paginaAtual = 1; renderTabela();
+      }));
+      // Paginação
+      document.getElementById('paginacao').addEventListener('click', e=>{
+        const b = e.target.closest('[data-pg]');
+        if(!b || b.disabled) return;
+        paginaAtual = parseInt(b.dataset.pg, 10);
+        renderTabela();
+        document.getElementById('tabela').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      // Clique no mapa filtra a lista
+      document.getElementById('mapaGrid').addEventListener('click', e=>{
+        const el = e.target.closest('[data-uf]');
+        if(!el) return;
+        const uf = el.dataset.uf;
+        const sel = document.getElementById('filtroUF');
+        sel.value = uf; location.hash = uf; paginaAtual = 1;
+        renderTabela();
+        document.getElementById('tabela').scrollIntoView({behavior:'smooth', block:'center'});
+      });
       const selUF = document.getElementById('filtroUF');
       const hashUf = (location.hash || '').replace('#','').toUpperCase();
       if(hashUf && TODOS_ORGAOS[hashUf]) selUF.value = hashUf;
       selUF.addEventListener('change', () => {
         if(selUF.value) location.hash = selUF.value;
         else history.replaceState(null, '', location.pathname + location.search);
+        paginaAtual = 1; renderTabela();
       });
     }
 
@@ -305,7 +355,28 @@
       );
     }
 
-    function renderTudo(){ renderKPIs(); renderHoje(); renderCobertura(); renderGraficos(); renderTabela(); }
+    function renderTudo(){ renderKPIs(); renderHoje(); renderCobertura(); renderMapa(); renderGraficos(); renderTabela(); }
+
+    function renderMapa(){
+      const cont = document.getElementById('mapaGrid');
+      if(!cont) return;
+      const porUf = {};
+      DADOS.forEach(d => { if(d.uf !== 'TSE') porUf[d.uf] = (porUf[d.uf]||0) + 1; });
+      const max = Math.max(1, ...Object.values(porUf));
+      const step = 38;
+      cont.innerHTML = Object.entries(GRID_BR).map(([uf,[x,y]]) => {
+        const n = porUf[uf] || 0;
+        const t = n / max;
+        const bg = n ? `rgba(129,140,248,${(0.18 + 0.82*t).toFixed(2)})` : 'rgba(148,163,184,.10)';
+        const fg = (n && t > 0.45) ? '#0b1020' : '#cbd5e1';
+        return `<div role="button" data-uf="${uf}" title="${TODOS_ORGAOS[uf]||uf}: ${n} nomeação(ões)"
+          style="position:absolute;left:${x*step}px;top:${y*step}px;width:${step-4}px;height:${step-4}px;
+          background:${bg};border-radius:7px;cursor:pointer;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;line-height:1.05;border:1px solid rgba(255,255,255,.06)">
+          <span style="font-size:10px;font-weight:800;color:${fg}">${uf}</span>
+          <span style="font-size:11px;font-weight:700;color:${fg}">${n||''}</span></div>`;
+      }).join('');
+    }
 
     function renderCobertura(){
       const total = Object.keys(TODOS_ORGAOS).length; // 28
@@ -450,11 +521,23 @@
     }
 
     function renderTabela(){
-      const dados = dadosFiltrados().slice().sort((a,b)=> (b.data||'').localeCompare(a.data||''));
+      let dados = dadosFiltrados().slice();
+      const col = ordenarPor;
+      dados.sort((a,b)=>{
+        let va, vb;
+        if(col==='classificacao'){ va=a.classificacao||9999; vb=b.classificacao||9999; }
+        else { va=(a[col]||'').toString().toLowerCase(); vb=(b[col]||'').toString().toLowerCase(); }
+        return (va>vb?1:va<vb?-1:0)*ordenarDir;
+      });
+      const total = dados.length;
+      const totalPag = Math.max(1, Math.ceil(total/POR_PAGINA));
+      if(paginaAtual>totalPag) paginaAtual=totalPag;
+      const ini=(paginaAtual-1)*POR_PAGINA;
+      const visiveis = dados.slice(ini, ini+POR_PAGINA);
       const tbody = document.getElementById('tabela');
-      tbody.innerHTML = dados.map((d,i)=>`
+      tbody.innerHTML = visiveis.map((d,i)=>`
         <tr class="border-t border-white/5 hover:bg-white/5">
-          <td class="px-4 py-3 text-slate-500">${i+1}</td>
+          <td class="px-4 py-3 text-slate-500">${ini+i+1}</td>
           <td class="px-4 py-3 font-medium text-white">${d.nome||''}${d.classificacao?` <span class="text-[10px] font-bold text-amber-300" title="classificação no concurso">${d.classificacao}º</span>`:''}</td>
           <td class="px-4 py-3"><span class="inline-flex items-center gap-1.5"><span class="text-[10px] font-bold px-1.5 py-0.5 rounded" style="background:${corOrgao(d.uf)}26;color:${corOrgao(d.uf)}">${d.uf}</span>${d.orgao||''}</span></td>
           <td class="px-4 py-3"><span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:${corCargo(d.cargo)}26;color:${corCargo(d.cargo)}">${d.cargo||''}</span></td>
@@ -462,8 +545,29 @@
           <td class="px-4 py-3">${d.url?`<a href="${d.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:underline whitespace-nowrap">${d.portaria||'Ver'} ↗</a>`:(d.portaria||'')}</td>
         </tr>`).join('') ||
         `<tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">Nenhum resultado para os filtros atuais.</td></tr>`;
-      document.getElementById('contador').textContent =
-        `Mostrando ${dados.length} de ${DADOS.length} nomeações.`;
+      document.getElementById('contador').textContent = total
+        ? `Mostrando ${ini+1}–${ini+visiveis.length} de ${total} (${DADOS.length} no total).`
+        : 'Nenhuma nomeação para os filtros atuais.';
+      atualizarSetas();
+      renderPaginacao(totalPag);
+    }
+
+    function atualizarSetas(){
+      document.querySelectorAll('th[data-col]').forEach(th=>{
+        const s = th.querySelector('.seta');
+        if(s) s.textContent = th.dataset.col===ordenarPor ? (ordenarDir>0?'▲':'▼') : '';
+      });
+    }
+
+    function renderPaginacao(totalPag){
+      const el = document.getElementById('paginacao');
+      if(!el) return;
+      if(totalPag<=1){ el.innerHTML=''; return; }
+      const btn=(txt,pg,dis,ativo)=>`<button data-pg="${pg}" ${dis?'disabled':''} class="px-3 py-1 rounded-md text-sm ${ativo?'bg-indigo-600 text-white':'bg-slate-800 text-slate-300 hover:bg-slate-700'} ${dis?'opacity-40 cursor-not-allowed':''}">${txt}</button>`;
+      let nums='';
+      const a=Math.max(1,paginaAtual-2), b=Math.min(totalPag,paginaAtual+2);
+      for(let p=a;p<=b;p++) nums+=btn(p,p,false,p===paginaAtual);
+      el.innerHTML = btn('‹',paginaAtual-1,paginaAtual===1,false)+nums+btn('›',paginaAtual+1,paginaAtual===totalPag,false);
     }
 
     document.getElementById('appVersion').textContent = APP_VERSION;
