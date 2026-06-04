@@ -14,6 +14,15 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.9.0] — 2026-06-03
+
+**Novidades**
+- **Tema claro/escuro**: botão no cabeçalho (🌙/☀️); a preferência fica salva no
+  navegador e os gráficos se ajustam ao tema.
+- **Compartilhamento**: imagem de prévia (og:image) ao compartilhar o link em
+  redes/WhatsApp, e botão **"📷 Compartilhar"** que gera uma imagem das
+  "Convocações do dia" para enviar (ou baixar).
+
 ## [1.8.0] — 2026-06-03
 
 **Layout profissional em abas** (inspirado no painel da Embrapa)
