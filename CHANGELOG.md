@@ -14,6 +14,15 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.9.3] — 2026-06-03
+
+- Logo: o selo "TI" foi substituído pelo **emblema oficial do TSE** (SVG, com o
+  texto "Tribunal Superior Eleitoral" removido) no cabeçalho, no card de
+  compartilhamento e na og:image. O **favicon da aba foi mantido** como estava.
+- Título atualizado para **"Nomeações · Concurso TSE Unificado TI"**.
+- Siglas dos estados alinhadas corretamente na imagem de compartilhamento.
+- Adicionado arquivo **LICENSE** (direitos autorais / uso restrito).
+
 ## [1.9.2] — 2026-06-03
 
 - **Correção da imagem de compartilhamento**: em vez de "fotografar" a seção da

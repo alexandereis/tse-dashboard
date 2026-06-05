@@ -64,9 +64,9 @@
   <header class="border-b border-white/10 bg-slate-900/60 sticky top-0 z-30 backdrop-blur">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 grid place-items-center font-black text-white shadow-lg shadow-indigo-900/40">TI</div>
+        <img src="logo.svg" alt="TSE" class="h-10 w-10 object-contain" />
         <div>
-          <h1 class="text-base sm:text-lg font-extrabold text-white leading-tight">Nomeações · Concurso TSE Unificado</h1>
+          <h1 class="text-base sm:text-lg font-extrabold text-white leading-tight">Nomeações · Concurso TSE Unificado TI</h1>
           <p class="text-xs text-slate-400">Tecnologia da Informação — Justiça Eleitoral (TSE + TREs)</p>
         </div>
       </div>
@@ -242,7 +242,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.9.2';
+    const APP_VERSION = '1.9.3';
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
     const TODOS_ORGAOS = {
@@ -380,9 +380,9 @@
       card.style.cssText = 'position:fixed;top:0;left:-10000px;width:1000px;background:#0b1020;color:#fff;font-family:Inter,system-ui,sans-serif;padding:36px;box-sizing:border-box';
       card.innerHTML = `
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-          <div style="width:46px;height:46px;border-radius:12px;background:#6366f1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px">TI</div>
+          <img src="logo.png" alt="TSE" style="width:46px;height:46px;border-radius:12px;object-fit:contain;background:rgba(255,255,255,.06)" />
           <div>
-            <div style="font-size:22px;font-weight:800">Painel de Nomeações — TSE Unificado</div>
+            <div style="font-size:22px;font-weight:800">Painel de Nomeações — TSE Unificado · TI</div>
             <div style="font-size:14px;color:#a5b4fc">${titulo} · ${dataLabel} · ${itens.length} nomeação(ões)</div>
           </div>
         </div>
@@ -390,9 +390,9 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           ${itens.map(d=>`
             <div style="border:1px solid #1e293b;border-radius:12px;padding:14px 16px;background:#0f172a">
-              <div style="margin-bottom:6px">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
                 <span style="font-size:11px;font-weight:800;color:${corOrgao(d.uf)};background:${corOrgao(d.uf)}26;padding:2px 7px;border-radius:5px">${d.uf}</span>
-                <span style="font-size:13px;font-weight:700;color:${corCargo(d.cargo)};margin-left:6px">${d.cargo||''}</span>
+                <span style="font-size:13px;font-weight:700;color:${corCargo(d.cargo)}">${d.cargo||''}</span>
               </div>
               <div style="font-size:16px;font-weight:700;line-height:1.3">${d.nome||''}</div>
               <div style="font-size:12px;color:#94a3b8;margin-top:6px">${d.orgao||''} · ${d.portaria||''}</div>
@@ -404,7 +404,8 @@
         </div>`;
       document.body.appendChild(card);
       try {
-        const canvas = await html2canvas(card, { backgroundColor:'#0b1020', scale:2 });
+        await new Promise(r=>{ const im = new Image(); im.onload = im.onerror = r; im.src = 'logo.png'; setTimeout(r, 1500); });
+        const canvas = await html2canvas(card, { backgroundColor:'#0b1020', scale:2, useCORS:true, imageTimeout:3000 });
         card.remove();
         canvas.toBlob(async (blob) => {
           if(!blob){ mostrarToast('Não foi possível gerar a imagem.'); return; }
