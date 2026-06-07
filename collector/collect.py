@@ -32,8 +32,7 @@ from config import (
     USER_AGENT, ORGAOS,
 )
 from parser import (
-    limpar_html, sem_acento, identificar_orgao, extrair_cargo,
-    extrair_especialidade, eh_ti, extrair_nomes, extrair_nomeados,
+    limpar_html, sem_acento, identificar_orgao, extrair_nomeados,
 )
 
 # Caminhos (relativos à raiz do projeto).
