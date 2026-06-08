@@ -14,6 +14,16 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.10.1] — 2026-06-08
+
+**Correção (coletor)**
+- O coletor não estava atualizando: as buscas no DOU usavam várias frases entre
+  aspas e retornavam 0 resultados. Trocadas pela frase única do concurso
+  ("Concurso Público Nacional Unificado da Justiça Eleitoral"), que traz só as
+  nomeações da Justiça Eleitoral, ordenadas por data.
+- Filtro de órgão antes de baixar o texto, janela dos últimos 60 dias, e
+  proteção contra o limite de requisições do in.gov.br (pausas + novas tentativas).
+
 ## [1.10.0] — 2026-06-03
 
 **Novidade**

@@ -76,12 +76,8 @@ PALAVRAS_NAO_TI = [
 #    Várias consultas aumentam a cobertura (formatos de portaria variam).
 # ---------------------------------------------------------------------------
 CONSULTAS = [
-    '"Concurso Público Nacional Unificado" "Justiça Eleitoral" nomear',
-    '"Justiça Eleitoral" nomear "Analista Judiciário" "Tecnologia da Informação"',
-    '"Justiça Eleitoral" nomear "Técnico Judiciário" "Programação de Sistemas"',
-    'nomear "Análise de Sistemas de Informação" eleitoral',
-    'nomear "Desenvolvimento de Sistemas" "Tribunal Regional Eleitoral"',
-    'nomear "Suporte" "Tribunal Regional Eleitoral" concurso',
+    '"Concurso Público Nacional Unificado da Justiça Eleitoral"',
+    '"Concurso Público Nacional Unificado"',
 ]
 
 # Seção do DOU onde saem atos de pessoal (nomeações). do2 = Seção 2.
@@ -91,7 +87,10 @@ SECAO_DOU = "do2"
 RESULTADOS_POR_PAGINA = 20
 
 # Máximo de páginas a percorrer por consulta (trava de segurança).
-MAX_PAGINAS = 25
+MAX_PAGINAS = 8
+
+# Só processa portarias dos últimos N dias (o seed cobre o histórico).
+DIAS_RETROATIVOS = 60
 
 # User-Agent "de navegador" — o in.gov.br responde melhor assim.
 USER_AGENT = (
