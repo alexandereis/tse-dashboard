@@ -14,6 +14,15 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.10.2] — 2026-06-08
+
+**Correção (coletor) — cobertura de mais formatos**
+- Alguns TREs (ex.: TRE-SP) publicam num formato diferente e nem citam o nome do
+  concurso, então escapavam. Agora a busca inclui a **especialidade de TI**
+  ("Programação de Sistemas", "Análise de Sistemas de Informação"…), que pega
+  qualquer órgão, e o parser entende também o formato "Cargo de X… Especialidade Y…
+  Fulano, Nª colocação" (validado na portaria do TRE-SP que listava o "Hibernon").
+
 ## [1.10.1] — 2026-06-08
 
 **Correção (coletor)**

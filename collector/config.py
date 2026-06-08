@@ -77,7 +77,9 @@ PALAVRAS_NAO_TI = [
 # ---------------------------------------------------------------------------
 CONSULTAS = [
     '"Concurso Público Nacional Unificado da Justiça Eleitoral"',
-    '"Concurso Público Nacional Unificado"',
+    '"Especialidade Programação de Sistemas"',
+    '"Especialidade Análise de Sistemas de Informação"',
+    '"Especialidade Desenvolvimento de Sistemas"',
 ]
 
 # Seção do DOU onde saem atos de pessoal (nomeações). do2 = Seção 2.
