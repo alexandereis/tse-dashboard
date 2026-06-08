@@ -14,6 +14,13 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.10.0] — 2026-06-03
+
+**Novidade**
+- **Notificações no navegador**: botão 🔔 no cabeçalho. Quem autorizar e deixar a
+  aba aberta (mesmo em segundo plano) recebe um aviso do sistema sempre que o
+  painel detecta novas nomeações — sem precisar ficar olhando o site.
+
 ## [1.9.3] — 2026-06-03
 
 - Logo: o selo "TI" foi substituído pelo **emblema oficial do TSE** (SVG, com o

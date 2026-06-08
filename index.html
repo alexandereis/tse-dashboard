@@ -71,6 +71,7 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
+        <button id="btnNotif" title="Receber aviso quando houver novas nomeações" class="h-9 w-9 grid place-items-center rounded-lg border border-white/10 text-slate-300 hover:text-white hover:border-indigo-400/50 text-lg leading-none">🔔</button>
         <button id="btnTema" title="Alternar tema claro/escuro" class="h-9 w-9 grid place-items-center rounded-lg border border-white/10 text-slate-300 hover:text-white hover:border-indigo-400/50 text-lg leading-none">🌙</button>
         <div class="text-right">
           <p class="text-[11px] uppercase tracking-wider text-slate-500">Atualizado</p>
@@ -242,7 +243,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.9.3';
+    const APP_VERSION = '1.10.0';
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
     const TODOS_ORGAOS = {
@@ -320,20 +321,68 @@
 
     // A cada 5 minutos verifica se há dados novos; se houver, atualiza a tela
     // sozinha (sem F5) e mostra um aviso discreto.
+    const chaveReg = d => d.uf + '|' + d.cargo + '|' + (d.nome||'').toLowerCase();
+
     function iniciarAutoAtualizacao(){
       setInterval(async () => {
         try {
           const json = await buscarJson();
           if(json.atualizado_em && json.atualizado_em !== ultimaAtualizacao){
-            const antes = DADOS.length;
+            const antesKeys = new Set(DADOS.map(chaveReg));
             aplicarDados(json, false);
-            const novos = DADOS.length - antes;
-            mostrarToast(novos > 0
-              ? `🔔 ${novos} nova(s) nomeação(ões) publicada(s) — painel atualizado!`
+            const novosRegs = DADOS.filter(d => !antesKeys.has(chaveReg(d)));
+            mostrarToast(novosRegs.length > 0
+              ? `🔔 ${novosRegs.length} nova(s) nomeação(ões) publicada(s) — painel atualizado!`
               : '🔔 Painel atualizado com os dados mais recentes.');
+            if(novosRegs.length > 0) notificarSO(novosRegs);
           }
         } catch(e){ /* silencioso: tenta de novo no próximo ciclo */ }
       }, 5 * 60 * 1000);
+    }
+
+    // Dispara uma notificação do sistema operacional (se a pessoa autorizou).
+    function notificarSO(novosRegs){
+      if(!('Notification' in window) || Notification.permission !== 'granted') return;
+      const ufs = [...new Set(novosRegs.map(r => r.uf))];
+      const onde = ufs.slice(0,4).join(', ') + (ufs.length > 4 ? '…' : '');
+      try {
+        const n = new Notification('Novas nomeações — TSE Unificado (TI)', {
+          body: `${novosRegs.length} nova(s) nomeação(ões) em: ${onde}. Clique para abrir o painel.`,
+          icon: 'logo.png', tag: 'tse-update', renotify: true,
+        });
+        n.onclick = () => { window.focus(); n.close(); };
+      } catch(e){}
+    }
+
+    // Aparência do sininho conforme a permissão atual.
+    function atualizarBotaoNotif(){
+      const b = document.getElementById('btnNotif');
+      if(!b) return;
+      if(!('Notification' in window)){ b.style.display = 'none'; return; }
+      if(Notification.permission === 'granted'){
+        b.textContent = '🔔'; b.classList.add('text-emerald-300');
+        b.title = 'Avisos ativados — você será notificado de novas nomeações (deixe esta aba aberta)';
+      } else if(Notification.permission === 'denied'){
+        b.textContent = '🔕';
+        b.title = 'Avisos bloqueados nas configurações do navegador para este site';
+      } else {
+        b.textContent = '🔔';
+        b.title = 'Clique para receber avisos de novas nomeações';
+      }
+    }
+
+    // Pede permissão para notificar (precisa do clique do usuário).
+    function pedirNotif(){
+      if(!('Notification' in window)){ mostrarToast('Seu navegador não suporta notificações.'); return; }
+      if(Notification.permission === 'granted'){ mostrarToast('Avisos já estão ativados ✓'); return; }
+      if(Notification.permission === 'denied'){ mostrarToast('Os avisos estão bloqueados para este site nas configurações do navegador.'); return; }
+      Notification.requestPermission().then(p => {
+        atualizarBotaoNotif();
+        if(p === 'granted'){
+          mostrarToast('🔔 Avisos ativados! Deixe esta aba aberta para ser notificado.');
+          try { new Notification('Painel TSE Unificado (TI)', { body: 'Pronto! Vou te avisar quando houver novas nomeações.', icon: 'logo.png' }); } catch(e){}
+        }
+      });
     }
 
     function mostrarToast(msg){
@@ -479,6 +528,8 @@
       document.querySelectorAll('#abas .aba').forEach(b=> b.addEventListener('click', ()=> trocarAba(b.dataset.aba)));
       document.getElementById('btnTema').addEventListener('click', alternarTema);
       document.getElementById('btnCompartilhar').addEventListener('click', compartilharDia);
+      document.getElementById('btnNotif').addEventListener('click', pedirNotif);
+      atualizarBotaoNotif();
       const selUF = document.getElementById('filtroUF');
       const hashUf = (location.hash || '').replace('#','').toUpperCase();
       if(hashUf && TODOS_ORGAOS[hashUf]) selUF.value = hashUf;
