@@ -14,6 +14,33 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.11.0] — 2026-06-09
+
+**Coletor — mapeamento de TODOS os formatos de portaria já vistos**
+
+Cada tribunal publica a nomeação num formato de texto diferente. Antes, o coletor
+só entendia alguns; agora ele cobre **todos os formatos dos órgãos que já temos**,
+validado portaria por portaria contra os nomes reais (TSE, DF, MG, BA, RJ, PI, RO,
+MT, AC, AP, ES, GO, MA, MS, PB, PR, RN, SC, SE, PE, AM, CE, SP…). Famílias de
+formato reconhecidas:
+
+- **Inline** "Nomear o candidato/a Sr.(a) Fulano… cargo de Técnico/Analista…
+  Especialidade X" — inclusive variações com texto entre "Nomear" e o nome,
+  "o(a) candidato(a)" com parênteses de gênero, e cargo escrito como
+  "Apoio Especializado - X" (sem a palavra "Especialidade").
+- **Nome direto** "Nomear FULANO DE TAL, … Especialidade X" (TRE-SC).
+- **Caixa alta** "FULANO Cargo: Técnico Judiciário, Apoio Especializado,
+  Programação de Sistemas" — inclusive a portaria multi-área do TRE-AM.
+- **Lista/tabela** com "1. FULANO - 1º lugar" / "1º FULANO 1º Lugar" /
+  "FULANO Nº lugar" (TRE-GO, TRE-MA, TRE-PE).
+- **Lista sem classificação** "FULANO Cargo criado pela Lei…" (TSE).
+- Formato "Fulano, Nª colocação" (TRE-SP).
+
+Inclui um **filtro de nome válido** que descarta quem aparece no texto mas **não é
+nomeado** — por exemplo o servidor anterior cujo cargo ficou vago, ou alguém que
+desistiu/foi exonerado. Tudo coberto por testes automáticos (14 casos) que rodam
+contra trechos reais de cada formato.
+
 ## [1.10.2] — 2026-06-08
 
 **Correção (coletor) — cobertura de mais formatos**
