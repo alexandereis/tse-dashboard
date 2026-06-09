@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-06-03T16:40:50.280875+00:00",
-  "total": 230,
+  "atualizado_em": "2026-06-09T08:33:48.229244+00:00",
+  "total": 231,
   "registros": [
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Hibernon Olegario da Silva Junior",
+      "classificacao": 10,
+      "data_br": "08/06/2026",
+      "data": "2026-06-08",
+      "portaria": "PORTARIA Nº 184",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-184-de-25-de-maio-de-2026-710556228",
+      "fonte": "dou"
+    },
     {
       "uf": "MT",
       "orgao": "Mato Grosso",

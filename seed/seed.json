@@ -2988,5 +2988,19 @@
     "portaria": "ATO PR Nº 149",
     "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-149-de-20-de-maio-de-2026-709171976",
     "fonte": "seed"
+  },
+  {
+    "uf": "SP",
+    "orgao": "São Paulo",
+    "cargo": "Técnico Judiciário",
+    "area": "TI",
+    "especialidade": "Programação de Sistemas",
+    "nome": "Hibernon Olegario da Silva Junior",
+    "classificacao": 10,
+    "data_br": "08/06/2026",
+    "data": "2026-06-08",
+    "portaria": "PORTARIA Nº 184",
+    "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-184-de-25-de-maio-de-2026-710556228",
+    "fonte": "dou"
   }
 ]

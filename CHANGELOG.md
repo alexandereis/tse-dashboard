@@ -38,8 +38,21 @@ formato reconhecidas:
 
 Inclui um **filtro de nome válido** que descarta quem aparece no texto mas **não é
 nomeado** — por exemplo o servidor anterior cujo cargo ficou vago, ou alguém que
-desistiu/foi exonerado. Tudo coberto por testes automáticos (14 casos) que rodam
+desistiu/foi exonerado. Tudo coberto por testes automáticos (15 casos) que rodam
 contra trechos reais de cada formato.
+
+**Coletor — nova fonte de descoberta (resolve o "não atualiza")**
+
+A automação não atualizava porque a **busca** do DOU (`/consulta/-/buscar`)
+respondia **502 (Bad Gateway)** para o robô do GitHub Actions. O coletor passou a
+usar a **edição diária** do DOU (endpoint `leiturajornal`): um único acesso por
+dia que traz todos os atos da Seção 2, dos quais ele separa as nomeações da
+Justiça Eleitoral e extrai os de TI. Mais simples e estável.
+
+**Dados**
+- Adicionada a nomeação do **Hibernon Olegário da Silva Júnior** (TRE-SP,
+  PORTARIA Nº 184, 08/06/2026) — base agora com **231** nomeações, batendo com a
+  referência pública até 08/06/2026.
 
 ## [1.10.2] — 2026-06-08
 

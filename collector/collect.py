@@ -3,14 +3,18 @@
 COLETOR DE NOMEAÇÕES — Concurso TSE Unificado (área de TI)
 ==========================================================
 
+Descoberta pela EDIÇÃO DIÁRIA do DOU (endpoint "leiturajornal"), e não pela
+busca (/consulta/-/buscar). Motivo: a busca costuma responder 502 (Bad Gateway)
+para runners de CI; já a edição do dia é um único GET por data, mais estável,
+e traz a lista de todos os atos da Seção 2 daquele dia.
+
 Passos:
   1. Lê o que já temos (seed/seed.json + data/nomeacoes.json).
-  2. Busca no Diário Oficial da União (in.gov.br, Seção 2) pela frase do concurso
-     ("Concurso Público Nacional Unificado da Justiça Eleitoral"), que traz só as
-     nomeações da Justiça Eleitoral, ordenadas por data.
-  3. Para cada portaria recente, confirma o órgão, baixa o texto, extrai os
-     nomeados e mantém só os de TI (com classificação, cargo e especialidade).
-  4. Junta com o que já existia (sem duplicar) e grava data/nomeacoes.json.
+  2. Para cada dia (últimos N dias), baixa a edição do DOU Seção 2 e separa os
+     atos da Justiça Eleitoral que falam em "nomear".
+  3. Para cada portaria, baixa o texto completo, extrai os nomeados e mantém só
+     os de TI (nome, classificação, cargo, especialidade).
+  4. Junta com o que já existe (sem duplicar) e grava data/nomeacoes.json.
 
 REGRA DE OURO: se a internet falhar/limitar, NÃO apaga os dados antigos.
 """
@@ -24,10 +28,7 @@ from datetime import datetime, timezone, date, timedelta
 
 import requests
 
-from config import (
-    CONSULTAS, SECAO_DOU, RESULTADOS_POR_PAGINA, MAX_PAGINAS,
-    DIAS_RETROATIVOS, USER_AGENT, ORGAOS,
-)
+from config import SECAO_DOU, DIAS_RETROATIVOS, USER_AGENT, ORGAOS
 from parser import (
     limpar_html, sem_acento, identificar_orgao, extrair_nomeados,
 )
@@ -36,7 +37,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ_DADOS = os.path.join(RAIZ, "data", "nomeacoes.json")
 ARQ_SEED = os.path.join(RAIZ, "seed", "seed.json")
 
-BASE_BUSCA = "https://www.in.gov.br/consulta/-/buscar/dou"
+BASE_EDICAO = "https://www.in.gov.br/leiturajornal"
 BASE_ARTIGO = "https://www.in.gov.br/web/dou/-/"
 
 SESSAO = requests.Session()
@@ -68,7 +69,10 @@ def data_iso(data_br):
 
 
 def extrair_params_json(html):
-    """Pega o <script type="application/json"> com os resultados (jsonArray)."""
+    """Pega o <script type="application/json"> com 'jsonArray' — escolhe o de
+    maior jsonArray (a edição tem vários scripts; o certo é o maior)."""
+    melhor = None
+    melhor_n = -1
     for m in re.finditer(
         r'<script[^>]*type="application/json"[^>]*>(.*?)</script>', html, re.DOTALL
     ):
@@ -76,46 +80,43 @@ def extrair_params_json(html):
         if "jsonArray" not in bloco:
             continue
         try:
-            return json.loads(bloco)
+            dados = json.loads(bloco)
         except json.JSONDecodeError:
             continue
-    return None
+        n = len(dados.get("jsonArray") or [])
+        if n > melhor_n:
+            melhor, melhor_n = dados, n
+    return melhor
 
 
 # ---------------------------------------------------------------------------
-# Acesso ao DOU (com retry e detecção de "throttling")
+# Acesso ao DOU (edição do dia + artigo) com retry e detecção de resposta curta
 # ---------------------------------------------------------------------------
 def aquecer():
-    """Visita a busca uma vez para obter cookies de sessão antes de coletar."""
+    """Visita a edição de hoje uma vez para obter cookies de sessão."""
     try:
-        SESSAO.get(BASE_BUSCA, params={"q": "nomear", "s": SECAO_DOU}, timeout=40)
+        SESSAO.get(BASE_EDICAO,
+                   params={"data": date.today().strftime("%d-%m-%Y"), "secao": SECAO_DOU},
+                   timeout=60)
         time.sleep(2)
     except requests.RequestException:
         pass
 
 
-def buscar_pagina(consulta, pagina, tentativas=3):
-    """
-    Devolve a lista de resultados (jsonArray) da página, ou None se falhar.
-    Detecta a página-stub que o in.gov.br devolve quando limita as requisições
-    (resposta pequena, sem jsonArray) e tenta de novo com espera crescente.
-    """
-    params = {
-        "q": consulta, "s": SECAO_DOU, "exibirCabecalho": "true",
-        "delta": RESULTADOS_POR_PAGINA, "page": pagina,
-        "newPage": pagina, "currentPage": pagina, "score": "0", "sortType": "0",
-    }
+def baixar_edicao(data_ddmmaaaa, tentativas=4):
+    """Lista de atos (jsonArray) da Seção 2 naquele dia, ou None se falhar."""
+    params = {"data": data_ddmmaaaa, "secao": SECAO_DOU}
     for t in range(tentativas):
         try:
-            r = SESSAO.get(BASE_BUSCA, params=params, timeout=45)
+            r = SESSAO.get(BASE_EDICAO, params=params, timeout=60)
             r.raise_for_status()
         except requests.RequestException as e:
-            print(f"   ! erro de rede (pág {pagina}, tentativa {t+1}): {e}")
+            print(f"   ! erro de rede ({data_ddmmaaaa}, tentativa {t+1}): {e}")
             time.sleep(5 * (t + 1))
             continue
-        if len(r.text) < 50000:   # página-stub de limite de requisições
-            print(f"   ~ resposta curta ({len(r.text)} bytes) — limite do site; aguardando…")
-            time.sleep(10 * (t + 1))
+        if len(r.text) < 5000:   # resposta-stub (limite de requisições)
+            print(f"   ~ resposta curta ({len(r.text)} bytes) em {data_ddmmaaaa}; aguardando…")
+            time.sleep(8 * (t + 1))
             continue
         dados = extrair_params_json(r.text)
         if dados is None:
@@ -153,33 +154,33 @@ def baixar_texto_portaria(url_title):
 
 
 # ---------------------------------------------------------------------------
+# Filtro: ato é nomeação da Justiça Eleitoral?
+# ---------------------------------------------------------------------------
+def eh_nomeacao_je(item):
+    hier = item.get("hierarchyStr", "") or ""
+    title = item.get("title", "") or ""
+    if "eleitoral" not in sem_acento(hier + " " + title):
+        return False
+    blob = sem_acento(title + " " + limpar_html(item.get("content", "") or ""))
+    return "nome" in blob   # "nomear", "nomeia", "nomeação"…
+
+
+# ---------------------------------------------------------------------------
 # Transformar uma portaria em registros de nomeados
 # ---------------------------------------------------------------------------
-def processar_portaria(item):
+def processar_portaria(item, dia):
     titulo = item.get("title", "") or ""
-    pub_date = item.get("pubDate", "") or item.get("date", "") or ""
-    hierarquia = item.get("hierarchyStr", "") or item.get("hierarchy", "") or ""
+    hierarquia = item.get("hierarchyStr", "") or ""
     url_title = item.get("urlTitle", "") or ""
     snippet = limpar_html(item.get("content", "") or "")
 
-    if "nomear" not in sem_acento(titulo + " " + snippet):
-        return []
-
-    # 1) Filtra por ÓRGÃO usando o cabeçalho da busca, ANTES de baixar o artigo
-    #    (a busca traz portarias de vários órgãos; só seguimos com os da Justiça
-    #    Eleitoral, economizando requisições).
     sigla = identificar_orgao(hierarquia, titulo, snippet)
     if not sigla:
         return []
 
-    # 2) Agora sim baixa o texto completo e extrai os nomeados de TI.
     texto, url = baixar_texto_portaria(url_title) if url_title else (snippet, "")
     if not texto:
         texto = snippet
-    if not sigla:
-        sigla = identificar_orgao(hierarquia, titulo, texto)
-        if not sigla:
-            return []
 
     nomeados = extrair_nomeados(texto)
     if not nomeados:
@@ -189,8 +190,7 @@ def processar_portaria(item):
     rotulo_portaria = (f"{mport.group(1).upper()} Nº {mport.group(2)}"
                        if mport else (titulo[:45] or "Portaria"))
     info = ORGAOS[sigla]
-    mdata = re.search(r"\d{2}/\d{2}/\d{4}", pub_date)
-    data_br = mdata.group(0) if mdata else pub_date
+    data_br = dia.strftime("%d/%m/%Y")
 
     registros = []
     for nd in nomeados:
@@ -198,52 +198,39 @@ def processar_portaria(item):
             "uf": sigla, "orgao": info["rotulo"], "cargo": nd["cargo"], "area": "TI",
             "especialidade": nd["especialidade"] or "Tecnologia da Informação",
             "nome": nd["nome"], "classificacao": nd["classificacao"],
-            "data": data_iso(data_br), "data_br": data_br,
+            "data": dia.isoformat(), "data_br": data_br,
             "portaria": rotulo_portaria, "url": url, "fonte": "dou",
         })
     return registros
-
-
-def _data_item(item):
-    m = re.search(r"\d{2}/\d{2}/\d{4}", item.get("pubDate", "") or "")
-    return data_iso(m.group(0)) if m else ""
 
 
 # ---------------------------------------------------------------------------
 # Fluxo principal
 # ---------------------------------------------------------------------------
 def coletar_do_dou():
-    """Roda as consultas e devolve os registros encontrados (lista)."""
-    corte = (date.today() - timedelta(days=DIAS_RETROATIVOS)).isoformat()
+    """Percorre as edições dos últimos N dias e devolve os registros de TI."""
+    corte = date.today() - timedelta(days=DIAS_RETROATIVOS)
     encontrados = {}
     vistas = set()
-
-    for consulta in CONSULTAS:
-        print(f"\n> Consulta: {consulta}")
-        for pagina in range(1, MAX_PAGINAS + 1):
-            resultados = buscar_pagina(consulta, pagina)
-            if not resultados:   # None (falha/limite) ou [] (sem mais) → encerra
-                break
-            recentes = 0
-            for item in resultados:
-                di = _data_item(item)
-                if di and di < corte:        # fora da janela de datas
-                    continue
-                recentes += 1
-                ut = item.get("urlTitle", "")
-                if ut in vistas:
-                    continue
-                vistas.add(ut)
-                for reg in processar_portaria(item):
-                    encontrados[chave_registro(reg)] = reg
-            print(f"   página {pagina}: {len(resultados)} result., {recentes} na janela, "
-                  f"{len(encontrados)} de TI até agora")
-            if recentes == 0:    # resultados já passaram da janela (ordenado por data)
-                break
-            time.sleep(2)
-            if len(resultados) < RESULTADOS_POR_PAGINA:
-                break
-        time.sleep(3)            # pausa entre consultas
+    dia = date.today()
+    while dia >= corte:
+        ed = baixar_edicao(dia.strftime("%d-%m-%Y"))
+        if ed is None:
+            print(f"   {dia.isoformat()}: edição indisponível (pulando)")
+            dia -= timedelta(days=1)
+            continue
+        je = [a for a in ed if eh_nomeacao_je(a)]
+        for item in je:
+            ut = item.get("urlTitle", "")
+            if ut in vistas:
+                continue
+            vistas.add(ut)
+            for reg in processar_portaria(item, dia):
+                encontrados[chave_registro(reg)] = reg
+        print(f"   {dia.isoformat()}: {len(ed)} atos, {len(je)} nomeações JE, "
+              f"{len(encontrados)} de TI até agora")
+        time.sleep(2)
+        dia -= timedelta(days=1)
     return list(encontrados.values())
 
 
@@ -258,7 +245,7 @@ def main():
     base = {}
     for reg in seed:
         reg = dict(reg)
-        reg["fonte"] = "seed"
+        reg["fonte"] = reg.get("fonte", "seed")
         reg.setdefault("data", data_iso(reg.get("data_br", "")))
         base[chave_registro(reg)] = reg
     for reg in anterior:

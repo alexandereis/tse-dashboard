@@ -71,9 +71,10 @@ PALAVRAS_NAO_TI = [
 ]
 
 # ---------------------------------------------------------------------------
-# 3) CONSULTAS ENVIADAS AO BUSCADOR DO DOU
-#    O coletor roda CADA consulta abaixo na Seção 2 e junta os resultados.
-#    Várias consultas aumentam a cobertura (formatos de portaria variam).
+# 3) DESCOBERTA DAS PORTARIAS
+#    O coletor lê a EDIÇÃO DIÁRIA do DOU (endpoint "leiturajornal") dos últimos
+#    N dias, em vez da busca (/consulta/-/buscar) — esta costuma dar 502 em CI.
+#    (CONSULTAS abaixo é legado, mantido só para referência; não é mais usado.)
 # ---------------------------------------------------------------------------
 CONSULTAS = [
     '"Concurso Público Nacional Unificado da Justiça Eleitoral"',
@@ -91,8 +92,9 @@ RESULTADOS_POR_PAGINA = 20
 # Máximo de páginas a percorrer por consulta (trava de segurança).
 MAX_PAGINAS = 8
 
-# Só processa portarias dos últimos N dias (o seed cobre o histórico).
-DIAS_RETROATIVOS = 60
+# Quantos dias (edições) para trás o coletor varre a cada execução. O seed já
+# cobre todo o histórico, então uma janela curta basta (ele roda 5x/dia).
+DIAS_RETROATIVOS = 14
 
 # User-Agent "de navegador" — o in.gov.br responde melhor assim.
 USER_AGENT = (
