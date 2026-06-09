@@ -118,7 +118,7 @@ def _trim_nome(bruto):
 def _limpar_esp(esp):
     esp = re.sub(r"\s+", " ", esp).strip()
     # corta sufixos que às vezes "colam" no fim da especialidade
-    esp = re.sub(r"\s+(classe|padr[ãa]o|n[isí]|do quadro|para integrar).*$", "",
+    esp = re.sub(r"\s+(classe|padr[ãa]o|n[isí]|do quadro|para integrar|ordem|nome|origem).*$", "",
                  esp, flags=re.IGNORECASE).strip(" ,-–")
     return esp
 
@@ -224,6 +224,45 @@ def _extrair_caps(texto):
     return out
 
 
+# --- Detector de blocos de cargo (GERAL) -----------------------------------
+# Captura TODA declaração "Cargo de (Analista|Técnico) Judiciário ...", inclusive
+# as NÃO-TI (ex.: "- Área Administrativa"). Cada bloco vira uma fronteira: um nome
+# listado depois herda o cargo/especialidade do bloco imediatamente anterior, e só
+# é aceito se esse bloco for de TI. Assim, nomes de uma seção Administrativa não
+# "vazam" para a especialidade de TI da seção anterior.
+_RE_CARGO_HEAD = re.compile(
+    r"cargo[s]?\s+de\s+(analista|t[ée]cnico)\s+judici[áa]rio([\s\S]{0,100})",
+    re.IGNORECASE,
+)
+
+
+def _esp_do_desc(desc):
+    m = re.search(r"especialidade[:\s\-–]+([^,.;\n]{3,45})", desc, re.IGNORECASE)
+    if not m:
+        m = re.search(r"apoio\s+especializado\s*[-–,]\s*([^,.;\n]{3,45})", desc, re.IGNORECASE)
+    return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
+
+
+def _blocos_cargo(texto):
+    """Lista de (posição, cargo, especialidade, eh_ti) para cada cabeçalho de cargo."""
+    out = []
+    for m in _RE_CARGO_HEAD.finditer(texto):
+        desc = m.group(2)
+        out.append((m.start(), _cargo_norm(m.group(1)), _esp_do_desc(desc), eh_ti(desc)))
+    return out
+
+
+def _bloco_antes(blocos, pos):
+    """Bloco imediatamente anterior à posição (cargo, esp, ti) ou None."""
+    achado = None
+    for (bp, bc, be, bt) in blocos:
+        if bp < pos:
+            achado = (bc, be, bt)
+        else:
+            break
+    return achado
+
+
 # --- Família 4: lista/tabela (cabeçalho cargo+especialidade + "N NOME Nº lugar")
 _RE_BLOCO = re.compile(r"cargo[s]?\b[\s\S]{0,30}?" + _CARGOESP, re.IGNORECASE)
 _RE_ITEM = re.compile(
@@ -233,23 +272,15 @@ _RE_ITEM = re.compile(
 
 
 def _extrair_lista(texto):
-    blocos = []
-    for m in _RE_BLOCO.finditer(texto):
-        blocos.append((m.start(), _cargo_norm(m.group(1)),
-                       re.sub(r"\s+", " ", m.group(2)).strip()))
+    blocos = _blocos_cargo(texto)
     if not blocos:
         return []
     out = []
     for m in _RE_ITEM.finditer(texto):
-        cargo = esp = None
-        for (bp, bc, be) in blocos:
-            if bp < m.start():
-                cargo, esp = bc, be
-            else:
-                break
-        if not esp or not eh_ti(esp) or not _nome_valido(m.group(1)):
+        b = _bloco_antes(blocos, m.start())
+        if not b or not b[2] or not _nome_valido(m.group(1)):
             continue
-        out.append(_registro(m.group(1), m.group(2), cargo, esp))
+        out.append(_registro(m.group(1), m.group(2), b[0], b[1] or "Tecnologia da Informação"))
     return out
 
 
@@ -261,23 +292,16 @@ _RE_NOMECARGO = re.compile(
 
 
 def _extrair_nomecargo(texto):
-    blocos = []
-    for m in _RE_BLOCO.finditer(texto):
-        blocos.append((m.start(), _cargo_norm(m.group(1)),
-                       re.sub(r"\s+", " ", m.group(2)).strip()))
+    blocos = _blocos_cargo(texto)
     if not blocos:
         return []
     out = []
     for m in _RE_NOMECARGO.finditer(texto):
-        cargo = esp = None
-        for (bp, bc, be) in blocos:
-            if bp < m.start():
-                cargo, esp = bc, be
-            else:
-                break
-        if not esp or not eh_ti(esp) or not _nome_valido(m.group(1)):
+        b = _bloco_antes(blocos, m.start())
+        if not b or not b[2] or not _nome_valido(m.group(1)):
             continue
-        out.append(_registro(m.group(1), _classif_perto(texto, m.start(1)), cargo, esp))
+        out.append(_registro(m.group(1), _classif_perto(texto, m.start(1)),
+                              b[0], b[1] or "Tecnologia da Informação"))
     return out
 
 
@@ -294,23 +318,15 @@ _RE_B_NOME = re.compile(
 
 
 def _extrair_b(texto):
-    blocos = []
-    for m in _RE_B_BLOCO.finditer(texto):
-        blocos.append((m.start(), _cargo_norm(m.group(1)),
-                       re.sub(r"\s+", " ", m.group(2)).strip()))
+    blocos = _blocos_cargo(texto)
     if not blocos:
         return []
     out = []
     for m in _RE_B_NOME.finditer(texto):
-        cargo = esp = None
-        for (bp, bc, be) in blocos:
-            if bp < m.start():
-                cargo, esp = bc, be
-            else:
-                break
-        if not esp or not eh_ti(esp) or not _nome_valido(m.group(1)):
+        b = _bloco_antes(blocos, m.start())
+        if not b or not b[2] or not _nome_valido(m.group(1)):
             continue
-        out.append(_registro(m.group(1), m.group(2), cargo, esp))
+        out.append(_registro(m.group(1), m.group(2), b[0], b[1] or "Tecnologia da Informação"))
     return out
 
 

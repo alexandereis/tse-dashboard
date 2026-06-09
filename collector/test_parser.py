@@ -83,7 +83,17 @@ CASOS = {
     "Nascimento Cargo criado pela Lei 7.385, vago em decorrencia da exoneracao de Rodrigo Augusto "
     "de Oliveira Paes Borges Bione, em 5 de maio de 2025. Gabriel Dantas de Oliveira Cargo criado "
     "pela Lei 11.202, vago.", ["Matheus Martins do Nascimento", "Gabriel Dantas de Oliveira"]),
- "SP (Fulano, Nª colocação)": (
+    "SP 2 secoes (Programacao=TI + Administrativa=nao-TI)": (
+    "NOMEAR, por concurso publico, os candidatos: Cargo de Tecnico Judiciario, Area Apoio "
+    "Especializado, Especialidade Programacao de Sistemas, Classe A, Padrao 1 Hibernon Olegario da "
+    "Silva Junior, 116a colocacao, na vaga n. 99, criada pela Lei. Cargo de Tecnico Judiciario - "
+    "Area Administrativa, Classe A, Padrao 1 Nos termos do art. 9 inciso I da Lei 8.112/1990 "
+    "Laize Fernanda Pereira, 117a colocacao, na vaga n. 140, decorrente de aposentadoria de Roberto "
+    "Jorge Raya em 19/08/2025. Leticia Mendonca Rossetti Silva, 118a colocacao, decorrente de "
+    "aposentadoria de Rosangela Aparecida Ribeiro. Adriana Brandassi, 119a colocacao. Eduardo "
+    "Cassoli Ferraz, 120a colocacao. Aparecido Santos Tomazin Junior, 121a colocacao.",
+    ["Hibernon Olegario da Silva Junior"]),
+    "SP (Fulano, Na colocacao)": (
     "NOMEAR, para o Cargo de Tecnico Judiciario, Area Apoio Especializado, Especialidade Programacao "
     "de Sistemas, os seguintes: Hibernon Olegario da Silva Junior, 10a colocacao; Laize Pereira "
     "Santos, 11a colocacao.", ["Hibernon Olegario da Silva Junior", "Laize Pereira Santos"]),
