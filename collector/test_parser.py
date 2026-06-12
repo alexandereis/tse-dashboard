@@ -97,6 +97,14 @@ CASOS = {
     "NOMEAR, para o Cargo de Tecnico Judiciario, Area Apoio Especializado, Especialidade Programacao "
     "de Sistemas, os seguintes: Hibernon Olegario da Silva Junior, 10a colocacao; Laize Pereira "
     "Santos, 11a colocacao.", ["Hibernon Olegario da Silva Junior", "Laize Pereira Santos"]),
+    "DF 152 multi-art (Formato A nao cruza artigo; exclui Eng. Mecanica/sem esp)": (
+    "Art. 8 Tornar sem efeito a nomeacao do candidato Fulano de Tal, Especialidade Tecnologia da "
+    "Informacao, em razao de termo de desistencia. Art. 9 Nomear o candidato Joao Batista Grigorio "
+    "de Almeida, classificado em 10 lugar, na vaga n. 5, criada pela Lei n. 15.374 2026, decorrente "
+    "de aposentadoria de Sicrano. Art. 10 Nomear o candidato Marcos Antonio Pinheiro Silva, "
+    "classificado em 12 lugar, para exercer o cargo de Analista Judiciario, Area Apoio Especializado, "
+    "Especialidade Tecnologia da Informacao, criado pela Lei n. 15.374 2026.",
+    ["Marcos Antonio Pinheiro Silva"]),
 }
 
 def main():

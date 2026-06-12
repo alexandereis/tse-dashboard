@@ -23,6 +23,8 @@ INDEVIDOS = [
     ("SP", "eduardo cassoli ferraz"),
     ("SP", "aparecido santos tomazin junior"),
     ("SP", "adriana brandassi"),
+    # PORTARIA TRE-DF nº 152 — candidato de outra especialidade (não-TI)
+    ("DF", "joao batista grigorio de almeida"),
 ]
 
 def eh_indevido(r):

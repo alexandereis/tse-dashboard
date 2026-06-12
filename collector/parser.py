@@ -145,9 +145,9 @@ _CARGOESP = (
 _RE_A = re.compile(
     r"nomear\s+(?:o|a)(?:\(a\))?\s+candidat[oa](?:\(a\))?\s+([A-ZÀ-Ú][^,]{3,70}?),\s*"
     r"classificad[oa]\s+em\s+(\d+)\s*[ºn°o]?\s*lugar"
-    r"[\s\S]{0,600}?cargo\s+(?:efetivo\s+)?de\s+"
+    r"(?:(?!\bnomear\b)[\s\S]){0,600}?cargo\s+(?:efetivo\s+)?de\s+"
     r"(Analista\s+Judici[áa]rio|T[ée]cnico\s+Judici[áa]rio)"
-    r"[\s\S]{0,300}?especialidade:?\s*([^,.;\n]{3,70})",
+    r"(?:(?!\bnomear\b)[\s\S]){0,300}?especialidade:?\s*([^,.;\n]{3,70})",
     re.IGNORECASE,
 )
 
@@ -163,9 +163,9 @@ def _extrair_a(texto):
 
 # --- Famílias 1/2: inline com texto entre "Nomear" e o nome (AP, ES, MS, PB…)
 _RE_INLINE = re.compile(
-    r"nomear[\s\S]{0,240}?\b(?:o|a)(?:\(a\))?\s+"
+    r"nomear(?:(?!\bnomear\b)[\s\S]){0,240}?\b(?:o|a)(?:\(a\))?\s+"
     r"(?:sr\.?\s+|sra\.?\s+|candidat[oa](?:\(a\))?\s+)"
-    r"([A-ZÀ-Ú][^,]{3,70}?)\s*,[\s\S]{0,280}?" + _CARGOESP,
+    r"([A-ZÀ-Ú][^,]{3,70}?)\s*,(?:(?!\bnomear\b)[\s\S]){0,280}?" + _CARGOESP,
     re.IGNORECASE,
 )
 
@@ -191,7 +191,7 @@ def _extrair_inline(texto):
 
 # --- Família "direta": "Nomear FULANO DE TAL, ... cargo ... especialidade X" (SC)
 _RE_DIRETO = re.compile(
-    r"(?i:nomear)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’.\- ]{5,55}?)\s*,[\s\S]{0,280}?(?i:" + _CARGOESP + r")"
+    r"(?i:nomear)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’.\- ]{5,55}?)\s*,(?:(?!(?i:nomear))[\s\S]){0,280}?(?i:" + _CARGOESP + r")"
 )
 
 

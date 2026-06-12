@@ -42,8 +42,12 @@ desistiu/foi exonerado. Quando uma portaria tem **várias seções de cargo**
 (ex.: TRE-SP, com uma seção de "Programação de Sistemas" e outra de "Área
 Administrativa"), cada cabeçalho de cargo vira uma **fronteira**: os nomes só
 entram se a seção em que estão for de TI — assim os de Área Administrativa não
-são contados por engano. Tudo coberto por testes automáticos (16 casos) que rodam
-contra trechos reais de cada formato.
+são contados por engano. Pelo mesmo motivo, numa portaria com **vários artigos**
+("Art. 9 Nomear o candidato X… Art. 10 Nomear o candidato Y…"), a busca pela
+especialidade **não cruza** para o próximo "Nomear" — cada nomeado fica com a
+especialidade do **seu** artigo (corrige um caso do TRE-DF em que um candidato de
+Engenharia Mecânica entrava como TI). Tudo coberto por testes automáticos
+(17 casos) que rodam contra trechos reais de cada formato.
 
 **Coletor — nova fonte de descoberta (resolve o "não atualiza")**
 

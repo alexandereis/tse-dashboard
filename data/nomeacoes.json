@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-06-09T13:24:20.068558+00:00",
-  "total": 233,
+  "atualizado_em": "2026-06-12T10:21:50.424818+00:00",
+  "total": 234,
   "registros": [
+    {
+      "uf": "DF",
+      "orgao": "Distrito Federal",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Marcos Antonio Pinheiro Silva",
+      "classificacao": 12,
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "portaria": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036",
+      "fonte": "dou"
+    },
     {
       "uf": "SC",
       "orgao": "Santa Catarina",
