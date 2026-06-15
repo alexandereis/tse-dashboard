@@ -14,6 +14,23 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.12.0] — 2026-06-15
+
+**Polimento visual (sem mudar a estrutura)**
+- Tipografia mais nítida: suavização de fonte, *kerning* mais justo nos títulos e
+  **números tabulares** nos KPIs, tabela e contadores (os dígitos ficam alinhados).
+- Cores com um pouco mais de profundidade: um leve degradê de fundo (nos temas
+  claro e escuro), cartões "glass" levemente mais vivos e sombra suave ao passar o
+  mouse nos KPIs.
+- Acessibilidade/celular: contornos de foco visíveis ao navegar pelo teclado,
+  botões do topo com área de toque maior e abas com espaçamento melhor no celular.
+
+**Automação (agendamento)**
+- O robô passou a rodar **a cada 30 minutos, das 00:00 às 10:00 de Brasília**
+  (inclusive), concentrando as tentativas na janela em que o DOU sai e você acorda
+  — compensando os atrasos/skips do agendador do GitHub. Coletor mais enxuto
+  (janela menor + busca só nas páginas recentes) para cada execução ser rápida.
+
 ## [1.11.0] — 2026-06-09
 
 **Coletor — mapeamento de TODOS os formatos de portaria já vistos**
