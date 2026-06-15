@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from parser import extrair_nomeados
 
 CASOS = {
- "A/DF (inline c/ classificação)": (
+ "A/DF (inline c/ classificacao)": (
     "Nomear o candidato Fabio Henrique da Silva, classificado em 1o lugar, para ocupar o cargo "
     "efetivo de Analista Judiciario, Area Apoio Especializado, Especialidade: Tecnologia da "
     "Informacao, do Quadro de Pessoal.", ["Fabio Henrique da Silva"]),
@@ -38,7 +38,7 @@ CASOS = {
     "NOMEAR o(a) candidato(a) RAFAEL SOUZA SANTOS, classificado(a) em 2 lugar de candidatos negros, "
     "para ocupar o cargo de Tecnico Judiciario, Area de Apoio Especializado, Especialidade "
     "Programacao de Sistemas, Classe A.", ["Rafael Souza Santos"]),
- "RN (preâmbulo longo)": (
+ "RN (preambulo longo)": (
     "Art. 1 NOMEAR, com fundamento no inciso I do art. 9 da Lei 8.112, de 11 de dezembro de 1990 e "
     "observada a ordem de classificacao, em razao de habilitacao no Concurso Publico Nacional "
     "Unificado da Justica Eleitoral, a candidata ADRIANA BENICIO GALVAO, para exercer, em carater "
@@ -51,14 +51,14 @@ CASOS = {
     "criado pela Lei 11.202, vago em razao da redistribuicao do servidor Frankley Francalino da "
     "Rocha; e FELIPE BEZERRA LIMA Tecnico Judiciario - Area Apoio Especializado, Especialidade "
     "Programacao de Sistemas.", ["Jonathan Messias e Silva", "Felipe Bezerra Lima"]),
- "AM (multi-área, Cargo: ...; exclui Administrativa e servidora)": (
+ "AM (multi-area, Cargo:; exclui Administrativa e servidora)": (
     "NOMEAR, no cargo de Tecnico Judiciario, Area Administrativa, bem como de Apoio Especializado, "
     "os seguintes candidatos DANIEL RODRIGUES CHAGAS JUNIOR Cargo: Tecnico Judiciario, Area "
     "Administrativa, classe A Origem da vaga Redistribuicao da servidora SOLANGE MADEIRO DA COSTA, "
     "vaga 112. MARCOS CARDOSO WAGNER Cargo: Tecnico Judiciario, Apoio Especializado, Programacao de "
     "Sistemas classe A. PEDRO MELLO DAUER Cargo: Tecnico Judiciario, Apoio Especializado, "
     "Programacao de Sistemas classe A.", ["Marcos Cardoso Wagner", "Pedro Mello Dauer"]),
- "GO (lista 1. NOME - 1º lugar; exclui servidora)": (
+ "GO (lista 1. NOME - 1o lugar; exclui servidora)": (
     "NOMEAR os candidatos abaixo relacionados, o cargo de Tecnico Judiciario - Area Apoio "
     "Especializado - Programacao de Sistemas. 1. JULIO CESAR FREITAS BUENO DE MORAES - 1 lugar da "
     "lista de cotas. Vaga 207. Cargo criado pela Lei 10.842, ocupado pela servidora Samyle Santos "
@@ -70,7 +70,7 @@ CASOS = {
     "decorrente de vacancia por posse de LUIZ GONZAGA DE ALBUQUERQUE NETO, em 02 12 2022. 2 "
     "DOUGLLAS MOREIRA DINIZ 2 Lugar - AMPLA Vaga 17, decorrente de vacancia de SILVIO LACK LENZ "
     "CESAR.", ["Andre Borba Netto Assis", "Dougllas Moreira Diniz"]),
- "PE (NOME Nº lugar; bloco não-TI ignorado; exclui aposentada)": (
+ "PE (NOME No lugar; bloco nao-TI ignorado; exclui aposentada)": (
     "os cargos de Analista Judiciario, Especialidade Arquivologia, Nome Classificacao LUCAS LIMA "
     "SANTOS 1 lugar - Ampla concorrencia Cargo criado pela Lei 10.842, vago em decorrencia da "
     "aposentadoria de BENISE MARIA DE SOUZA. os cargos de Tecnico Judiciario, Especialidade "
@@ -83,7 +83,7 @@ CASOS = {
     "Nascimento Cargo criado pela Lei 7.385, vago em decorrencia da exoneracao de Rodrigo Augusto "
     "de Oliveira Paes Borges Bione, em 5 de maio de 2025. Gabriel Dantas de Oliveira Cargo criado "
     "pela Lei 11.202, vago.", ["Matheus Martins do Nascimento", "Gabriel Dantas de Oliveira"]),
-    "SP 2 secoes (Programacao=TI + Administrativa=nao-TI)": (
+ "SP 2 secoes (Programacao=TI + Administrativa=nao-TI)": (
     "NOMEAR, por concurso publico, os candidatos: Cargo de Tecnico Judiciario, Area Apoio "
     "Especializado, Especialidade Programacao de Sistemas, Classe A, Padrao 1 Hibernon Olegario da "
     "Silva Junior, 116a colocacao, na vaga n. 99, criada pela Lei. Cargo de Tecnico Judiciario - "
@@ -93,11 +93,11 @@ CASOS = {
     "aposentadoria de Rosangela Aparecida Ribeiro. Adriana Brandassi, 119a colocacao. Eduardo "
     "Cassoli Ferraz, 120a colocacao. Aparecido Santos Tomazin Junior, 121a colocacao.",
     ["Hibernon Olegario da Silva Junior"]),
-    "SP (Fulano, Na colocacao)": (
+ "SP (Fulano, Na colocacao)": (
     "NOMEAR, para o Cargo de Tecnico Judiciario, Area Apoio Especializado, Especialidade Programacao "
     "de Sistemas, os seguintes: Hibernon Olegario da Silva Junior, 10a colocacao; Laize Pereira "
     "Santos, 11a colocacao.", ["Hibernon Olegario da Silva Junior", "Laize Pereira Santos"]),
-    "DF 152 multi-art (Formato A nao cruza artigo; exclui Eng. Mecanica/sem esp)": (
+ "DF 152 multi-art (Formato A nao cruza artigo; exclui Eng. Mecanica)": (
     "Art. 8 Tornar sem efeito a nomeacao do candidato Fulano de Tal, Especialidade Tecnologia da "
     "Informacao, em razao de termo de desistencia. Art. 9 Nomear o candidato Joao Batista Grigorio "
     "de Almeida, classificado em 10 lugar, na vaga n. 5, criada pela Lei n. 15.374 2026, decorrente "
@@ -105,6 +105,16 @@ CASOS = {
     "classificado em 12 lugar, para exercer o cargo de Analista Judiciario, Area Apoio Especializado, "
     "Especialidade Tecnologia da Informacao, criado pela Lei n. 15.374 2026.",
     ["Marcos Antonio Pinheiro Silva"]),
+ "MG PRE multi-art (ocupar na Secretaria; exclui servidores anteriores)": (
+    "Art. 1 NOMEAR o candidato JHEFFREY THULYO DOS SANTOS, classificado em 1 lugar, no Concurso "
+    "Publico Nacional Unificado da Justica Eleitoral, para ocupar na Secretaria o cargo de Analista "
+    "Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, Classe A, vago "
+    "em decorrencia de aposentadoria do servidor Sergio Ubiratan Jeronimo Silva Araujo. Art. 2 "
+    "NOMEAR a candidata LUCIANA LORENA RODRIGUES, classificada em 3 lugar, no Concurso Publico "
+    "Nacional Unificado da Justica Eleitoral, para ocupar na Secretaria o cargo de Analista "
+    "Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, vago em "
+    "decorrencia de posse de Marcelo Mascarenhas Ribeiro de Araujo.",
+    ["Jheffrey Thulyo dos Santos", "Luciana Lorena Rodrigues"]),
 }
 
 def main():
@@ -113,9 +123,9 @@ def main():
         got = [r["nome"] for r in extrair_nomeados(txt)]
         falta = [n for n in esperado if n not in got]
         extra = [n for n in got if n not in esperado]
-        st = "OK  " if (not falta and not extra) else "FALHA"
+        status = "OK  " if (not falta and not extra) else "FALHA"
         if falta or extra: ok = False
-        print(f"[{st}] {tag}")
+        print(f"[{status}] {tag}")
         print(f"       -> {got}")
         if falta: print(f"       faltou: {falta}")
         if extra: print(f"       FALSO POSITIVO: {extra}")

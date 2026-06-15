@@ -51,16 +51,25 @@ Engenharia Mecânica entrava como TI). Tudo coberto por testes automáticos
 
 **Coletor — nova fonte de descoberta (resolve o "não atualiza")**
 
-A automação não atualizava porque a **busca** do DOU (`/consulta/-/buscar`)
-respondia **502 (Bad Gateway)** para o robô do GitHub Actions. O coletor passou a
-usar a **edição diária** do DOU (endpoint `leiturajornal`): um único acesso por
-dia que traz todos os atos da Seção 2, dos quais ele separa as nomeações da
-Justiça Eleitoral e extrai os de TI. Mais simples e estável.
+O coletor agora descobre as portarias por **dois caminhos** e junta tudo (sem
+duplicar):
+
+1. **Busca** (`/consulta/-/buscar`): mostra as publicações **do próprio dia**,
+   então pega nomeações no mesmo dia. (Em alguns ambientes ela pode responder 502;
+   nesse caso o passo 2 cobre.)
+2. **Edição diária** (`leiturajornal`): um acesso por dia, bem estável, serve de
+   rede de segurança. O índice do dia às vezes demora a sair, por isso a busca
+   vem antes.
+
+Antes o coletor usava só a busca (que falhava com 502) ou só a edição diária (que
+atrasava no mesmo dia); com os dois juntos, a chance de pegar **no mesmo dia**
+aumenta bastante.
 
 **Dados**
-- Adicionada a nomeação do **Hibernon Olegário da Silva Júnior** (TRE-SP,
-  PORTARIA Nº 184, 08/06/2026) — base agora com **231** nomeações, batendo com a
-  referência pública até 08/06/2026.
+- Base evoluiu conforme as publicações do DOU: Hibernon (TRE-SP, 08/06),
+  Francisco/CE e Yves/SC (09/06), Marcos/DF (12/06) e as 3 de TI do TRE-MG de
+  15/06 (Jheffrey, Luciana e Alexandra) — totalizando **237** nomeações
+  (89 Analistas + 148 Técnicos) até 15/06/2026.
 
 ## [1.10.2] — 2026-06-08
 

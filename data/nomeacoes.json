@@ -1,7 +1,49 @@
 {
-  "atualizado_em": "2026-06-12T11:09:19.909892+00:00",
-  "total": 234,
+  "atualizado_em": "2026-06-15T09:15:47.259700+00:00",
+  "total": 237,
   "registros": [
+    {
+      "uf": "MG",
+      "orgao": "Minas Gerais",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Luciana Lorena Rodrigues",
+      "classificacao": 3,
+      "data": "2026-06-15",
+      "data_br": "15/06/2026",
+      "portaria": "PORTARIA PRE Nº 194",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-194-de-12-de-junho-de-2026-712151664",
+      "fonte": "dou"
+    },
+    {
+      "uf": "MG",
+      "orgao": "Minas Gerais",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Jheffrey Thulyo dos Santos",
+      "classificacao": 1,
+      "data": "2026-06-15",
+      "data_br": "15/06/2026",
+      "portaria": "PORTARIA PRE Nº 194",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-194-de-12-de-junho-de-2026-712151664",
+      "fonte": "dou"
+    },
+    {
+      "uf": "MG",
+      "orgao": "Minas Gerais",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Alexandra Marques da Silva Cruz Xavier",
+      "classificacao": 4,
+      "data": "2026-06-15",
+      "data_br": "15/06/2026",
+      "portaria": "PORTARIA PRE Nº 195",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-195-de-12-de-junho-de-2026-712099294",
+      "fonte": "dou"
+    },
     {
       "uf": "DF",
       "orgao": "Distrito Federal",
