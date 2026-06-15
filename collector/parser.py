@@ -264,7 +264,6 @@ def _bloco_antes(blocos, pos):
 
 
 # --- Família 4: lista/tabela (cabeçalho cargo+especialidade + "N NOME Nº lugar")
-_RE_BLOCO = re.compile(r"cargo[s]?\b[\s\S]{0,30}?" + _CARGOESP, re.IGNORECASE)
 _RE_ITEM = re.compile(
     r"([A-ZÀ-Ú][A-ZÀ-Ú'’.\- ]{5,55}?)\s*[-–]?\s*"
     r"(\d{1,3})\s*[º°ªo]?\s*[Ll]ugar"
@@ -306,11 +305,6 @@ def _extrair_nomecargo(texto):
 
 
 # --- Formato B: blocos "Cargo de X ... Especialidade Y" + "Fulano, Nª colocação" (SP)
-_RE_B_BLOCO = re.compile(
-    r"cargo\s+de\s+(analista|t[ée]cnico)\s+judici[áa]rio"
-    r"[\s\S]{0,200}?especialidade[:\s]+([^,.;\n]{3,55})",
-    re.IGNORECASE,
-)
 _RE_B_NOME = re.compile(
     r"([A-ZÀ-Ú][A-Za-zÀ-úÇ'.\-]+(?:\s+[A-ZÀ-Úa-zà-ú][A-Za-zÀ-úÇ'.\-]+){1,5}),\s*"
     r"(\d+)\s*[ªaº]?\s*coloca[çc]"

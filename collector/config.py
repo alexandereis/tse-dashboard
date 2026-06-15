@@ -72,9 +72,10 @@ PALAVRAS_NAO_TI = [
 
 # ---------------------------------------------------------------------------
 # 3) DESCOBERTA DAS PORTARIAS
-#    O coletor lê a EDIÇÃO DIÁRIA do DOU (endpoint "leiturajornal") dos últimos
-#    N dias, em vez da busca (/consulta/-/buscar) — esta costuma dar 502 em CI.
-#    (CONSULTAS abaixo é legado, mantido só para referência; não é mais usado.)
+#    O coletor descobre as portarias por DOIS caminhos (veja collect.py): a BUSCA
+#    (/consulta/-/buscar), que usa as CONSULTAS abaixo e mostra publicações do
+#    mesmo dia; e a EDIÇÃO DIÁRIA (leiturajornal), como rede de segurança.
+#    Varre os últimos DIAS_RETROATIVOS dias a cada execução.
 # ---------------------------------------------------------------------------
 CONSULTAS = [
     '"Concurso Público Nacional Unificado da Justiça Eleitoral"',
