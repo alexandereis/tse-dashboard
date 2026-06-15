@@ -93,8 +93,9 @@ RESULTADOS_POR_PAGINA = 20
 MAX_PAGINAS = 8
 
 # Quantos dias (edições) para trás o coletor varre a cada execução. O seed já
-# cobre todo o histórico, então uma janela curta basta (ele roda 5x/dia).
-DIAS_RETROATIVOS = 14
+# cobre todo o histórico e ele roda ~10x/dia, então uma janela curta basta e
+# mantém cada execução rápida (cabe entre os horários sem empilhar).
+DIAS_RETROATIVOS = 10
 
 # User-Agent "de navegador" — o in.gov.br responde melhor assim.
 USER_AGENT = (

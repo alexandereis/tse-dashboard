@@ -5,11 +5,13 @@ on:
   schedule:
     # Horários em UTC — o Brasil (BRT) é UTC-3, então some 3h para achar a hora local.
     # O coletor só salva/atualiza o site quando encontra algo NOVO (veja o passo de commit).
-    - cron: "0 5 * * *"    # 02:00 em Brasília
-    - cron: "0 6 * * *"    # 03:00 em Brasília
-    - cron: "0 13 * * *"   # 10:00 em Brasília
-    - cron: "0 16 * * *"   # 13:00 em Brasília
-    - cron: "0 21 * * *"   # 18:00 em Brasília
+    #
+    # Estratégia: rodar a CADA 30 MIN das 00:00 às 10:00 de Brasília (inclusive).
+    # Assim, quando o DOU sai de manhã, em pouco tempo um run já pega — e, como o
+    # GitHub costuma atrasar/pular agendados, a alta frequência compensa.
+    # Em UTC isso é das 03:00 às 13:00.
+    - cron: "*/30 3-12 * * *"   # 00:00, 00:30 … 09:30 BRT (a cada 30 min)
+    - cron: "0 13 * * *"        # 10:00 BRT (fecha a janela, inclusive)
   workflow_dispatch: {}   # permite rodar manualmente pelo botão "Run workflow"
 
 # Permite que o robô grave (commit) o JSON atualizado de volta no repositório.

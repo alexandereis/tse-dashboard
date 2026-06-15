@@ -110,7 +110,7 @@ def aquecer():
         pass
 
 
-def buscar_consulta(consulta, paginas=MAX_PAGINAS, tentativas=4):
+def buscar_consulta(consulta, paginas=MAX_PAGINAS, tentativas=2):
     """FASE 1 — resultados da busca (jsonArray) para uma consulta, ordenados por
     data (mais recente primeiro). Retorna lista de itens (pode ser vazia)."""
     itens = []
@@ -278,7 +278,9 @@ def coletar_do_dou():
     for consulta in CONSULTAS:
         print(f"\n> Busca: {consulta}")
         try:
-            itens = buscar_consulta(consulta)
+            # 3 páginas (60 resultados) bastam: a busca vem ordenada por data,
+            # então os recentes estão no topo — mantém a execução rápida.
+            itens = buscar_consulta(consulta, paginas=3)
         except Exception as e:
             print(f"   ! busca falhou: {e}")
             itens = []

@@ -65,6 +65,16 @@ Antes o coletor usava só a busca (que falhava com 502) ou só a edição diári
 atrasava no mesmo dia); com os dois juntos, a chance de pegar **no mesmo dia**
 aumenta bastante.
 
+**Automação — acordar com os dados já atualizados**
+
+Antes os horários cedo (02h/03h) rodavam **antes** do DOU sair e o próximo era só
+10h — sobrava um vão justo na hora de acordar. Agora o robô roda **a cada 30 min,
+das 00:00 às 10:00 de Brasília** (inclusive). Assim, quando o DOU sai de manhã, em
+pouco tempo um run já pega; e, como o GitHub costuma atrasar/pular agendados, a
+alta frequência compensa, deixando o painel atualizado antes de você acordar. A
+janela de varredura foi reduzida e a busca limitada às páginas recentes para cada
+execução ficar rápida e não empilhar.
+
 **Dados**
 - Base evoluiu conforme as publicações do DOU: Hibernon (TRE-SP, 08/06),
   Francisco/CE e Yves/SC (09/06), Marcos/DF (12/06) e as 3 de TI do TRE-MG de
