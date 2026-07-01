@@ -1,7 +1,35 @@
 {
-  "atualizado_em": "2026-06-15T14:41:01.370030+00:00",
-  "total": 237,
+  "atualizado_em": "2026-07-01T14:42:29.145291+00:00",
+  "total": 239,
   "registros": [
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Felipe Luiz da Silva Brandão",
+      "classificacao": 8,
+      "data": "2026-07-01",
+      "data_br": "01/07/2026",
+      "portaria": "PORTARIA Nº 221",
+      "url": "https://www.jusbrasil.com.br/diarios/1416949857/dou-secao-2-01-07-2026-pg-109",
+      "fonte": "dou"
+    },
+    {
+      "uf": "ES",
+      "orgao": "Espírito Santo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Especialidade Programação de Sistemas",
+      "nome": "Bernardo Cruz Abreu Pereira",
+      "classificacao": 0,
+      "data": "2026-06-30",
+      "data_br": "30/06/2026",
+      "portaria": "ATO Nº 232",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-232-de-25-de-junho-de-2026-715479273",
+      "fonte": "dou"
+    },
     {
       "uf": "MG",
       "orgao": "Minas Gerais",
