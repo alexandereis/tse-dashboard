@@ -14,6 +14,24 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.13.0] — 2026-07-01
+
+**Coletor — fonte de reserva (Escavador) quando o DOU cai**
+- O in.gov.br oscilou (a busca dele deu erro e o índice do dia atrasou), e uma
+  nomeação (TRE-SP, 01/07) não foi capturada no mesmo dia. Para esses casos, o
+  coletor ganhou uma **3ª fase**: quando o in.gov.br não cobre uma data, ele
+  consulta o **Escavador** (que espelha o texto oficial do DOU e costuma ter o dia
+  antes do próprio in.gov.br). Só dispara para as datas não cobertas, varre a
+  Seção 2 de trás para frente (a Justiça Eleitoral fica no fim) e com pausas, para
+  ser gentil. O texto passa pelo mesmo parser de sempre.
+- **`rebuild_data.py`** agora regenera a base pela **união seed + base** (sem
+  duplicar; seed vence), com recuperação pelo seed se o arquivo corromper — assim
+  nunca mais perde um registro que o coletor já tinha pego.
+
+**Dados**
+- +Felipe Luiz da Silva Brandão (TRE-SP, PORTARIA 221, 01/07) e sincronização
+  seed=base — total **239** (90 Analistas + 149 Técnicos).
+
 ## [1.12.0] — 2026-06-15
 
 **Polimento visual (sem mudar a estrutura)**

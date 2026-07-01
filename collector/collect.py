@@ -11,6 +11,9 @@ Descobre as portarias por DOIS caminhos (e junta tudo, sem duplicar):
   FASE 2 — EDIÇÃO DIÁRIA (`leiturajornal`): um GET por dia, bem estável; serve de
            rede de segurança. O índice do dia às vezes demora a sair, por isso a
            fase 1 vem antes.
+  FASE 3 — ESCAVADOR (fallback grátis): só para as datas que o in.gov.br NÃO
+           cobriu. O Escavador espelha o texto oficial do DOU e costuma ter o dia
+           antes do próprio in.gov.br indexar — útil quando o DOU está fora/atrasado.
 
 Para cada portaria encontrada: confirma o órgão, baixa o texto, extrai os
 nomeados e mantém só os de TI (nome, classificação, cargo, especialidade).
@@ -42,6 +45,7 @@ ARQ_SEED = os.path.join(RAIZ, "seed", "seed.json")
 BASE_EDICAO = "https://www.in.gov.br/leiturajornal"
 BASE_BUSCA = "https://www.in.gov.br/consulta/-/buscar/dou"
 BASE_ARTIGO = "https://www.in.gov.br/web/dou/-/"
+BASE_ESCAVADOR = "https://www.escavador.com"
 
 SESSAO = requests.Session()
 SESSAO.headers.update({
@@ -269,10 +273,109 @@ def processar_portaria(item, dia=None):
 # ---------------------------------------------------------------------------
 # Fluxo principal
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# FASE 3 — ESCAVADOR (fallback grátis quando o in.gov.br está fora/atrasado)
+#   O Escavador espelha o texto oficial do DOU e costuma ter o dia antes do
+#   próprio in.gov.br indexar. Só é usado para as datas que o in.gov.br NÃO
+#   cobriu (evita peso desnecessário). A Justiça Eleitoral fica na parte final
+#   da Seção 2, então varremos as páginas de trás para frente, com pausas.
+# ---------------------------------------------------------------------------
+def escavador_indice():
+    """{data_iso: id} das edições recentes da Seção 2 do DOU no Escavador."""
+    try:
+        r = SESSAO.get(f"{BASE_ESCAVADOR}/diarios/DOU", timeout=45)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        print(f"   ! Escavador índice falhou: {e}")
+        return {}
+    idx = {}
+    for m in re.finditer(r"/diarios/(\d+)/DOU/secao-2/(\d{4}-\d{2}-\d{2})", r.text):
+        idx.setdefault(m.group(2), m.group(1))
+    return idx
+
+
+def _escav_total_paginas(html):
+    nums = [int(n) for n in re.findall(r"[?&]page=(\d+)", html)]
+    return max(nums) if nums else 1
+
+
+def _registros_pagina_escavador(texto, dia_iso, url):
+    """Divide o texto da página por órgão (nome do ORGAOS) e extrai os de TI."""
+    alvo = sem_acento(texto)
+    marcas = []
+    for sigla, info in ORGAOS.items():
+        nome = sem_acento(info["nome"])
+        i = alvo.find(nome)
+        while i >= 0:
+            marcas.append((i, sigla))
+            i = alvo.find(nome, i + len(nome))
+    if not marcas:
+        return []
+    marcas.sort()
+    data_br = f"{dia_iso[8:10]}/{dia_iso[5:7]}/{dia_iso[0:4]}"
+    out = []
+    for k, (pos, sigla) in enumerate(marcas):
+        fim = marcas[k + 1][0] if k + 1 < len(marcas) else len(texto)
+        trecho = texto[pos:fim]
+        mport = re.search(r"(PORTARIA|ATO)[^\n\d]{0,20}?(\d[\d.]*)", trecho, re.IGNORECASE)
+        rot = f"{mport.group(1).upper()} Nº {mport.group(2)}" if mport else "Portaria"
+        info = ORGAOS[sigla]
+        for nd in extrair_nomeados(trecho):
+            out.append({
+                "uf": sigla, "orgao": info["rotulo"], "cargo": nd["cargo"], "area": "TI",
+                "especialidade": nd["especialidade"] or "Tecnologia da Informação",
+                "nome": nd["nome"], "classificacao": nd["classificacao"],
+                "data": dia_iso, "data_br": data_br,
+                "portaria": rot, "url": url, "fonte": "escavador",
+            })
+    return out
+
+
+def escavador_dia(diario_id, dia_iso, limite_paginas=45):
+    """Varre a Seção 2 daquele dia no Escavador (de trás para frente) e extrai
+    os nomeados de TI. Gentil: pausa entre páginas e para ao passar do bloco."""
+    base = f"{BASE_ESCAVADOR}/diarios/{diario_id}/DOU/secao-2/{dia_iso}"
+    try:
+        r = SESSAO.get(base, timeout=45)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        print(f"   ! Escavador {dia_iso} falhou: {e}")
+        return []
+    total = _escav_total_paginas(r.text)
+    encontrados = {}
+    achou_je = False
+    apos = 0
+    lidas = 0
+    p = total
+    while p >= 1 and lidas < limite_paginas:
+        url = base + (f"?page={p}" if p > 1 else "")
+        try:
+            rp = SESSAO.get(url, timeout=45)
+            rp.raise_for_status()
+            texto = limpar_html(rp.text)
+        except requests.RequestException:
+            texto = ""
+        lidas += 1
+        alvo = sem_acento(texto)
+        if "eleitoral" in alvo and "nome" in alvo:
+            achou_je = True
+            apos = 0
+            for reg in _registros_pagina_escavador(texto, dia_iso, url):
+                encontrados[chave_registro(reg)] = reg
+        elif achou_je:
+            apos += 1
+            if apos >= 3:
+                break
+        time.sleep(1.2)
+        p -= 1
+    return list(encontrados.values())
+
+
 def coletar_do_dou():
     corte = (date.today() - timedelta(days=DIAS_RETROATIVOS)).isoformat()
     encontrados = {}
     vistas = set()
+    dias_com_dou = set()   # datas que o in.gov.br cobriu (não precisam do Escavador)
 
     # ---- FASE 1: BUSCA (pega o mesmo dia) --------------------------------
     for consulta in CONSULTAS:
@@ -309,6 +412,8 @@ def coletar_do_dou():
             dia -= timedelta(days=1)
             continue
         je = [a for a in ed if eh_nomeacao_je(a)]
+        if ed:
+            dias_com_dou.add(dia.isoformat())
         for item in je:
             ut = item.get("urlTitle", "")
             if not ut or ut in vistas:
@@ -320,6 +425,26 @@ def coletar_do_dou():
               f"{len(encontrados)} de TI até agora")
         time.sleep(2)
         dia -= timedelta(days=1)
+
+    # ---- FASE 3: ESCAVADOR (só para datas que o in.gov.br não cobriu) -----
+    try:
+        indice = escavador_indice()
+    except Exception as e:
+        print(f"   ! Escavador índice falhou: {e}")
+        indice = {}
+    for dia_iso in sorted(indice, reverse=True):
+        if dia_iso < corte or dia_iso in dias_com_dou:
+            continue
+        print(f"\n> Escavador (fallback) para {dia_iso}…")
+        try:
+            regs = escavador_dia(indice[dia_iso], dia_iso)
+        except Exception as e:
+            print(f"   ! Escavador {dia_iso} falhou: {e}")
+            regs = []
+        for reg in regs:
+            encontrados[chave_registro(reg)] = reg
+        print(f"   Escavador {dia_iso}: {len(regs)} de TI | total {len(encontrados)}")
+        time.sleep(2)
 
     return list(encontrados.values())
 
