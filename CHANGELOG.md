@@ -22,8 +22,10 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
   coletor ganhou uma **3ª fase**: quando o in.gov.br não cobre uma data, ele
   consulta o **Escavador** (que espelha o texto oficial do DOU e costuma ter o dia
   antes do próprio in.gov.br). Só dispara para as datas não cobertas, varre a
-  Seção 2 de trás para frente (a Justiça Eleitoral fica no fim) e com pausas, para
-  ser gentil. O texto passa pelo mesmo parser de sempre.
+  Seção 2 **de trás para frente com janela ampla** (a Justiça Eleitoral fica na
+  parte final, mas a posição varia com o tamanho da edição — em edições grandes,
+  de ~170 páginas, ela pode estar bem antes do fim), com parada antecipada e
+  pausas, para ser gentil. O texto passa pelo mesmo parser de sempre.
 - **`rebuild_data.py`** agora regenera a base pela **união seed + base** (sem
   duplicar; seed vence), com recuperação pelo seed se o arquivo corromper — assim
   nunca mais perde um registro que o coletor já tinha pego.

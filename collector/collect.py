@@ -331,9 +331,11 @@ def _registros_pagina_escavador(texto, dia_iso, url):
     return out
 
 
-def escavador_dia(diario_id, dia_iso, limite_paginas=45):
+def escavador_dia(diario_id, dia_iso, limite_paginas=130):
     """Varre a Seção 2 daquele dia no Escavador (de trás para frente) e extrai
-    os nomeados de TI. Gentil: pausa entre páginas e para ao passar do bloco."""
+    os nomeados de TI. A Justiça Eleitoral costuma ficar na parte final da seção
+    (mas a posição varia com o tamanho da edição), por isso a janela é ampla e há
+    parada antecipada assim que o bloco da JE termina. Gentil: pausa entre páginas."""
     base = f"{BASE_ESCAVADOR}/diarios/{diario_id}/DOU/secao-2/{dia_iso}"
     try:
         r = SESSAO.get(base, timeout=45)
@@ -432,9 +434,13 @@ def coletar_do_dou():
     except Exception as e:
         print(f"   ! Escavador índice falhou: {e}")
         indice = {}
+    escav_feitas = 0
     for dia_iso in sorted(indice, reverse=True):
         if dia_iso < corte or dia_iso in dias_com_dou:
             continue
+        if escav_feitas >= 3:      # no máximo 3 datas por execução (gentileza)
+            break
+        escav_feitas += 1
         print(f"\n> Escavador (fallback) para {dia_iso}…")
         try:
             regs = escavador_dia(indice[dia_iso], dia_iso)
