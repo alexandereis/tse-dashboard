@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-07-08T05:56:57.029942+00:00",
-  "total": 247,
+  "atualizado_em": "2026-07-16T08:19:32.231078+00:00",
+  "total": 248,
   "registros": [
+    {
+      "uf": "SC",
+      "orgao": "Santa Catarina",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Rafael de Moraes Costa",
+      "classificacao": 0,
+      "data": "2026-07-16",
+      "data_br": "16/07/2026",
+      "portaria": "PORTARIA Nº 98",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-p/tre-sc-n-98-de-15-de-julho-de-2026-719481753",
+      "fonte": "dou"
+    },
     {
       "uf": "RN",
       "orgao": "Rio Grande do Norte",
