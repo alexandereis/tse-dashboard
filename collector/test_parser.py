@@ -115,6 +115,21 @@ CASOS = {
     "Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, vago em "
     "decorrencia de posse de Marcelo Mascarenhas Ribeiro de Araujo.",
     ["Jheffrey Thulyo dos Santos", "Luciana Lorena Rodrigues"]),
+ "PA 25019 multi-art (romanos I-, Especialidade EM; so Art.3 e TI)": (
+    "Art. 1 NOMEAR as(os) candidatas(os) habilitadas(os) em Concurso Publico Nacional Unificado da "
+    "Justica Eleitoral, para exercerem o cargo de ANALISTA JUDICIARIO, AREA JUDICIARIA, NS, Classe A: "
+    "I - GIULIANA FIDELLES MARANHAO MARINHO, em vaga criada pela Lei 15.374/2026; "
+    "II - HADRIA DO SOCORRO PINTO CORREA, em vaga destinada a Pessoa Negra. "
+    "Art. 2 NOMEAR os candidatos habilitados, para exercer o cargo de ANALISTA JUDICIARIO, AREA "
+    "ADMINISTRATIVA, ESPECIALIDADE EM CONTABILIDADE, NS, Classe A: "
+    "I - JOHN LINCON DA SILVA NEVES, em vaga destinada a Pessoa Negra; e "
+    "II - CARLOS EDUARDO BANDEIRA DOS SANTOS, em vaga criada pela Lei. "
+    "Art. 3 NOMEAR os candidatos habilitados em Concurso Publico Nacional Unificado da Justica "
+    "Eleitoral, para exercer o cargo de TECNICO JUDICIARIO, AREA APOIO ESPECIALIZADO, ESPECIALIDADE "
+    "EM PROGRAMACAO DE SISTEMAS, NS, Classe A, Padrao 1: "
+    "I - MARCELO NASCIMENTO MOUTINHO em vaga criada pela Lei 15.374/2026; e "
+    "II - HEALLEY ARDASSE MONTEIRO, em vaga destinada a Pessoa Negra.",
+    ["Marcelo Nascimento Moutinho", "Healley Ardasse Monteiro"]),
 }
 
 def main():

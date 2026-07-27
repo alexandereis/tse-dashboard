@@ -14,6 +14,25 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.13.1] — 2026-07-27
+
+**Correção (parser) — portaria do TRE-PA escapava**
+As duas nomeações de TI de 24/07 (TRE-PA, PORTARIA 25.019) não entraram porque a
+portaria usa **dois padrões novos** ao mesmo tempo:
+
+- **"ESPECIALIDADE EM Programação de Sistemas"** — com a preposição "em", que os
+  padrões antigos não aceitavam (esperavam "Especialidade X" ou "Especialidade: X").
+- **Lista em algarismos romanos** — "I - FULANO, em vaga…; II - CICLANO, …".
+
+Agora o parser entende os dois. Como a portaria tem **três artigos com cargos
+diferentes** (Área Judiciária, Contabilidade e Programação de Sistemas), a regra de
+fronteira por cargo continua valendo: só entram os nomes que estão sob o artigo de
+TI — os demais são ignorados. Coberto por um novo teste de regressão (19 casos).
+
+**Dados**
+- +Marcelo Nascimento Moutinho e +Healley Ardasse Monteiro (TRE-PA, 24/07) e
+  sincronização seed=base — total **256** (96 Analistas + 160 Técnicos).
+
 ## [1.13.0] — 2026-07-01
 
 **Coletor — fonte de reserva (Escavador) quando o DOU cai**

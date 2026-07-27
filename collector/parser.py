@@ -117,6 +117,7 @@ def _trim_nome(bruto):
 
 def _limpar_esp(esp):
     esp = re.sub(r"\s+", " ", esp).strip()
+    esp = re.sub(r"^em\s+", "", esp, flags=re.IGNORECASE)   # "Especialidade EM X" -> "X"
     # corta sufixos que às vezes "colam" no fim da especialidade
     esp = re.sub(r"\s+(classe|padr[ãa]o|n[isí]|do quadro|para integrar|ordem|nome|origem).*$", "",
                  esp, flags=re.IGNORECASE).strip(" ,-–")
@@ -136,7 +137,7 @@ def _registro(nome, classif, cargo, esp):
 # Aceita tanto "Especialidade X" quanto "Apoio Especializado - X" (sem a palavra).
 _CARGOESP = (
     r"(analista|t[ée]cnico)\s+judici[áa]rio"
-    r"[\s\S]{0,60}?(?:especialidade[:\s\-–]+|apoio\s+especializado\s*[-–,]\s*)"
+    r"[\s\S]{0,60}?(?:especialidade\s*(?:em\s+)?[:\s\-–]+|apoio\s+especializado\s*[-–,]\s*)"
     r"([^,.;\n]{3,45})"
 )
 
@@ -231,13 +232,13 @@ def _extrair_caps(texto):
 # é aceito se esse bloco for de TI. Assim, nomes de uma seção Administrativa não
 # "vazam" para a especialidade de TI da seção anterior.
 _RE_CARGO_HEAD = re.compile(
-    r"cargo[s]?\s+de\s+(analista|t[ée]cnico)\s+judici[áa]rio([\s\S]{0,100})",
+    r"cargo[s]?\s+de\s+(analista|t[ée]cnico)\s+judici[áa]rio([\s\S]{0,160})",
     re.IGNORECASE,
 )
 
 
 def _esp_do_desc(desc):
-    m = re.search(r"especialidade[:\s\-–]+([^,.;\n]{3,45})", desc, re.IGNORECASE)
+    m = re.search(r"especialidade\s*(?:em\s+)?[:\s\-–]+([^,.;\n]{3,45})", desc, re.IGNORECASE)
     if not m:
         m = re.search(r"apoio\s+especializado\s*[-–,]\s*([^,.;\n]{3,45})", desc, re.IGNORECASE)
     return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
@@ -304,6 +305,26 @@ def _extrair_nomecargo(texto):
     return out
 
 
+# --- Família 6: lista com algarismos romanos — "I - FULANO, em vaga …" (TRE-PA)
+#     Usada em portarias com vários artigos, cada um com um cargo/especialidade.
+_RE_ROMANO = re.compile(
+    r"\b([IVXL]{1,5})\s*[-–]\s*([A-ZÀ-Ú][A-ZÀ-Ú'’.\- ]{5,60}?)\s*(?=,|\s+em\s+vaga)"
+)
+
+
+def _extrair_romano(texto):
+    blocos = _blocos_cargo(texto)
+    if not blocos:
+        return []
+    out = []
+    for m in _RE_ROMANO.finditer(texto):
+        b = _bloco_antes(blocos, m.start())
+        if not b or not b[2] or not _nome_valido(m.group(2)):
+            continue
+        out.append(_registro(m.group(2), 0, b[0], b[1] or "Tecnologia da Informação"))
+    return out
+
+
 # --- Formato B: blocos "Cargo de X ... Especialidade Y" + "Fulano, Nª colocação" (SP)
 _RE_B_NOME = re.compile(
     r"([A-ZÀ-Ú][A-Za-zÀ-úÇ'.\-]+(?:\s+[A-ZÀ-Úa-zà-ú][A-Za-zÀ-úÇ'.\-]+){1,5}),\s*"
@@ -331,7 +352,7 @@ def extrair_nomeados(texto):
     candidatos = (_extrair_a(texto) + _extrair_inline(texto) +
                   _extrair_direto(texto) + _extrair_caps(texto) +
                   _extrair_lista(texto) + _extrair_nomecargo(texto) +
-                  _extrair_b(texto))
+                  _extrair_romano(texto) + _extrair_b(texto))
     for r in candidatos:
         ch = sem_acento(r["nome"])
         if not ch or ch in vistos:
