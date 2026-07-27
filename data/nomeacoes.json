@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-07-20T06:21:30.747626+00:00",
-  "total": 253,
+  "atualizado_em": "2026-07-27T06:36:52.958462+00:00",
+  "total": 254,
   "registros": [
+    {
+      "uf": "TO",
+      "orgao": "Tocantins",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Especialidade Programação de Sistemas",
+      "nome": "Evair de Jesus Silva Cunha",
+      "classificacao": 0,
+      "data": "2026-07-27",
+      "data_br": "27/07/2026",
+      "portaria": "PORTARIA Nº 410",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-410-de-23-de-julho-de-2026-721370314",
+      "fonte": "dou"
+    },
     {
       "uf": "TO",
       "orgao": "Tocantins",
