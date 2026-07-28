@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-07-27T08:59:54.603784+00:00",
-  "total": 256,
+  "atualizado_em": "2026-07-28T05:50:21.633409+00:00",
+  "total": 257,
   "registros": [
+    {
+      "uf": "SE",
+      "orgao": "Sergipe",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Especialidade Programação de Sistemas",
+      "nome": "Ytallo Augusto Santos Lima",
+      "classificacao": 3,
+      "data": "2026-07-28",
+      "data_br": "28/07/2026",
+      "portaria": "PORTARIA Nº 504",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-504-de-23-de-julho-de-2026-721642819",
+      "fonte": "dou"
+    },
     {
       "uf": "TO",
       "orgao": "Tocantins",
