@@ -137,7 +137,7 @@ def _registro(nome, classif, cargo, esp):
 # Aceita tanto "Especialidade X" quanto "Apoio Especializado - X" (sem a palavra).
 _CARGOESP = (
     r"(analista|t[ée]cnico)\s+judici[áa]rio"
-    r"[\s\S]{0,60}?(?:especialidade\s*(?:em\s+)?[:\s\-–]+|apoio\s+especializado\s*[-–,]\s*)"
+    r"[\s\S]{0,120}?(?:especialidade\s*(?:em\s+)?[:\s\-–]+|apoio\s+especializado\s*[-–,]\s*(?!\s*especialidade))"
     r"([^,.;\n]{3,45})"
 )
 
@@ -240,7 +240,7 @@ _RE_CARGO_HEAD = re.compile(
 def _esp_do_desc(desc):
     m = re.search(r"especialidade\s*(?:em\s+)?[:\s\-–]+([^,.;\n]{3,45})", desc, re.IGNORECASE)
     if not m:
-        m = re.search(r"apoio\s+especializado\s*[-–,]\s*([^,.;\n]{3,45})", desc, re.IGNORECASE)
+        m = re.search(r"apoio\s+especializado\s*[-–,]\s*(?!\s*especialidade)([^,.;\n]{3,45})", desc, re.IGNORECASE)
     return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
 
 

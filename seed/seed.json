@@ -1,5 +1,33 @@
 [
   {
+    "uf": "SE",
+    "orgao": "Sergipe",
+    "cargo": "Técnico Judiciário",
+    "area": "TI",
+    "especialidade": "Especialidade Programação de Sistemas",
+    "nome": "Ytallo Augusto Santos Lima",
+    "classificacao": 3,
+    "data": "2026-07-28",
+    "data_br": "28/07/2026",
+    "portaria": "PORTARIA Nº 504",
+    "url": "https://www.in.gov.br/web/dou/-/portaria-n-504-de-23-de-julho-de-2026-721642819",
+    "fonte": "dou"
+  },
+  {
+    "uf": "SE",
+    "orgao": "Sergipe",
+    "cargo": "Analista Judiciário",
+    "area": "TI",
+    "especialidade": "Tecnologia da Informação",
+    "nome": "Victor Costa de Alemão Cisneiros",
+    "classificacao": 1,
+    "data": "2026-07-28",
+    "data_br": "28/07/2026",
+    "portaria": "PORTARIA Nº 512",
+    "url": "https://www.in.gov.br/web/dou/-/portaria-n-512-de-24-de-julho-de-2026-721657316",
+    "fonte": "dou"
+  },
+  {
     "uf": "TO",
     "orgao": "Tocantins",
     "cargo": "Técnico Judiciário",

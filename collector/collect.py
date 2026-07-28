@@ -215,13 +215,19 @@ def baixar_texto_portaria(url_title, tentativas=3):
 # ---------------------------------------------------------------------------
 # Filtro e transformação
 # ---------------------------------------------------------------------------
-def eh_nomeacao_je(item):
+def eh_ato_je(item):
+    """O ato é da Justiça Eleitoral?
+
+    ATENÇÃO: não dá para decidir aqui se é uma NOMEAÇÃO. O índice do dia entrega
+    apenas um trecho curto (~403 caracteres) de cada ato, e portarias com
+    preâmbulo longo (vários "CONSIDERANDO…") têm o "Art. 1º NOMEAR" fora desse
+    trecho. Filtrar por "nomear" no trecho fazia o coletor descartar nomeações
+    reais sem nem abrir a portaria. Por isso baixamos todos os atos da Justiça
+    Eleitoral e deixamos o parser decidir — ele só devolve nomeações de TI.
+    """
     hier = item.get("hierarchyStr", "") or ""
     title = item.get("title", "") or ""
-    if "eleitoral" not in sem_acento(hier + " " + title):
-        return False
-    blob = sem_acento(title + " " + limpar_html(item.get("content", "") or ""))
-    return "nome" in blob   # "nomear", "nomeia", "nomeação"…
+    return "eleitoral" in sem_acento(hier + " " + title)
 
 
 def processar_portaria(item, dia=None):
@@ -413,7 +419,7 @@ def coletar_do_dou():
             print(f"   {dia.isoformat()}: edição indisponível (pulando)")
             dia -= timedelta(days=1)
             continue
-        je = [a for a in ed if eh_nomeacao_je(a)]
+        je = [a for a in ed if eh_ato_je(a)]
         if ed:
             dias_com_dou.add(dia.isoformat())
         for item in je:
@@ -423,7 +429,7 @@ def coletar_do_dou():
             vistas.add(ut)
             for reg in processar_portaria(item, dia):
                 encontrados[chave_registro(reg)] = reg
-        print(f"   {dia.isoformat()}: {len(ed)} atos, {len(je)} nomeações JE, "
+        print(f"   {dia.isoformat()}: {len(ed)} atos, {len(je)} da Justiça Eleitoral, "
               f"{len(encontrados)} de TI até agora")
         time.sleep(2)
         dia -= timedelta(days=1)

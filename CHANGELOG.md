@@ -14,6 +14,33 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.14.0] — 2026-07-28
+
+**Correção importante (coletor) — portarias com preâmbulo longo eram descartadas**
+
+Uma nomeação de Analista de TI do TRE-SE (PORTARIA 512, 28/07) não apareceu. A
+causa não era o parser (ele lia a portaria corretamente), e sim o **filtro que
+decidia quais portarias valia a pena abrir**:
+
+- O índice diário do DOU entrega só um **trecho de ~403 caracteres** de cada ato.
+- O coletor exigia a palavra "nomear" nesse trecho para então baixar a portaria.
+- Portarias com **preâmbulo longo** (vários "CONSIDERANDO…") têm o "Art. 1º
+  NOMEAR" **fora** desse trecho — então eram descartadas **sem nem serem lidas**.
+
+Agora o coletor **abre todos os atos da Justiça Eleitoral** do dia e deixa o
+parser decidir (ele só devolve nomeações de TI). Isso vale para todos os órgãos —
+qualquer portaria com preâmbulo longo estava sujeita ao mesmo problema.
+
+**Também corrigido no parser**
+- **Especialidade limpa**: em "Área de Apoio Especializado, Especialidade X" vinha
+  *"Especialidade X"* (com a palavra colada e cortada); agora vem só *"X"*.
+- **Área longa**: textos como "Área de Apoio Especializado em Tecnologia da
+  Informação e Comunicação, Especialidade Y" não eram alcançados; agora são.
+
+**Dados**
+- +Victor Costa de Alemão Cisneiros (TRE-SE, PORTARIA 512, 28/07) — total **258**
+  (97 Analistas + 161 Técnicos). Testes de regressão: 22 casos.
+
 ## [1.13.1] — 2026-07-27
 
 **Correção (parser) — portaria do TRE-PA escapava**

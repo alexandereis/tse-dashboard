@@ -130,6 +130,25 @@ CASOS = {
     "I - MARCELO NASCIMENTO MOUTINHO em vaga criada pela Lei 15.374/2026; e "
     "II - HEALLEY ARDASSE MONTEIRO, em vaga destinada a Pessoa Negra.",
     ["Marcelo Nascimento Moutinho", "Healley Ardasse Monteiro"]),
+ "Especialidade limpa (Apoio Especializado, Especialidade X)": (
+    "NOMEAR o(a) candidato(a) JOAO TESTE DA SILVA, classificado(a) em 1 lugar, para ocupar o cargo "
+    "de Analista Judiciario, Area de Apoio Especializado, Especialidade Analise de Sistemas de "
+    "Informacao, Classe A.", ["Joao Teste da Silva"]),
+ "Area longa entre cargo e Especialidade": (
+    "NOMEAR o(a) candidato(a) MARIA TESTE SOUZA, classificado(a) em 1 lugar, para ocupar o cargo de "
+    "Analista Judiciario, Area de Apoio Especializado em Tecnologia da Informacao e Comunicacao, "
+    "Especialidade Analise de Sistemas de Informacao, Classe A, Padrao 1, do Quadro de Pessoal.",
+    ["Maria Teste Souza"]),
+ "SE 512 (preambulo longo + Apoio Especializado - Especialidade X)": (
+    "A PRESIDENTE DO TRIBUNAL REGIONAL ELEITORAL DE SERGIPE, no exercicio de suas atribuicoes, "
+    "CONSIDERANDO a Portaria TSE n 229, de 20 de maio de 2026, que autoriza o provimento dos cargos "
+    "efetivos criados pela Lei n 15.374; e CONSIDERANDO a Resolucao Normativa TRE/SE n 76, de 18 de "
+    "junho de 2026, que dispoe sobre a implementacao dos cargos efetivos, resolve: "
+    "Art. 1 NOMEAR o(a) candidato(a) VICTOR COSTA DE ALEMAO CISNEIROS, classificado(a) em 1 lugar no "
+    "Concurso Publico de Provas, destinado ao provimento das vagas deste Tribunal, para ocupar o cargo "
+    "de Analista Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, "
+    "Classe A, Padrao 1, do Quadro de Pessoal deste Tribunal.",
+    ["Victor Costa de Alemao Cisneiros"]),
 }
 
 def main():
