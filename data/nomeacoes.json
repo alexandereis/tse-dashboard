@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-08-03T06:29:46.162524+00:00",
-  "total": 264,
+  "atualizado_em": "2026-08-05T08:43:25.899209+00:00",
+  "total": 265,
   "registros": [
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Hallan Cosmo dos Santos",
+      "classificacao": 31,
+      "data": "2026-08-05",
+      "data_br": "05/08/2026",
+      "portaria": "PORTARIA Nº 234",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-234-de-27-de-julho-de-2026-723509349",
+      "fonte": "dou"
+    },
     {
       "uf": "GO",
       "orgao": "Goiás",
