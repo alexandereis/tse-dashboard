@@ -144,7 +144,7 @@ _CARGOESP = (
 
 # --- Formato A: "Nomear o candidato X, classificado em Nº lugar ... Especialidade: Y"
 _RE_A = re.compile(
-    r"nomear\s+(?:o|a)(?:\(a\))?\s+candidat[oa](?:\(a\))?\s+([A-ZÀ-Ú][^,]{3,70}?),\s*"
+    r"nomear\s+(?:o|a)(?:\(a\))?\s+candida[dt][oa](?:\(a\))?\s+([A-ZÀ-Ú][^,]{3,70}?),\s*"
     r"classificad[oa]\s+em\s+(\d+)\s*[ºn°o]?\s*lugar"
     r"(?:(?!\bnomear\b)[\s\S]){0,600}?cargo\s+(?:efetivo\s+)?de\s+"
     r"(Analista\s+Judici[áa]rio|T[ée]cnico\s+Judici[áa]rio)"
@@ -165,7 +165,7 @@ def _extrair_a(texto):
 # --- Famílias 1/2: inline com texto entre "Nomear" e o nome (AP, ES, MS, PB…)
 _RE_INLINE = re.compile(
     r"nomear(?:(?!\bnomear\b)[\s\S]){0,240}?\b(?:o|a)(?:\(a\))?\s+"
-    r"(?:sr\.?\s+|sra\.?\s+|candidat[oa](?:\(a\))?\s+)"
+    r"(?:sr\.?\s+|sra\.?\s+|candida[dt][oa](?:\(a\))?\s+)"
     r"([A-ZÀ-Ú][^,]{3,70}?)\s*,(?:(?!\bnomear\b)[\s\S]){0,280}?" + _CARGOESP,
     re.IGNORECASE,
 )

@@ -149,6 +149,14 @@ CASOS = {
     "de Analista Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, "
     "Classe A, Padrao 1, do Quadro de Pessoal deste Tribunal.",
     ["Victor Costa de Alemao Cisneiros"]),
+ "SE 535 (sub judice + typo do DOU: candidaDo(a))": (
+    "A PRESIDENTE DO TRIBUNAL REGIONAL ELEITORAL DE SERGIPE, CONSIDERANDO a Portaria TSE n 229; e "
+    "CONSIDERANDO a Resolucao Normativa TRE/SE n 76; CONSIDERANDO o Processo Judicial da 1a Vara "
+    "Federal, resolve: Art. 1 NOMEAR, na condicao de sub judice, o(a) candidado(a) JEIRLAN CORREIA "
+    "PALMEIRA, classificado(a) em 2 lugar na lista da ampla concorrencia no Concurso Publico de Provas "
+    "e Titulos, destinado ao provimento das vagas deste Tribunal, para ocupar o cargo de Analista "
+    "Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, Classe A, Padrao 1.",
+    ["Jeirlan Correia Palmeira"]),
 }
 
 def main():

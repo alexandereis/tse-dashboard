@@ -14,6 +14,23 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.14.1] — 2026-08-07
+
+**Correção (parser) — erro de digitação no próprio DOU**
+
+A nomeação de Analista de TI do TRE-SE (PORTARIA 535, 06/08) não entrou porque o
+texto publicado no Diário traz **"o(a) candida*d*o(a)"** — com **D** no lugar do
+**T**. Como o parser procurava exatamente "candidato/candidata", a portaria não
+casava com nenhum padrão e o nomeado sumia.
+
+Agora o parser aceita as duas grafias, então esse tipo de erro de digitação na
+fonte não faz mais a nomeação desaparecer. (A expressão "NOMEAR, **na condição de
+sub judice**, …", também presente nessa portaria, já era tratada corretamente.)
+
+**Dados**
+- +Jeirlan Correia Palmeira (TRE-SE, PORTARIA 535, 06/08) — total **266**
+  (101 Analistas + 165 Técnicos). Testes de regressão: 23 casos.
+
 ## [1.14.0] — 2026-07-28
 
 **Correção importante (coletor) — portarias com preâmbulo longo eram descartadas**
