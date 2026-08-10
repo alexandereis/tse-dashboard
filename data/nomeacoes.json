@@ -1,7 +1,35 @@
 {
-  "atualizado_em": "2026-08-07T08:49:08.555539+00:00",
-  "total": 266,
+  "atualizado_em": "2026-08-10T04:44:47.295597+00:00",
+  "total": 268,
   "registros": [
+    {
+      "uf": "MG",
+      "orgao": "Minas Gerais",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Janaina Maria Lisboa de Castro",
+      "classificacao": 5,
+      "data": "2026-08-10",
+      "data_br": "10/08/2026",
+      "portaria": "PORTARIA Nº 271",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-271-de-7-de-agosto-de-2026-724229277",
+      "fonte": "dou"
+    },
+    {
+      "uf": "MG",
+      "orgao": "Minas Gerais",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Breno Rafael Rocha",
+      "classificacao": 2,
+      "data": "2026-08-10",
+      "data_br": "10/08/2026",
+      "portaria": "PORTARIA Nº 271",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-271-de-7-de-agosto-de-2026-724229277",
+      "fonte": "dou"
+    },
     {
       "uf": "SE",
       "orgao": "Sergipe",
