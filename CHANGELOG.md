@@ -14,6 +14,29 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.15.0] — 2026-08-12
+
+**Duas correções a partir da PORTARIA 266 do TRE-PR (12/08)**
+
+**1) Nomeação registrada no estado errado (PR virava PA).** A identificação do
+órgão procurava o nome do tribunal dentro do texto e ficava com o primeiro que
+encontrasse — e "…Eleitoral do Pará" **está contido em** "…Eleitoral do Paraná".
+Resultado: nomeação do **Paraná** foi gravada como **Pará**. O mesmo valia para
+"…de Mato Grosso" dentro de "…de Mato Grosso do Sul" (MS viraria MT). Agora vale
+sempre o **nome mais longo** (o mais específico), e há um teste que confere os
+**28 órgãos**, um a um. Conferimos também o histórico: nenhum registro antigo
+tinha sido afetado.
+
+**2) Só 1 de 2 nomeados era capturado.** A portaria traz um único "NOMEAR" no
+caput e os nomeados em **alíneas** ("a) o candidato…; b) a candidata…"). O parser
+só alcançava o primeiro item. Agora cada alínea é lida separadamente, com o cargo
+e a especialidade do próprio item.
+
+**Dados**
+- Corrigido: José Henrique Dometerco (estava em PA) e adicionada Amanda Monteiro
+  Galvão — ambos **TRE-PR**, Analista de TI, PORTARIA 266.
+- Testes: 24 formatos de portaria + 10 casos de identificação de órgão.
+
 ## [1.14.1] — 2026-08-07
 
 **Correção (parser) — erro de digitação no próprio DOU**

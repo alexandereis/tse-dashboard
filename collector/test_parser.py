@@ -157,6 +157,16 @@ CASOS = {
     "e Titulos, destinado ao provimento das vagas deste Tribunal, para ocupar o cargo de Analista "
     "Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, Classe A, Padrao 1.",
     ["Jeirlan Correia Palmeira"]),
+ "PR 266 (alineas a) e b) - dois nomeados num NOMEAR so)": (
+    "Art. 1 NOMEAR, em virtude de habilitacao em Concurso Publico regido pelo Edital n. 01 - CPNUJE, "
+    "de 27 de maio de 2024: a) o candidato JOSE HENRIQUE DOMETERCO, classificado em 2 lugar no concurso "
+    "destinado ao provimento das vagas deste Tribunal, para ocupar o cargo de Analista Judiciario, Area "
+    "de Apoio Especializado - Tecnologia da Informacao, Classe A, Padrao 01, do Quadro de Pessoal deste "
+    "Tribunal, no cargo criado pela Lei n. 15.374, nunca provido. b) a candidata AMANDA MONTEIRO GALVAO, "
+    "classificada em 1 lugar (na lista prevista pelo item 5.2 do Edital n. 1/2024), no concurso destinado "
+    "ao provimento das vagas deste Tribunal, para ocupar o cargo de Analista Judiciario, Area de Apoio "
+    "Especializado - Tecnologia da Informacao, Classe A, Padrao 01, do Quadro de Pessoal.",
+    ["Jose Henrique Dometerco", "Amanda Monteiro Galvao"]),
 }
 
 def main():

@@ -41,12 +41,23 @@ def limpar_html(html):
 
 
 def identificar_orgao(*textos):
+    """Descobre de qual órgão é o texto.
+
+    Escolhe sempre o nome MAIS LONGO que aparecer, porque alguns nomes são
+    prefixo de outros e a comparação simples pegava o errado:
+      "…Eleitoral do Pará"  x  "…Eleitoral do Paraná"        (PA x PR)
+      "…de Mato Grosso"     x  "…de Mato Grosso do Sul"      (MT x MS)
+    """
     alvo = sem_acento(" ".join(t for t in textos if t))
+    achado, tamanho = None, -1
     for sigla, info in ORGAOS.items():
         if sigla == "TSE":
             continue
-        if sem_acento(info["nome"]) in alvo:
-            return sigla
+        nome = sem_acento(info["nome"])
+        if nome in alvo and len(nome) > tamanho:
+            achado, tamanho = sigla, len(nome)
+    if achado:
+        return achado
     if sem_acento(ORGAOS["TSE"]["nome"]) in alvo:
         return "TSE"
     return None
@@ -305,6 +316,28 @@ def _extrair_nomecargo(texto):
     return out
 
 
+# --- Família 7: lista em alíneas — "a) o candidato FULANO, … b) a candidata …" (TRE-PR)
+#     Um único "NOMEAR" no caput e vários itens; cada item traz o próprio cargo e
+#     especialidade. A janela do item não pode invadir a alínea seguinte.
+_RE_ALINEA = re.compile(
+    r"\b[a-z]\)\s*(?:o|a)(?:\(a\))?\s+"
+    r"(?:candida[dt][oa](?:\(a\))?|sr\.?|sra\.?)\s+"
+    r"([A-ZÀ-Ú][^,]{3,70}?)\s*,"
+    r"(?:(?!\b[a-z]\))[\s\S]){0,500}?" + _CARGOESP,
+    re.IGNORECASE,
+)
+
+
+def _extrair_alinea(texto):
+    out = []
+    for m in _RE_ALINEA.finditer(texto):
+        if not eh_ti(m.group(3)) or not _nome_valido(m.group(1)):
+            continue
+        out.append(_registro(m.group(1), _classif_perto(texto, m.start(1)),
+                              m.group(2), m.group(3)))
+    return out
+
+
 # --- Família 6: lista com algarismos romanos — "I - FULANO, em vaga …" (TRE-PA)
 #     Usada em portarias com vários artigos, cada um com um cargo/especialidade.
 _RE_ROMANO = re.compile(
@@ -352,7 +385,8 @@ def extrair_nomeados(texto):
     candidatos = (_extrair_a(texto) + _extrair_inline(texto) +
                   _extrair_direto(texto) + _extrair_caps(texto) +
                   _extrair_lista(texto) + _extrair_nomecargo(texto) +
-                  _extrair_romano(texto) + _extrair_b(texto))
+                  _extrair_romano(texto) + _extrair_alinea(texto) +
+                  _extrair_b(texto))
     for r in candidatos:
         ch = sem_acento(r["nome"])
         if not ch or ch in vistos:
