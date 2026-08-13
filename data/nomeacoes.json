@@ -1,7 +1,35 @@
 {
-  "atualizado_em": "2026-08-12T15:21:19.169790+00:00",
-  "total": 271,
+  "atualizado_em": "2026-08-13T06:22:59.174939+00:00",
+  "total": 273,
   "registros": [
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Gustavo Calcavara",
+      "classificacao": 11,
+      "data": "2026-08-13",
+      "data_br": "13/08/2026",
+      "portaria": "PORTARIA Nº 250",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-250-de-12-de-agosto-de-2026-725027436",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Claudete Aparecida Guedes",
+      "classificacao": 3,
+      "data": "2026-08-13",
+      "data_br": "13/08/2026",
+      "portaria": "PORTARIA Nº 250",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-250-de-12-de-agosto-de-2026-725027436",
+      "fonte": "dou"
+    },
     {
       "uf": "RS",
       "orgao": "Rio Grande do Sul",
