@@ -1,7 +1,21 @@
 {
-  "atualizado_em": "2026-08-13T06:22:59.174939+00:00",
-  "total": 273,
+  "atualizado_em": "2026-08-17T05:39:41.030512+00:00",
+  "total": 274,
   "registros": [
+    {
+      "uf": "MA",
+      "orgao": "Maranhão",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas:",
+      "nome": "Clebson Mendonça Machado da Silva",
+      "classificacao": 8,
+      "data": "2026-08-17",
+      "data_br": "17/08/2026",
+      "portaria": "ATO Nº 86",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-86-de-13-de-agosto-de-2026-725703500",
+      "fonte": "dou"
+    },
     {
       "uf": "SP",
       "orgao": "São Paulo",
