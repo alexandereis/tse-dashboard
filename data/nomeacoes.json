@@ -1,7 +1,35 @@
 {
-  "atualizado_em": "2026-08-19T06:51:37.708513+00:00",
-  "total": 290,
+  "atualizado_em": "2026-08-19T07:43:45.359951+00:00",
+  "total": 292,
   "registros": [
+    {
+      "uf": "CE",
+      "orgao": "Ceará",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Ticiano do Nascimento Diniz",
+      "classificacao": 4,
+      "data": "2026-08-19",
+      "data_br": "19/08/2026",
+      "portaria": "PORTARIA Nº 686",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-686-de-14-de-agosto-de-2026-726414215",
+      "fonte": "dou"
+    },
+    {
+      "uf": "CE",
+      "orgao": "Ceará",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Ronyerisson de Brito Sales",
+      "classificacao": 5,
+      "data": "2026-08-19",
+      "data_br": "19/08/2026",
+      "portaria": "PORTARIA Nº 687",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-687-de-14-de-agosto-de-2026-726408128",
+      "fonte": "dou"
+    },
     {
       "uf": "CE",
       "orgao": "Ceará",
