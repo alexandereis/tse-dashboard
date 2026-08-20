@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-08-20T06:54:44.084273+00:00",
-  "total": 297,
+  "atualizado_em": "2026-08-20T07:47:25.008323+00:00",
+  "total": 298,
   "registros": [
     {
       "uf": "BA",
@@ -70,6 +70,20 @@
       "data_br": "20/08/2026",
       "portaria": "PORTARIA Nº 1.399",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-1.399-de-14-de-agosto-de-2026-726678988",
+      "fonte": "dou"
+    },
+    {
+      "uf": "MS",
+      "orgao": "Mato Grosso do Sul",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Christiano Moreira Medeiros",
+      "classificacao": 3,
+      "data": "2026-08-20",
+      "data_br": "20/08/2026",
+      "portaria": "PORTARIA Nº 192",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-192-de-19-de-agosto-de-2026-726695403",
       "fonte": "dou"
     },
     {
