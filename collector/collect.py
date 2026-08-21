@@ -231,22 +231,36 @@ def eh_ato_je(item):
 
 
 def processar_portaria(item, dia=None):
+    """Devolve (registros, avaliado).
+
+    'avaliado' diz se o ato foi REALMENTE analisado — ou seja, se a portaria
+    abriu e deu para ler o texto inteiro. Só um ato avaliado pode ser marcado
+    como "já visto"; se o download falhou, ele precisa continuar disponível para
+    as fases seguintes e para a próxima execução (senão a nomeação some).
+    """
     titulo = item.get("title", "") or ""
     hierarquia = item.get("hierarchyStr", "") or ""
     url_title = item.get("urlTitle", "") or ""
     snippet = limpar_html(item.get("content", "") or "")
 
     sigla = identificar_orgao(hierarquia, titulo, snippet)
-    if not sigla:
-        return []
 
-    texto, url = baixar_texto_portaria(url_title) if url_title else (snippet, "")
+    texto, url = baixar_texto_portaria(url_title) if url_title else ("", "")
+    avaliado = bool(texto)          # conseguimos o texto integral da portaria?
     if not texto:
         texto = snippet
 
+    if not sigla:
+        # O resumo que a BUSCA devolve é recortado em volta do termo procurado e
+        # muitas vezes não traz o nome do tribunal; o texto completo sempre traz
+        # (fica no preâmbulo, "…PRESIDENTE DO TRIBUNAL REGIONAL ELEITORAL DE …").
+        sigla = identificar_orgao(texto)
+    if not sigla:
+        return [], avaliado
+
     nomeados = extrair_nomeados(texto)
     if not nomeados:
-        return []
+        return [], avaliado
 
     mport = re.search(r"(PORTARIA|ATO)[^\d]*(\d[\d.]*)", titulo, re.IGNORECASE)
     rotulo_portaria = (f"{mport.group(1).upper()} Nº {mport.group(2)}"
@@ -273,7 +287,7 @@ def processar_portaria(item, dia=None):
             "data": data, "data_br": data_br,
             "portaria": rotulo_portaria, "url": url, "fonte": "dou",
         })
-    return registros
+    return registros, avaliado
 
 
 # ---------------------------------------------------------------------------
@@ -404,9 +418,13 @@ def coletar_do_dou():
             ut = item.get("urlTitle", "")
             if not ut or ut in vistas:
                 continue
-            vistas.add(ut)
-            for reg in processar_portaria(item):
+            regs, avaliado = processar_portaria(item)
+            for reg in regs:
                 encontrados[chave_registro(reg)] = reg
+            # Só marca como visto o que foi realmente avaliado: se a portaria não
+            # abriu, a fase 2 (edição diária) ainda tem uma chance de pegá-la.
+            if avaliado or regs:
+                vistas.add(ut)
         print(f"   busca: {len(itens)} itens, {recentes} na janela, "
               f"{len(encontrados)} de TI até agora")
         time.sleep(3)
@@ -426,9 +444,11 @@ def coletar_do_dou():
             ut = item.get("urlTitle", "")
             if not ut or ut in vistas:
                 continue
-            vistas.add(ut)
-            for reg in processar_portaria(item, dia):
+            regs, avaliado = processar_portaria(item, dia)
+            for reg in regs:
                 encontrados[chave_registro(reg)] = reg
+            if avaliado or regs:
+                vistas.add(ut)
         print(f"   {dia.isoformat()}: {len(ed)} atos, {len(je)} da Justiça Eleitoral, "
               f"{len(encontrados)} de TI até agora")
         time.sleep(2)

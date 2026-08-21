@@ -40,6 +40,24 @@ def limpar_html(html):
     return texto.strip()
 
 
+# Preposições que o DOU troca à vontade: a hierarquia publicada pelo próprio
+# Diário diz "Tribunal Regional Eleitoral DO Mato Grosso do Sul", enquanto o nome
+# oficial (e o do config) é "…DE Mato Grosso do Sul". Comparar ignorando essas
+# palavrinhas deixa a identificação imune à variação, em qualquer um dos 28 órgãos.
+_PREPOSICOES = {"de", "do", "da", "dos", "das"}
+
+
+def _canon(texto):
+    """Forma canônica para comparar nome de órgão: sem acento, sem pontuação,
+    sem preposições e com um espaço em cada ponta.
+
+    Os espaços das pontas fazem a comparação valer por PALAVRA INTEIRA — sem
+    isso, "…Eleitoral do Pará" casava dentro de "…Eleitoral do Paraíba".
+    """
+    limpo = re.sub(r"[^a-z0-9]+", " ", sem_acento(texto))
+    return " " + " ".join(t for t in limpo.split() if t not in _PREPOSICOES) + " "
+
+
 def identificar_orgao(*textos):
     """Descobre de qual órgão é o texto.
 
@@ -47,18 +65,21 @@ def identificar_orgao(*textos):
     prefixo de outros e a comparação simples pegava o errado:
       "…Eleitoral do Pará"  x  "…Eleitoral do Paraná"        (PA x PR)
       "…de Mato Grosso"     x  "…de Mato Grosso do Sul"      (MT x MS)
+
+    A comparação usa a forma canônica (veja `_canon`): vale por palavra inteira
+    e não se importa com a preposição que o DOU resolveu usar no dia.
     """
-    alvo = sem_acento(" ".join(t for t in textos if t))
+    alvo = _canon(" ".join(t for t in textos if t))
     achado, tamanho = None, -1
     for sigla, info in ORGAOS.items():
         if sigla == "TSE":
             continue
-        nome = sem_acento(info["nome"])
+        nome = _canon(info["nome"])
         if nome in alvo and len(nome) > tamanho:
             achado, tamanho = sigla, len(nome)
     if achado:
         return achado
-    if sem_acento(ORGAOS["TSE"]["nome"]) in alvo:
+    if _canon(ORGAOS["TSE"]["nome"]) in alvo:
         return "TSE"
     return None
 

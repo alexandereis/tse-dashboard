@@ -14,6 +14,45 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.15.1] — 2026-08-21
+
+**Correção — as nomeações do TRE-MS de 20/08 não apareciam**
+
+A PORTARIA 196 do **TRE-MS** (publicada em 20/08/2026) nomeou **duas Técnicas
+Judiciárias de TI** e nenhuma das duas entrou no painel. Foram **duas falhas em
+sequência**, e as duas foram corrigidas:
+
+**1) O DOU escreve o nome do TRE-MS de um jeito e o painel esperava outro.**
+Na hierarquia do Diário o tribunal aparece como "Tribunal Regional Eleitoral
+**do** Mato Grosso do Sul"; o nome oficial (o que o painel usava) é "…**de** Mato
+Grosso do Sul". Por causa de uma única preposição, o coletor não reconhecia o
+órgão. Agora a comparação ignora as preposições (de/do/da/dos/das) e passa a
+valer para os 28 órgãos — há teste que troca a preposição de cada um dos 27 TREs
+e confere se todos continuam se identificando.
+
+De quebra, a comparação agora vale por **palavra inteira**, o que fecha um erro
+irmão do que foi corrigido na 1.15.0: "…Eleitoral do **Pará**" casava dentro de
+"…Eleitoral do **Paraíba**" (PB viraria PA).
+
+**2) Uma portaria que falhava numa etapa nunca era tentada de novo.** O coletor
+procura as portarias por dois caminhos (a busca do DOU e a edição do dia). O
+resumo que a **busca** devolve é recortado em volta do termo procurado e quase
+nunca traz o nome do tribunal — mesmo assim a portaria já era marcada como "já
+vista", e a etapa seguinte, que teria dado certo, a pulava. Agora: (a) quando o
+resumo não identifica o órgão, o coletor **abre a portaria inteira** e tenta de
+novo (o nome do tribunal está sempre no preâmbulo); e (b) só é marcado como
+"visto" o ato **realmente avaliado** — se o download falhar, ele continua na fila
+para as etapas e execuções seguintes.
+
+**Dados**
+- +Larissa Ribeiro Lopes e +Raissa Rinaldi Yoshioka — **TRE-MS**, Técnico
+  Judiciário (Programação de Sistemas), PORTARIA 196, 20/08/2026. Total **305**
+  (121 Analistas + 184 Técnicos), em 28 órgãos.
+- Auditoria de todo o histórico da busca do DOU: nenhuma outra nomeação havia
+  sido perdida por esse motivo.
+- Testes: 24 formatos de portaria, 12 casos de identificação de órgão + a
+  varredura de preposições, e 2 casos novos do coletor (`test_coletor.py`).
+
 ## [1.15.0] — 2026-08-12
 
 **Duas correções a partir da PORTARIA 266 do TRE-PR (12/08)**

@@ -13,6 +13,11 @@ CASOS = [
     ("Poder Judiciário/Tribunal Regional Eleitoral do Paraná", "PR"),
     ("Poder Judiciário/Tribunal Regional Eleitoral do Pará", "PA"),
     ("Tribunal Regional Eleitoral de Mato Grosso do Sul", "MS"),
+    # Como o DOU realmente escreve na hierarquia do TRE-MS: "DO Mato Grosso do
+    # Sul" (o nome oficial é "DE Mato Grosso do Sul"). Essa troca de preposição
+    # fez as nomeações de 20/08/2026 (PORTARIA 196) sumirem do painel.
+    ("Poder Judiciário/Tribunal Regional Eleitoral do Mato Grosso do Sul", "MS"),
+    ("Poder Judiciário/Tribunal Regional Eleitoral do Mato Grosso", "MT"),
     ("Tribunal Regional Eleitoral de Mato Grosso", "MT"),
     ("Tribunal Regional Eleitoral do Rio Grande do Norte", "RN"),
     ("Tribunal Regional Eleitoral do Rio Grande do Sul", "RS"),
@@ -34,6 +39,24 @@ def _todos_os_orgaos():
     return erros
 
 
+def _variantes_de_preposicao():
+    """O DOU troca a preposição depois de "Eleitoral" sem aviso (de/do/da).
+    Cada órgão tem de continuar se identificando em todas as variantes."""
+    import re
+    from config import ORGAOS
+    erros = []
+    for sigla, info in ORGAOS.items():
+        if sigla == "TSE":
+            continue
+        for prep in ("de", "do", "da"):
+            variante = re.sub(r"(?i)^(Tribunal Regional Eleitoral)\s+(?:de|do|da)\s+",
+                              rf"\1 {prep} ", info["nome"])
+            got = identificar_orgao("Poder Judiciário/" + variante)
+            if got != sigla:
+                erros.append(f"{variante} -> {got} (esperado {sigla})")
+    return erros
+
+
 def main():
     ok = True
     for texto, esperado in CASOS:
@@ -48,6 +71,12 @@ def main():
         print(f"[FALHA] varredura dos 28 órgãos: {', '.join(erros)}")
     else:
         print("[OK  ] os 28 órgãos se identificam corretamente")
+    erros = _variantes_de_preposicao()
+    if erros:
+        ok = False
+        print(f"[FALHA] variantes de preposição: {'; '.join(erros)}")
+    else:
+        print("[OK  ] os 27 TREs resistem à troca de preposição (de/do/da)")
     print("\n==> ÓRGÃOS OK" if ok else "\n==> HA FALHAS")
     return 0 if ok else 1
 
