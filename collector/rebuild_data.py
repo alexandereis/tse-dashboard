@@ -14,12 +14,17 @@ Uso:  python collector/rebuild_data.py
 import json
 import os
 import re
+import sys
 import unicodedata
 from datetime import datetime, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import anulacoes as anul
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ_DADOS = os.path.join(RAIZ, "data", "nomeacoes.json")
 ARQ_SEED = os.path.join(RAIZ, "seed", "seed.json")
+ARQ_ANULACOES = os.path.join(RAIZ, "data", "anulacoes.json")
 
 
 def sem_acento(t):
@@ -69,6 +74,11 @@ def main():
     regs = sorted(base.values(),
                   key=lambda r: (r.get("data", ""), r.get("nome", "")),
                   reverse=True)
+
+    # As nomeações tornadas sem efeito saem SEMPRE, por último: o seed e o
+    # histórico as trariam de volta a cada regeneração (veja anulacoes.py).
+    regs, removidos = anul.aplicar_anulacoes(regs, anul.carregar(ARQ_ANULACOES))
+
     saida = {
         "atualizado_em": datetime.now(timezone.utc).isoformat(),
         "total": len(regs), "registros": regs,
@@ -77,7 +87,8 @@ def main():
     with open(ARQ_DADOS, "w", encoding="utf-8") as f:
         json.dump(saida, f, ensure_ascii=False, indent=2)
     print(f"data/nomeacoes.json regenerado: {len(regs)} registros "
-          f"(seed {len(seed)} + {add} vindos da base/coletor).")
+          f"(seed {len(seed)} + {add} vindos da base/coletor "
+          f"- {len(removidos)} com nomeação tornada sem efeito).")
 
 
 if __name__ == "__main__":

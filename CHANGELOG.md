@@ -14,6 +14,68 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.16.0] — 2026-08-31
+
+**Nomeação tornada sem efeito agora sai do painel**
+
+Até aqui o coletor só sabia **somar**. Quando um tribunal desfazia uma nomeação
+— o candidato não tomou posse no prazo, desistiu, ou a portaria saiu com erro —
+ele publicava um ato novo ("**Tornar sem efeito** a Portaria nº 504 … referente à
+nomeação do candidato FULANO"), e o painel simplesmente **ignorava**. A pessoa
+continuava aparecendo como convocada, para sempre.
+
+O problema apareceu em 31/08/2026, quando o **TRE-SE** tornou sem efeito a
+nomeação de um Técnico Judiciário de Programação de Sistemas publicada em
+28/07/2026. Ao investigar, varremos **todas as edições da Seção 2 do DOU desde
+junho de 2025** (326 dias, 4.352 atos da Justiça Eleitoral) e encontramos **83
+nomeações tornadas sem efeito** — **26 delas estavam no painel indevidamente**,
+algumas havia mais de um ano.
+
+**O que mudou:**
+
+- O coletor agora lê os atos de anulação ("tornar sem efeito", "tornar
+  insubsistente", "revogar/anular a nomeação de…") e os separa por **artigo** —
+  o TRE-MG publica portarias que anulam umas nomeações e fazem outras nos
+  artigos alternados da mesma peça, e os dois grupos não podem se misturar.
+- As anulações ficam num arquivo próprio e permanente, **`data/anulacoes.json`**.
+  Apagar o registro do `nomeacoes.json` não bastaria: o seed e o histórico o
+  trariam de volta na execução seguinte, porque a portaria que anulou já teria
+  saído da janela dos últimos dias que o robô varre.
+- **Exoneração não é anulação.** Quem foi exonerado tomou posse e depois saiu —
+  a convocação aconteceu de verdade e continua no painel como histórico.
+
+**Cuidado para não apagar quem não devia:** uma nomeação só sai se for do
+**mesmo tribunal**, com data **anterior** ao ato, e — quando o ato cita a
+portaria desfeita — apenas a daquela portaria. Isso não é teoria: o TRE-MG
+anulou a nomeação de **Técnico** de um candidato que também tinha sido nomeado
+**Analista** dias antes; sem a regra da portaria, o painel teria perdido a
+nomeação válida dele. O mesmo vale para quem é nomeado de novo depois da
+anulação: a nomeação nova permanece.
+
+**Três outros erros apareceram na mesma varredura e foram corrigidos:**
+
+- **Função comissionada não é convocação.** Quando um servidor que já é do
+  quadro assume uma Função Comissionada (FC-03) ou Cargo em Comissão (CJ-2), o
+  DOU escreve igualzinho a uma nomeação de concurso — "Nomear FULANO, Analista
+  Judiciário, Apoio Especializado - Análise de Sistemas…". O TRE-MG publica
+  esses atos toda semana, e o painel os teria tratado como gente nova sendo
+  chamada.
+- **Cabeçalho de lista do TRE-SP.** O TRE-SP abre cada bloco da lista com
+  "Analista Judiciário - Área Administrativa, Classe A, Padrão 1:". O painel não
+  reconhecia esse formato de cabeçalho, e os nomes da seção **Administrativa**
+  herdavam a especialidade de TI citada antes, no artigo anterior.
+- **"I -" não faz parte do nome.** Numa lista numerada ("I - DIEGO AQUINO DE
+  SOUSA"), o marcador do item entrava colado no nome.
+
+Também acertamos a grafia de **dois nomes** que estavam diferentes do texto
+oficial do DOU. Não é só estética: um deles ("Brandãoo", com dois "o") impedia o
+painel de reconhecer que aquela nomeação tinha sido tornada sem efeito pelo
+TRE-SP em janeiro.
+
+Total do painel: de 311 para **285** nomeações de TI.
+
+---
+
 ## [1.15.1] — 2026-08-21
 
 **Correção — as nomeações do TRE-MS de 20/08 não apareciam**

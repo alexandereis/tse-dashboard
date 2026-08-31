@@ -133,9 +133,16 @@ def _nome_valido(s):
     return cap >= 2
 
 
+# Marcador de item de lista colado no nome: "I - DIEGO AQUINO…" (TRE-AM),
+# "1. FULANO", "a) FULANO". Só conta como marcador quando vem com o separador —
+# um "I" solto não é descartado, para não mutilar nome de gente de verdade.
+_RE_MARCADOR_ITEM = re.compile(r"^\s*(?:[IVXL]{1,5}|\d{1,3}[ºo°ª]?|[A-Za-z])\s*[-–.)]\s+")
+
+
 def _trim_nome(bruto):
     """Remove palavras "coladas" no começo/fim que não fazem parte do nome
-    (ex.: 'respectivamente JONATHAN…' ou 'e FELIPE…')."""
+    (ex.: 'respectivamente JONATHAN…', 'e FELIPE…' ou o 'I -' de um item)."""
+    bruto = _RE_MARCADOR_ITEM.sub("", bruto or "")
     tokens = re.sub(r"\s+", " ", bruto).strip().split()
     def descartavel(t):
         return (t.islower() or sem_acento(t) in _CONECTIVOS
@@ -276,12 +283,28 @@ def _esp_do_desc(desc):
     return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
 
 
+# O TRE-SP não escreve "cargo de …": abre a lista com o cargo em cabeçalho
+# terminado em dois-pontos — "Analista Judiciário - Área Administrativa, Classe A,
+# Padrão 1:" — e embaixo os nomes com a colocação. Sem reconhecer esse cabeçalho,
+# os nomes de uma seção Administrativa herdavam o bloco de TI citado antes (num
+# artigo que só tornava sem efeito outra nomeação) e entravam no painel.
+# O "Classe/Padrão" obrigatório é o que distingue o cabeçalho de uma menção
+# corrida como "Técnico Judiciário - Área: Apoio Especializado…".
+_RE_CARGO_HEAD_LISTA = re.compile(
+    r"(analista|t[ée]cnico)\s+judici[áa]rio\s*[-–,]\s*"
+    r"([^:\n]{0,150}?(?:classe|padr[ãa]o)[^:\n]{0,25}?):",
+    re.IGNORECASE,
+)
+
+
 def _blocos_cargo(texto):
     """Lista de (posição, cargo, especialidade, eh_ti) para cada cabeçalho de cargo."""
     out = []
-    for m in _RE_CARGO_HEAD.finditer(texto):
-        desc = m.group(2)
-        out.append((m.start(), _cargo_norm(m.group(1)), _esp_do_desc(desc), eh_ti(desc)))
+    for regex in (_RE_CARGO_HEAD, _RE_CARGO_HEAD_LISTA):
+        for m in regex.finditer(texto):
+            desc = m.group(2)
+            out.append((m.start(), _cargo_norm(m.group(1)), _esp_do_desc(desc), eh_ti(desc)))
+    out.sort()
     return out
 
 
@@ -399,10 +422,116 @@ def _extrair_b(texto):
     return out
 
 
-def extrair_nomeados(texto):
-    """Junta todos os formatos, sem duplicar (por nome sem acento)."""
+# ---------------------------------------------------------------------------
+# ANULAÇÕES — atos que TORNAM SEM EFEITO uma nomeação já publicada
+# ---------------------------------------------------------------------------
+# O tribunal às vezes desfaz uma nomeação (o candidato não tomou posse no prazo,
+# desistiu, ou a portaria saiu com erro). Isso vem num ato próprio, dias ou meses
+# depois: "Tornar sem efeito a Portaria nº 504 … referente à nomeação do candidato
+# FULANO". Sem ler esses atos, o painel segue mostrando como convocado alguém
+# cuja nomeação não existe mais.
+#
+# ATENÇÃO: exoneração NÃO é anulação. Quem foi exonerado tomou posse e depois
+# saiu — a convocação aconteceu de verdade e continua valendo como histórico.
+_RE_ART = re.compile(r"\bart(?:igo)?\.?\s*\d+\s*[ºo°]?", re.IGNORECASE)
+
+_RE_ANUL_GATILHO = re.compile(
+    r"\b(?:tornar|tornad[oa]|declarar|declarad[oa]|considerar)\s+"
+    r"(?:sem\s+efeito|insubsistente|nul[ao])\b"
+    r"|\brevogar\b|\brevogad[oa]\b|\banular\b|\banulad[oa]\b",
+    re.IGNORECASE,
+)
+
+# O nome de quem teve a nomeação desfeita, nas formas em que os tribunais
+# escrevem: "…referente à nomeação do candidato X", "…que nomeou o(a) X",
+# "…tornar sem efeito a nomeação de X".
+_RE_ANUL_NOME = re.compile(
+    r"(?:nomea[çc][ãa]o\s+d[oea]s?\s*|nomeou\s+(?:[oa](?:\(a\))?\s+)?)"
+    r"(?:candida[dt][oa](?:\(a\))?\s+|sr\.?\s+|sra\.?\s+|servidor(?:a)?\s+)?"
+    r"([A-ZÀ-Ú][^,.;\n]{3,70}?)"
+    r"\s*(?=,|\.|;|\s+para\b|\s+no\s+cargo\b|\s+do\s+cargo\b|\s+classificad)",
+    re.IGNORECASE,
+)
+
+# Número da portaria desfeita ("Tornar sem efeito a Portaria … nº 504, de …").
+_RE_ANUL_PORTARIA = re.compile(r"(?:portaria|ato)[^\d\n]{0,40}?(\d[\d.]*)", re.IGNORECASE)
+
+
+def _trechos_por_artigo(texto):
+    """Divide a portaria em trechos "Art. 1º…", "Art. 2º…".
+
+    Sem isso, um ato que no Art. 1º torna sem efeito uma nomeação e no Art. 2º
+    nomeia outra pessoa misturaria os dois — e o coletor apagaria o nome errado.
+    """
+    pos = [m.start() for m in _RE_ART.finditer(texto)]
+    if not pos:
+        return [texto]
+    trechos = [texto[:pos[0]]] if pos[0] > 0 else []
+    for i, p in enumerate(pos):
+        fim = pos[i + 1] if i + 1 < len(pos) else len(texto)
+        trechos.append(texto[p:fim])
+    return trechos
+
+
+def extrair_anulacoes(texto):
+    """Nomes cuja NOMEAÇÃO foi tornada sem efeito por este ato.
+
+    Devolve [{"nome", "portaria"}] — 'portaria' é a que foi desfeita, quando o
+    ato a cita. Só valem trechos que falem de NOMEAÇÃO: "tornar sem efeito"
+    também é usado para designação, cessão e outros atos que não interessam aqui.
+    """
     out = []
     vistos = set()
+    for trecho in _trechos_por_artigo(texto):
+        if not _RE_ANUL_GATILHO.search(trecho):
+            continue
+        mport = _RE_ANUL_PORTARIA.search(trecho)
+        portaria = mport.group(1) if mport else ""
+        for m in _RE_ANUL_NOME.finditer(trecho):
+            if not _nome_valido(m.group(1)):
+                continue
+            nome = formatar_nome(_trim_nome(m.group(1)))
+            ch = sem_acento(nome)
+            if not ch or ch in vistos:
+                continue
+            vistos.add(ch)
+            out.append({"nome": nome, "portaria": portaria})
+    return out
+
+
+# Um servidor que JÁ é do quadro também é "nomeado" — para uma Função
+# Comissionada (FC-03) ou Cargo em Comissão (CJ-2). O DOU escreve isso igualzinho
+# a uma convocação ("Nomear FULANO, Analista Judiciário, Apoio Especializado -
+# Análise de Sistemas…"), e o TRE-MG publica esses atos toda semana. Não é
+# convocação do concurso: quem entra no painel é só quem foi chamado para tomar
+# posse num cargo efetivo.
+_RE_COMISSAO = re.compile(
+    r"fun[çc][ãa]o\s+comissionada|cargo\s+em\s+comiss[ãa]o|\bFC-?\s*\d|\bCJ-?\s*\d",
+    re.IGNORECASE,
+)
+
+
+def _trechos_de_provimento(texto):
+    """Os trechos do ato que podem conter convocação — os de função/cargo em
+    comissão ficam de fora. A divisão é por artigo, porque o mesmo ato mistura
+    os dois assuntos (Art. 1º dispensa da FC-03, Art. 3º nomeia para o CJ-2)."""
+    return [t for t in _trechos_por_artigo(texto) if not _RE_COMISSAO.search(t)]
+
+
+def extrair_nomeados(texto):
+    """Junta todos os formatos, sem duplicar (por nome sem acento).
+
+    Fora do painel: quem aparece como nomeação DESFEITA no mesmo ato (há
+    portarias que tornam sem efeito uma nomeação e citam o cargo/especialidade
+    logo em seguida) e quem está sendo nomeado para função ou cargo em comissão,
+    que não é convocação do concurso.
+    """
+    out = []
+    vistos = set()
+    anulados = {sem_acento(a["nome"]) for a in extrair_anulacoes(texto)}
+    # Junta com quebra de linha, não com espaço: assim um artigo descartado não
+    # gruda o fim de um no começo do outro e cria um casamento que não existe.
+    texto = "\n".join(_trechos_de_provimento(texto))
     candidatos = (_extrair_a(texto) + _extrair_inline(texto) +
                   _extrair_direto(texto) + _extrair_caps(texto) +
                   _extrair_lista(texto) + _extrair_nomecargo(texto) +
@@ -410,7 +539,7 @@ def extrair_nomeados(texto):
                   _extrair_b(texto))
     for r in candidatos:
         ch = sem_acento(r["nome"])
-        if not ch or ch in vistos:
+        if not ch or ch in vistos or ch in anulados:
             continue
         vistos.add(ch)
         out.append(r)

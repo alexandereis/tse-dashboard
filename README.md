@@ -48,6 +48,11 @@ As nomeações são publicadas oficialmente no **Diário Oficial da União**. O 
 busca essas publicações e as organiza automaticamente, várias vezes ao dia. Quando
 sai uma nomeação nova, o painel se atualiza sozinho.
 
+Quando um tribunal **torna sem efeito** uma nomeação (o candidato não tomou posse,
+desistiu, ou a portaria saiu com erro), o painel também acompanha: o nome sai da
+lista. Já uma **exoneração** não tira ninguém — quem foi exonerado tomou posse e
+depois saiu, então a convocação aconteceu de verdade e continua no histórico.
+
 ## ⚖️ Aviso
 
 Painel **independente**, feito por concurseiro para concurseiro, **sem vínculo

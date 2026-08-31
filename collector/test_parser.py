@@ -157,6 +157,41 @@ CASOS = {
     "e Titulos, destinado ao provimento das vagas deste Tribunal, para ocupar o cargo de Analista "
     "Judiciario, Area Apoio Especializado - Especialidade Tecnologia da Informacao, Classe A, Padrao 1.",
     ["Jeirlan Correia Palmeira"]),
+ "AM 1.090 (item numerado: o 'I -' nao faz parte do nome)": (
+    "Art. 1. NOMEAR, em carater efetivo, no cargo de Tecnico Judiciario, Apoio Especializado, "
+    "Programacao de Sistemas, classe A, padrao 1, para integrar o Quadro de Pessoal Permanente "
+    "deste Tribunal Regional Eleitoral do Amazonas, o candidato habilitado no Concurso Publico "
+    "Nacional Unificado da Justica Eleitoral: I - DIEGO AQUINO DE SOUSA Cargo: Tecnico Judiciario, "
+    "Apoio Especializado, Programacao de Sistemas, classe A, padrao 1 Origem da vaga: Falecimento "
+    "do servidor JOSE GALDINO DE MENEZES, vaga n 5.", ["Diego Aquino de Sousa"]),
+
+ # --- NAO sao convocacao do concurso: nao podem entrar no painel -----------
+ "MG 126 (servidor de TI trocando de FUNCAO COMISSIONADA)": (
+    "O DESEMBARGADOR PRESIDENTE DO TRIBUNAL REGIONAL ELEITORAL DE MINAS GERAIS resolve: "
+    "Art. 1 Dispensar ANDRE ALVES DE ALENCAR, Tecnico Judiciario, Area Apoio Especializado - "
+    "Operacao de Computadores, do Quadro de Pessoal deste Tribunal, do exercicio da Funcao "
+    "Comissionada FC-03, na Secao de Suporte Operacional. Art. 2 Exonerar, a pedido, JOAO PAULO "
+    "FERREIRA PINTO, Tecnico Judiciario, Area Administrativa, do Quadro de Pessoal deste Tribunal, "
+    "do exercicio do Cargo em Comissao CJ-2, na Coordenadoria de Suporte e Equipamentos. "
+    "Art. 3 Nomear ANDRE ALVES DE ALENCAR, Tecnico Judiciario, Area Apoio Especializado - Operacao "
+    "de Computadores, do Quadro de Pessoal deste Tribunal, para o exercicio do Cargo em Comissao "
+    "CJ-2, na Coordenadoria de Suporte e Equipamentos.", []),
+
+ "MG 206 (NOMEAR servidor efetivo para CARGO EM COMISSAO CJ-2)": (
+    "Art. 1 Exonerar, a pedido, ANDRE ALVES DE ALENCAR, Tecnico Judiciario, Apoio Especializado - "
+    "Operacao de Computadores, do exercicio do Cargo em Comissao CJ-2, na Coordenadoria de Suporte. "
+    "Art. 2 Nomear FREDERICO GOMES JABBUR, Analista Judiciario, Apoio Especializado - Analise de "
+    "Sistemas - Suporte, do Quadro de Pessoal deste Tribunal, para o exercicio do Cargo em Comissao "
+    "CJ-2, na Coordenadoria de Suporte e Equipamentos.", []),
+
+ "SP 108 (bloco de Area Administrativa nao herda a especialidade de TI)": (
+    "Art. 1 TORNAR SEM EFEITO a nomeacao de HUGO SOUSA DA SILVA, nomeado pela Portaria TRE-SP "
+    "n.95/2026, no cargo de Analista Judiciario - Area Apoio Especializado - Especialidade "
+    "Tecnologia da Informacao. Art. 2 NOMEAR, por concurso, em estagio probatorio, para os cargos "
+    "relacionados abaixo: Analista Judiciario - Area Administrativa, Classe A, Padrao 1: Nos termos "
+    "do art. 9, inciso I, da Lei n. 8.112/1990 LUAN PUTINATI LORENCETTI, 10 colocacao, na vaga n. "
+    "633, criada pela Lei n. 10842/2004.", []),
+
  "PR 266 (alineas a) e b) - dois nomeados num NOMEAR so)": (
     "Art. 1 NOMEAR, em virtude de habilitacao em Concurso Publico regido pelo Edital n. 01 - CPNUJE, "
     "de 27 de maio de 2024: a) o candidato JOSE HENRIQUE DOMETERCO, classificado em 2 lugar no concurso "

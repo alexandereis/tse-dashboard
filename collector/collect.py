@@ -36,11 +36,14 @@ from config import (
 )
 from parser import (
     limpar_html, sem_acento, identificar_orgao, extrair_nomeados,
+    extrair_anulacoes,
 )
+import anulacoes as anul
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ_DADOS = os.path.join(RAIZ, "data", "nomeacoes.json")
 ARQ_SEED = os.path.join(RAIZ, "seed", "seed.json")
+ARQ_ANULACOES = os.path.join(RAIZ, "data", "anulacoes.json")
 
 BASE_EDICAO = "https://www.in.gov.br/leiturajornal"
 BASE_BUSCA = "https://www.in.gov.br/consulta/-/buscar/dou"
@@ -231,12 +234,16 @@ def eh_ato_je(item):
 
 
 def processar_portaria(item, dia=None):
-    """Devolve (registros, avaliado).
+    """Devolve (registros, anulacoes, avaliado).
 
     'avaliado' diz se o ato foi REALMENTE analisado — ou seja, se a portaria
     abriu e deu para ler o texto inteiro. Só um ato avaliado pode ser marcado
     como "já visto"; se o download falhou, ele precisa continuar disponível para
     as fases seguintes e para a próxima execução (senão a nomeação some).
+
+    'anulacoes' são as nomeações que ESTE ato tornou sem efeito — o mesmo ato
+    costuma anular umas e nomear outras (o TRE-MG publica os dois em artigos
+    alternados na mesma portaria), por isso as duas listas saem juntas.
     """
     titulo = item.get("title", "") or ""
     hierarquia = item.get("hierarchyStr", "") or ""
@@ -256,11 +263,12 @@ def processar_portaria(item, dia=None):
         # (fica no preâmbulo, "…PRESIDENTE DO TRIBUNAL REGIONAL ELEITORAL DE …").
         sigla = identificar_orgao(texto)
     if not sigla:
-        return [], avaliado
+        return [], [], avaliado
 
     nomeados = extrair_nomeados(texto)
-    if not nomeados:
-        return [], avaliado
+    desfeitas = extrair_anulacoes(texto) if avaliado else []
+    if not nomeados and not desfeitas:
+        return [], [], avaliado
 
     mport = re.search(r"(PORTARIA|ATO)[^\d]*(\d[\d.]*)", titulo, re.IGNORECASE)
     rotulo_portaria = (f"{mport.group(1).upper()} Nº {mport.group(2)}"
@@ -287,7 +295,16 @@ def processar_portaria(item, dia=None):
             "data": data, "data_br": data_br,
             "portaria": rotulo_portaria, "url": url, "fonte": "dou",
         })
-    return registros, avaliado
+
+    anuladas = []
+    for an in desfeitas:
+        anuladas.append({
+            "uf": sigla, "nome": an["nome"],
+            "portaria_desfeita": an["portaria"],
+            "data": data, "data_br": data_br,
+            "ato": rotulo_portaria, "url": url,
+        })
+    return registros, anuladas, avaliado
 
 
 # ---------------------------------------------------------------------------
@@ -320,7 +337,11 @@ def _escav_total_paginas(html):
 
 
 def _registros_pagina_escavador(texto, dia_iso, url):
-    """Divide o texto da página por órgão (nome do ORGAOS) e extrai os de TI."""
+    """Divide o texto da página por órgão (nome do ORGAOS) e extrai os de TI.
+
+    Devolve (registros, anulacoes) — a página do Escavador traz a seção inteira,
+    então tanto as nomeações quanto os atos que desfazem nomeação passam por aqui.
+    """
     alvo = sem_acento(texto)
     marcas = []
     for sigla, info in ORGAOS.items():
@@ -330,10 +351,11 @@ def _registros_pagina_escavador(texto, dia_iso, url):
             marcas.append((i, sigla))
             i = alvo.find(nome, i + len(nome))
     if not marcas:
-        return []
+        return [], []
     marcas.sort()
     data_br = f"{dia_iso[8:10]}/{dia_iso[5:7]}/{dia_iso[0:4]}"
     out = []
+    anuladas = []
     for k, (pos, sigla) in enumerate(marcas):
         fim = marcas[k + 1][0] if k + 1 < len(marcas) else len(texto)
         trecho = texto[pos:fim]
@@ -348,7 +370,14 @@ def _registros_pagina_escavador(texto, dia_iso, url):
                 "data": dia_iso, "data_br": data_br,
                 "portaria": rot, "url": url, "fonte": "escavador",
             })
-    return out
+        for an in extrair_anulacoes(trecho):
+            anuladas.append({
+                "uf": sigla, "nome": an["nome"],
+                "portaria_desfeita": an["portaria"],
+                "data": dia_iso, "data_br": data_br,
+                "ato": rot, "url": url,
+            })
+    return out, anuladas
 
 
 def escavador_dia(diario_id, dia_iso, limite_paginas=130):
@@ -365,6 +394,7 @@ def escavador_dia(diario_id, dia_iso, limite_paginas=130):
         return []
     total = _escav_total_paginas(r.text)
     encontrados = {}
+    desfeitas = []
     achou_je = False
     apos = 0
     lidas = 0
@@ -382,20 +412,23 @@ def escavador_dia(diario_id, dia_iso, limite_paginas=130):
         if "eleitoral" in alvo and "nome" in alvo:
             achou_je = True
             apos = 0
-            for reg in _registros_pagina_escavador(texto, dia_iso, url):
+            regs, anuladas = _registros_pagina_escavador(texto, dia_iso, url)
+            for reg in regs:
                 encontrados[chave_registro(reg)] = reg
+            desfeitas += anuladas
         elif achou_je:
             apos += 1
             if apos >= 3:
                 break
         time.sleep(1.2)
         p -= 1
-    return list(encontrados.values())
+    return list(encontrados.values()), desfeitas
 
 
 def coletar_do_dou():
     corte = (date.today() - timedelta(days=DIAS_RETROATIVOS)).isoformat()
     encontrados = {}
+    desfeitas = []         # nomeações que os atos do período tornaram sem efeito
     vistas = set()
     dias_com_dou = set()   # datas que o in.gov.br cobriu (não precisam do Escavador)
 
@@ -418,9 +451,10 @@ def coletar_do_dou():
             ut = item.get("urlTitle", "")
             if not ut or ut in vistas:
                 continue
-            regs, avaliado = processar_portaria(item)
+            regs, anuladas, avaliado = processar_portaria(item)
             for reg in regs:
                 encontrados[chave_registro(reg)] = reg
+            desfeitas += anuladas
             # Só marca como visto o que foi realmente avaliado: se a portaria não
             # abriu, a fase 2 (edição diária) ainda tem uma chance de pegá-la.
             if avaliado or regs:
@@ -444,9 +478,10 @@ def coletar_do_dou():
             ut = item.get("urlTitle", "")
             if not ut or ut in vistas:
                 continue
-            regs, avaliado = processar_portaria(item, dia)
+            regs, anuladas, avaliado = processar_portaria(item, dia)
             for reg in regs:
                 encontrados[chave_registro(reg)] = reg
+            desfeitas += anuladas
             if avaliado or regs:
                 vistas.add(ut)
         print(f"   {dia.isoformat()}: {len(ed)} atos, {len(je)} da Justiça Eleitoral, "
@@ -469,16 +504,17 @@ def coletar_do_dou():
         escav_feitas += 1
         print(f"\n> Escavador (fallback) para {dia_iso}…")
         try:
-            regs = escavador_dia(indice[dia_iso], dia_iso)
+            regs, anuladas = escavador_dia(indice[dia_iso], dia_iso)
         except Exception as e:
             print(f"   ! Escavador {dia_iso} falhou: {e}")
-            regs = []
+            regs, anuladas = [], []
         for reg in regs:
             encontrados[chave_registro(reg)] = reg
+        desfeitas += anuladas
         print(f"   Escavador {dia_iso}: {len(regs)} de TI | total {len(encontrados)}")
         time.sleep(2)
 
-    return list(encontrados.values())
+    return list(encontrados.values()), desfeitas
 
 
 def main():
@@ -502,10 +538,10 @@ def main():
 
     try:
         aquecer()
-        novos = coletar_do_dou()
+        novos, desfeitas = coletar_do_dou()
     except Exception as e:
         print(f"\n! Falha inesperada na coleta: {e}")
-        novos = []
+        novos, desfeitas = [], []
 
     add = 0
     for reg in novos:
@@ -515,9 +551,25 @@ def main():
             add += 1
     print(f"\nNovos registros adicionados pelo DOU: {add}")
 
+    # Nomeações tornadas sem efeito: guardadas em arquivo próprio e permanente.
+    # Sem essa memória o registro voltaria na execução seguinte — o seed o traz
+    # de volta, e a portaria que o anulou já saiu da janela dos últimos dias.
+    conhecidas = anul.carregar(ARQ_ANULACOES)
+    antes = {anul.chave_anulacao(a) for a in conhecidas}
+    novas = [a for a in desfeitas if anul.chave_anulacao(a) not in antes]
+    if novas:
+        for a in novas:
+            print(f"   nomeação tornada sem efeito: {a['uf']} — {a['nome']} "
+                  f"(desfaz {a.get('portaria_desfeita') or '?'}, {a['ato']})")
+    total_anul = anul.salvar(ARQ_ANULACOES, conhecidas + desfeitas)
+    print(f"Anulações conhecidas: {total_anul} ({len(novas)} nova(s) nesta execução)")
+
     registros = sorted(base.values(),
                        key=lambda r: (r.get("data", ""), r.get("nome", "")),
                        reverse=True)
+    registros, removidos = anul.aplicar_anulacoes(registros, anul.carregar(ARQ_ANULACOES))
+    for r in removidos:
+        print(f"   fora do painel (nomeação sem efeito): {r['uf']} — {r['nome']}")
 
     def assinatura(lista):
         campos = ("uf", "cargo", "nome", "data", "data_br", "portaria", "url")

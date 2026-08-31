@@ -57,6 +57,27 @@ ITEM = {
 
 ESPERADOS = ["Larissa Ribeiro Lopes", "Raissa Rinaldi Yoshioka"]
 
+# PORTARIA 587 do TRE-SE (DOU de 31/08/2026): desfez a nomeação publicada em
+# 28/07/2026. O coletor precisa devolver isso como ANULAÇÃO — sem ela, o nomeado
+# fica no painel para sempre, porque o seed o traz de volta a cada execução.
+TEXTO_ANULACAO = (
+    "PORTARIA Nº 587, DE 28 DE AGOSTO DE 2026 A PRESIDENTE DO TRIBUNAL REGIONAL "
+    "ELEITORAL DE SERGIPE, no uso das atribuições que lhe são conferidas pelo artigo "
+    "28, inciso XXXIV, do Regimento Interno, resolve: Art. 1º Tornar sem efeito a "
+    "Portaria de Pessoal nº 504, de 23 de Julho de 2026, publicada no Diário Oficial "
+    "da União nº 140, Seção 2, de 28 de Julho de 2026, referente à nomeação do "
+    "candidato YTALLO AUGUSTO SANTOS LIMA, para o cargo de Técnico Judiciário, Área "
+    "de Apoio Especializado, Especialidade Programação de Sistemas."
+)
+
+ITEM_ANULACAO = {
+    "hierarchyStr": "Poder Judiciário/Tribunal Regional Eleitoral de Sergipe",
+    "title": "PORTARIA Nº 587, DE 28 DE AGOSTO DE 2026",
+    "urlTitle": "portaria-n-587-de-28-de-agosto-de-2026-729057471",
+    "content": "",
+    "pubDate": "31/08/2026",
+}
+
 
 def _com_download(resposta):
     """Troca o download da portaria por uma resposta fixa (sem internet)."""
@@ -69,7 +90,7 @@ def caso_resumo_sem_nome_do_tribunal():
     """A busca não traz o nome do tribunal no resumo — o texto completo traz."""
     original = _com_download((TEXTO_COMPLETO, "https://www.in.gov.br/x"))
     try:
-        regs, avaliado = collect.processar_portaria(ITEM)
+        regs, anuls, avaliado = collect.processar_portaria(ITEM)
     finally:
         collect.baixar_texto_portaria = original
     nomes = [r["nome"] for r in regs]
@@ -89,7 +110,7 @@ def caso_download_falhou_nao_marca_como_visto():
     fases seguintes (e as próximas execuções) o pulam para sempre."""
     original = _com_download(("", "https://www.in.gov.br/x"))
     try:
-        regs, avaliado = collect.processar_portaria(ITEM)
+        regs, anuls, avaliado = collect.processar_portaria(ITEM)
     finally:
         collect.baixar_texto_portaria = original
     problemas = []
@@ -100,9 +121,33 @@ def caso_download_falhou_nao_marca_como_visto():
     return problemas
 
 
+def caso_ato_de_anulacao_vira_anulacao():
+    """Ato que torna sem efeito uma nomeacao: sai como ANULACAO, nunca como
+    nomeacao nova (o texto cita cargo e especialidade de TI logo em seguida)."""
+    original = _com_download((TEXTO_ANULACAO, "https://www.in.gov.br/x"))
+    try:
+        regs, anuls, avaliado = collect.processar_portaria(ITEM_ANULACAO)
+    finally:
+        collect.baixar_texto_portaria = original
+    problemas = []
+    nomes = [a["nome"] for a in anuls]
+    if nomes != ["Ytallo Augusto Santos Lima"]:
+        problemas.append(f"anulacoes {nomes} (esperado ['Ytallo Augusto Santos Lima'])")
+    if anuls and anuls[0].get("uf") != "SE":
+        problemas.append(f"uf {anuls[0].get('uf')} (esperado SE)")
+    if anuls and anuls[0].get("portaria_desfeita") != "504":
+        problemas.append(f"portaria desfeita {anuls[0].get('portaria_desfeita')} (esperado 504)")
+    if anuls and anuls[0].get("data") != "2026-08-31":
+        problemas.append(f"data {anuls[0].get('data')} (esperado 2026-08-31)")
+    if regs:
+        problemas.append(f"virou nomeacao: {[r['nome'] for r in regs]}")
+    return problemas
+
+
 CASOS = {
     "busca: resumo sem o nome do tribunal (TRE-MS 196)": caso_resumo_sem_nome_do_tribunal,
     "download falhou: ato não conta como avaliado": caso_download_falhou_nao_marca_como_visto,
+    "ato que torna sem efeito vira anulação (TRE-SE 587)": caso_ato_de_anulacao_vira_anulacao,
 }
 
 

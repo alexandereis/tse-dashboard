@@ -1,0 +1,753 @@
+{
+  "atualizado_em": "2026-08-31T16:49:57.261475+00:00",
+  "total": 83,
+  "anulacoes": [
+    {
+      "uf": "AP",
+      "nome": "João Pedro dos Santos Monteiro",
+      "portaria_desfeita": "140",
+      "data": "2025-06-23",
+      "data_br": "23/06/2025",
+      "ato": "PORTARIA Nº 143",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-143/tre-ap/pres/dg/sgp/codes/ssaap-de-17-de-junho-de-2025-637243669"
+    },
+    {
+      "uf": "SP",
+      "nome": "Danilo Scorzoni Re",
+      "portaria_desfeita": "151",
+      "data": "2025-07-22",
+      "data_br": "22/07/2025",
+      "ato": "PORTARIA Nº 183",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-183-de-18-de-julho-de-2025-643394645"
+    },
+    {
+      "uf": "SP",
+      "nome": "Wellington da Silva",
+      "portaria_desfeita": "183",
+      "data": "2025-08-01",
+      "data_br": "01/08/2025",
+      "ato": "PORTARIA Nº 187",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-187-de-31-de-julho-de-2025-645619574"
+    },
+    {
+      "uf": "BA",
+      "nome": "Daiane de Jesus Gama",
+      "portaria_desfeita": "480",
+      "data": "2025-08-18",
+      "data_br": "18/08/2025",
+      "ato": "PORTARIA Nº 535",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-535-de-15-de-agosto-de-2025-648897549"
+    },
+    {
+      "uf": "BA",
+      "nome": "Marcelo Yamazaki",
+      "portaria_desfeita": "486",
+      "data": "2025-08-18",
+      "data_br": "18/08/2025",
+      "ato": "PORTARIA Nº 534",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-534-de-14-de-agosto-de-2025-648911075"
+    },
+    {
+      "uf": "BA",
+      "nome": "Vasco Gabriel",
+      "portaria_desfeita": "483",
+      "data": "2025-08-18",
+      "data_br": "18/08/2025",
+      "ato": "PORTARIA Nº 536",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-536-de-15-de-agosto-de-2025-648923930"
+    },
+    {
+      "uf": "PA",
+      "nome": "Augusto Cezar Souza Dias",
+      "portaria_desfeita": "24.097",
+      "data": "2025-08-20",
+      "data_br": "20/08/2025",
+      "ato": "PORTARIA Nº 24.169",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-24.169-de-18-de-agosto-de-2025-649623738"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Gabriel Pereira de Souza",
+      "portaria_desfeita": "353",
+      "data": "2025-08-26",
+      "data_br": "26/08/2025",
+      "ato": "PORTARIA Nº 370",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-370-de-21-de-agosto-de-2025-650838244"
+    },
+    {
+      "uf": "SP",
+      "nome": "Ricardo Alexandre da Silva",
+      "portaria_desfeita": "187",
+      "data": "2025-09-01",
+      "data_br": "01/09/2025",
+      "ato": "PORTARIA Nº 207",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-207-de-28-de-agosto-de-2025-652146467"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Deysy Ellenn Oliveira Gallietta Silva",
+      "portaria_desfeita": "346",
+      "data": "2025-09-08",
+      "data_br": "08/09/2025",
+      "ato": "PORTARIA Nº 396",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-396-de-5-de-setembro-de-2025-653654585"
+    },
+    {
+      "uf": "BA",
+      "nome": "Júlia Suzart de Freitas",
+      "portaria_desfeita": "569",
+      "data": "2025-09-10",
+      "data_br": "10/09/2025",
+      "ato": "PORTARIA Nº 593",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-593-de-9-de-setembro-de-2025-654267987"
+    },
+    {
+      "uf": "CE",
+      "nome": "Adriana Mara de Almeida de Souza",
+      "portaria_desfeita": "656",
+      "data": "2025-09-12",
+      "data_br": "12/09/2025",
+      "ato": "PORTARIA Nº 739",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-739-de-9-de-setembro-de-2025-654983486"
+    },
+    {
+      "uf": "MT",
+      "nome": "Augusto César Marconcini Soares Santos",
+      "portaria_desfeita": "",
+      "data": "2025-09-15",
+      "data_br": "15/09/2025",
+      "ato": "PORTARIA Nº 419",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-419-de-12-de-setembro-de-2025-655754772"
+    },
+    {
+      "uf": "SP",
+      "nome": "Danilo Scorzoni Re",
+      "portaria_desfeita": "151",
+      "data": "2025-10-02",
+      "data_br": "02/10/2025",
+      "ato": "PORTARIA Nº 183",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-183-de-18-de-julho-de-2025-659762786"
+    },
+    {
+      "uf": "BA",
+      "nome": "Tiago Almeida Alves",
+      "portaria_desfeita": "571",
+      "data": "2025-10-08",
+      "data_br": "08/10/2025",
+      "ato": "PORTARIA Nº 655",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-655-de-6-de-outubro-de-2025-661068238"
+    },
+    {
+      "uf": "ES",
+      "nome": "Carlos Frederico Silva da Fonseca Mendes",
+      "portaria_desfeita": "203",
+      "data": "2025-10-09",
+      "data_br": "09/10/2025",
+      "ato": "ATO Nº 260",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-260-de-6-de-outubro-de-2025-661348423"
+    },
+    {
+      "uf": "RO",
+      "nome": "Aline Gaspar Pereira",
+      "portaria_desfeita": "235",
+      "data": "2025-10-15",
+      "data_br": "15/10/2025",
+      "ato": "PORTARIA Nº 293",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/gabpres-n-293-de-13-de-outubro-de-2025-662731538"
+    },
+    {
+      "uf": "MT",
+      "nome": "Maria Angela Leite Moussa",
+      "portaria_desfeita": "",
+      "data": "2025-11-03",
+      "data_br": "03/11/2025",
+      "ato": "PORTARIA Nº 479",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-479-de-23-de-outubro-de-2025-666213907"
+    },
+    {
+      "uf": "AM",
+      "nome": "André Alves Oliveira de Souza",
+      "portaria_desfeita": "985",
+      "data": "2025-11-05",
+      "data_br": "05/11/2025",
+      "ato": "PORTARIA Nº 1.033",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-1.033-de-29-de-outubro-de-2025-666839308"
+    },
+    {
+      "uf": "MG",
+      "nome": "Anderson de Oliveira da Fonseca",
+      "portaria_desfeita": "181",
+      "data": "2025-11-17",
+      "data_br": "17/11/2025",
+      "ato": "PORTARIA Nº 286",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-286-de-12-de-novembro-de-2025-669298531"
+    },
+    {
+      "uf": "MG",
+      "nome": "Eduardo Leandro Guimaraes",
+      "portaria_desfeita": "188",
+      "data": "2025-11-17",
+      "data_br": "17/11/2025",
+      "ato": "PORTARIA Nº 288",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-288-de-12-de-novembro-de-2025-669338174"
+    },
+    {
+      "uf": "MG",
+      "nome": "Jonas da Silva",
+      "portaria_desfeita": "188",
+      "data": "2025-11-17",
+      "data_br": "17/11/2025",
+      "ato": "PORTARIA Nº 288",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-288-de-12-de-novembro-de-2025-669338174"
+    },
+    {
+      "uf": "MG",
+      "nome": "Luiz Henrique Salgado Andrade Cardoso",
+      "portaria_desfeita": "188",
+      "data": "2025-11-17",
+      "data_br": "17/11/2025",
+      "ato": "PORTARIA Nº 288",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-288-de-12-de-novembro-de-2025-669338174"
+    },
+    {
+      "uf": "MG",
+      "nome": "Marcelo Liester Giordani",
+      "portaria_desfeita": "188",
+      "data": "2025-11-17",
+      "data_br": "17/11/2025",
+      "ato": "PORTARIA Nº 288",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-288-de-12-de-novembro-de-2025-669338174"
+    },
+    {
+      "uf": "MG",
+      "nome": "Marcelo Mascarenhas Ribeiro de Araujo",
+      "portaria_desfeita": "188",
+      "data": "2025-11-17",
+      "data_br": "17/11/2025",
+      "ato": "PORTARIA Nº 288",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-288-de-12-de-novembro-de-2025-669338174"
+    },
+    {
+      "uf": "MG",
+      "nome": "Ana Carolina Cappai Lopes Parasin",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "MG",
+      "nome": "Daniel Jardim Cordeiro",
+      "portaria_desfeita": "288",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 332",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-332-de-17-de-dezembro-de-2025-678167300"
+    },
+    {
+      "uf": "MG",
+      "nome": "Deniana Madalena de Carvalho",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "MG",
+      "nome": "Graziele Aparecida Barbosa Ramos",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "MG",
+      "nome": "Igor da Silva Magalhaes",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "MG",
+      "nome": "Lucas da Costa Ferreira",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "MG",
+      "nome": "Raquel Monteiro de Souza",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "MG",
+      "nome": "Rodrigo Botan Costa",
+      "portaria_desfeita": "213",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-17-de-dezembro-de-2025-678136444"
+    },
+    {
+      "uf": "RN",
+      "nome": "Jessica Carla Bezerra de Lima",
+      "portaria_desfeita": "210",
+      "data": "2025-12-29",
+      "data_br": "29/12/2025",
+      "ato": "PORTARIA Nº 235",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres-n-235-de-23-de-dezembro-de-2025-678171743"
+    },
+    {
+      "uf": "SP",
+      "nome": "Marcos Alves de Oliveira",
+      "portaria_desfeita": "209",
+      "data": "2026-01-13",
+      "data_br": "13/01/2026",
+      "ato": "PORTARIA Nº 1",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-1-de-12-de-janeiro-de-2026-680705255"
+    },
+    {
+      "uf": "SP",
+      "nome": "Teo Milanez Brandão",
+      "portaria_desfeita": "209",
+      "data": "2026-01-13",
+      "data_br": "13/01/2026",
+      "ato": "PORTARIA Nº 1",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-1-de-12-de-janeiro-de-2026-680705255"
+    },
+    {
+      "uf": "DF",
+      "nome": "Filipe Lima de Menezes",
+      "portaria_desfeita": "13",
+      "data": "2026-03-04",
+      "data_br": "04/03/2026",
+      "ato": "PORTARIA Nº 40",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-presidencia-n-40-de-2-de-marco-de-2026-690278734"
+    },
+    {
+      "uf": "PI",
+      "nome": "Heanes José de Sousa Silva",
+      "portaria_desfeita": "137",
+      "data": "2026-03-16",
+      "data_br": "16/03/2026",
+      "ato": "PORTARIA Nº 162",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/presi/dg/sgp/coede-n-162-de-13-de-marco-de-2026-692833562"
+    },
+    {
+      "uf": "MG",
+      "nome": "Ana Flavia Cunha Labbate",
+      "portaria_desfeita": "333",
+      "data": "2026-03-17",
+      "data_br": "17/03/2026",
+      "ato": "PORTARIA Nº 84",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-84-de-12-de-marco-de-2026-693145794"
+    },
+    {
+      "uf": "MG",
+      "nome": "Bruno Francisco Medina Lemos",
+      "portaria_desfeita": "333",
+      "data": "2026-03-17",
+      "data_br": "17/03/2026",
+      "ato": "PORTARIA Nº 84",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-84-de-12-de-marco-de-2026-693145794"
+    },
+    {
+      "uf": "MG",
+      "nome": "Jessica de Oliveira Bottrel Reis",
+      "portaria_desfeita": "333",
+      "data": "2026-03-17",
+      "data_br": "17/03/2026",
+      "ato": "PORTARIA Nº 84",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-84-de-12-de-marco-de-2026-693145794"
+    },
+    {
+      "uf": "MG",
+      "nome": "Mathews de Magalhaes Gomes Vieira Marques",
+      "portaria_desfeita": "333",
+      "data": "2026-03-17",
+      "data_br": "17/03/2026",
+      "ato": "PORTARIA Nº 84",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-84-de-12-de-marco-de-2026-693145794"
+    },
+    {
+      "uf": "MG",
+      "nome": "Thiago Vitarelli da Silva",
+      "portaria_desfeita": "333",
+      "data": "2026-03-17",
+      "data_br": "17/03/2026",
+      "ato": "PORTARIA Nº 84",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-84-de-12-de-marco-de-2026-693145794"
+    },
+    {
+      "uf": "RR",
+      "nome": "Erivelton da Silva Henrique",
+      "portaria_desfeita": "89",
+      "data": "2026-03-20",
+      "data_br": "20/03/2026",
+      "ato": "PORTARIA Nº 93",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-93-de-19-de-marco-de-2026-694162227"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Marcus Vinicius Alves de Sousa Amaro",
+      "portaria_desfeita": "85",
+      "data": "2026-03-25",
+      "data_br": "25/03/2026",
+      "ato": "PORTARIA Nº 123",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-123-de-24-de-marco-de-2026-695089588"
+    },
+    {
+      "uf": "SP",
+      "nome": "Desiree Pereira Silva",
+      "portaria_desfeita": "133",
+      "data": "2026-04-15",
+      "data_br": "15/04/2026",
+      "ato": "PORTARIA Nº 145",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-145-de-14-de-abril-de-2026-699609195"
+    },
+    {
+      "uf": "SP",
+      "nome": "Hugo Sousa da Silva",
+      "portaria_desfeita": "95",
+      "data": "2026-04-16",
+      "data_br": "16/04/2026",
+      "ato": "PORTARIA Nº 108",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-108-de-14-de-abril-de-2026-699987125"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Guarací Mendes da Silva",
+      "portaria_desfeita": "87",
+      "data": "2026-04-16",
+      "data_br": "16/04/2026",
+      "ato": "PORTARIA Nº 147",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-147-de-14-de-abril-de-2026-699957265"
+    },
+    {
+      "uf": "TSE",
+      "nome": "João Victor dos Santos Silva",
+      "portaria_desfeita": "87",
+      "data": "2026-04-16",
+      "data_br": "16/04/2026",
+      "ato": "PORTARIA Nº 148",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-148-de-14-de-abril-de-2026-699969602"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Jaicieryk Kaline Ferreira Alves",
+      "portaria_desfeita": "157",
+      "data": "2026-04-30",
+      "data_br": "30/04/2026",
+      "ato": "PORTARIA Nº 170",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-170-de-27-de-abril-de-2026-702462220"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Marcus Vinicius Alves de Sousa Amaro",
+      "portaria_desfeita": "163",
+      "data": "2026-04-30",
+      "data_br": "30/04/2026",
+      "ato": "PORTARIA Nº 169",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-169-de-27-de-abril-de-2026-702460578"
+    },
+    {
+      "uf": "SP",
+      "nome": "Andre Chagas Ferreira de Souza",
+      "portaria_desfeita": "108",
+      "data": "2026-05-07",
+      "data_br": "07/05/2026",
+      "ato": "PORTARIA Nº 159",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-159-de-6-de-maio-de-2026-703795170"
+    },
+    {
+      "uf": "SP",
+      "nome": "Yuri Evandro Neiva Gomes",
+      "portaria_desfeita": "109",
+      "data": "2026-05-07",
+      "data_br": "07/05/2026",
+      "ato": "PORTARIA Nº 159",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-159-de-6-de-maio-de-2026-703795170"
+    },
+    {
+      "uf": "BA",
+      "nome": "Marcelo Barbosa Santiago",
+      "portaria_desfeita": "524",
+      "data": "2026-05-12",
+      "data_br": "12/05/2026",
+      "ato": "PORTARIA Nº 803",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-803-de-8-de-maio-de-2026-704817592"
+    },
+    {
+      "uf": "PB",
+      "nome": "Regina de Andrade Batista",
+      "portaria_desfeita": "378",
+      "data": "2026-05-13",
+      "data_br": "13/05/2026",
+      "ato": "PORTARIA Nº 155",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-155/tre-pb/ptre/aspre-de-11-de-maio-de-2026-705137521"
+    },
+    {
+      "uf": "BA",
+      "nome": "Fabiana Guimarães Lauande",
+      "portaria_desfeita": "511",
+      "data": "2026-05-26",
+      "data_br": "26/05/2026",
+      "ato": "PORTARIA Nº 924",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-924-de-22-de-maio-de-2026-708048534"
+    },
+    {
+      "uf": "RN",
+      "nome": "Cristiano Morais da Silva",
+      "portaria_desfeita": "119",
+      "data": "2026-05-27",
+      "data_br": "27/05/2026",
+      "ato": "PORTARIA Nº 125",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres-n-125-de-26-de-maio-de-2026-708495185"
+    },
+    {
+      "uf": "DF",
+      "nome": "Andressa Baldez Cabral de Lima",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Ari Henrique dos Santos",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Bruna Pereira dos Reis",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Carlos Inácio de Souza",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Elivelton Lourenço da Silva",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Mariane Mariz",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Mozaias de Mateus Carvalho Borges",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "DF",
+      "nome": "Rodrigo Furtado Arraes Mendes",
+      "portaria_desfeita": "148",
+      "data": "2026-06-12",
+      "data_br": "12/06/2026",
+      "ato": "PORTARIA Nº 152",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-152-de-11-de-junho-de-2026-711742036"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Eduardo Fernandes Mariano",
+      "portaria_desfeita": "156",
+      "data": "2026-06-17",
+      "data_br": "17/06/2026",
+      "ato": "PORTARIA Nº 311",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-311-de-9-de-junho-de-2026-712736110"
+    },
+    {
+      "uf": "DF",
+      "nome": "Rayanne Paiva Carvalho Silva",
+      "portaria_desfeita": "148",
+      "data": "2026-07-01",
+      "data_br": "01/07/2026",
+      "ato": "PORTARIA Nº 164",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-164-de-30-de-junho-de-2026-715781714"
+    },
+    {
+      "uf": "PI",
+      "nome": "Fernando Morais Peixoto",
+      "portaria_desfeita": "375",
+      "data": "2026-07-01",
+      "data_br": "01/07/2026",
+      "ato": "PORTARIA Nº 536",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/presi/dg/sgp/coede-n-536-de-24-de-junho-de-2026-719948561"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Luciano dos Santos Gonçalves",
+      "portaria_desfeita": "340",
+      "data": "2026-07-06",
+      "data_br": "06/07/2026",
+      "ato": "PORTARIA Nº 405",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-405-de-2-de-julho-de-2026-716904829"
+    },
+    {
+      "uf": "TO",
+      "nome": "Juscelino Teixeira da Silva Júnio",
+      "portaria_desfeita": "379",
+      "data": "2026-07-27",
+      "data_br": "27/07/2026",
+      "ato": "PORTARIA Nº 410",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-410-de-23-de-julho-de-2026-721370314"
+    },
+    {
+      "uf": "MG",
+      "nome": "Jairo Celestino Nascimento",
+      "portaria_desfeita": "191",
+      "data": "2026-08-10",
+      "data_br": "10/08/2026",
+      "ato": "PORTARIA Nº 269",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-269-de-7-de-agosto-de-2026-724214630"
+    },
+    {
+      "uf": "MG",
+      "nome": "Jheffrey Thulyo dos Santos",
+      "portaria_desfeita": "194",
+      "data": "2026-08-10",
+      "data_br": "10/08/2026",
+      "ato": "PORTARIA Nº 271",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-271-de-7-de-agosto-de-2026-724229277"
+    },
+    {
+      "uf": "MG",
+      "nome": "Luciana Lorena Rodrigues",
+      "portaria_desfeita": "194",
+      "data": "2026-08-10",
+      "data_br": "10/08/2026",
+      "ato": "PORTARIA Nº 271",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-271-de-7-de-agosto-de-2026-724229277"
+    },
+    {
+      "uf": "TO",
+      "nome": "Nilson Pereira Rocha Júnior",
+      "portaria_desfeita": "376",
+      "data": "2026-08-10",
+      "data_br": "10/08/2026",
+      "ato": "PORTARIA Nº 448",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-448-de-7-de-agosto-de-2026-724254614"
+    },
+    {
+      "uf": "SP",
+      "nome": "Laize Fernanda Pereira",
+      "portaria_desfeita": "184",
+      "data": "2026-08-13",
+      "data_br": "13/08/2026",
+      "ato": "PORTARIA Nº 250",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-250-de-12-de-agosto-de-2026-725027436"
+    },
+    {
+      "uf": "DF",
+      "nome": "Darlan Henrique da Silva Venturelli",
+      "portaria_desfeita": "148",
+      "data": "2026-08-14",
+      "data_br": "14/08/2026",
+      "ato": "PORTARIA Nº 220",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-220-de-12-de-agosto-de-2026-725507791"
+    },
+    {
+      "uf": "DF",
+      "nome": "Francisco Paulo Rodrigues Lira",
+      "portaria_desfeita": "148",
+      "data": "2026-08-14",
+      "data_br": "14/08/2026",
+      "ato": "PORTARIA Nº 220",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-220-de-12-de-agosto-de-2026-725507791"
+    },
+    {
+      "uf": "DF",
+      "nome": "Matheus Fernandes Rocha",
+      "portaria_desfeita": "148",
+      "data": "2026-08-14",
+      "data_br": "14/08/2026",
+      "ato": "PORTARIA Nº 220",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-220-de-12-de-agosto-de-2026-725507791"
+    },
+    {
+      "uf": "DF",
+      "nome": "Rana Granja Mattos",
+      "portaria_desfeita": "152",
+      "data": "2026-08-14",
+      "data_br": "14/08/2026",
+      "ato": "PORTARIA Nº 220",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-220-de-12-de-agosto-de-2026-725507791"
+    },
+    {
+      "uf": "DF",
+      "nome": "Roberta Menezes Pedrosa",
+      "portaria_desfeita": "148",
+      "data": "2026-08-14",
+      "data_br": "14/08/2026",
+      "ato": "PORTARIA Nº 220",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-220-de-12-de-agosto-de-2026-725507791"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Helen Goulart dos Santos",
+      "portaria_desfeita": "430",
+      "data": "2026-08-17",
+      "data_br": "17/08/2026",
+      "ato": "PORTARIA Nº 524",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-524-de-14-de-agosto-de-2026-725677227"
+    },
+    {
+      "uf": "ES",
+      "nome": "Bernardo Cruz Abreu Pereira",
+      "portaria_desfeita": "232",
+      "data": "2026-08-19",
+      "data_br": "19/08/2026",
+      "ato": "ATO Nº 289",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-289-de-17-de-agosto-de-2026-726404990"
+    },
+    {
+      "uf": "SE",
+      "nome": "Ytallo Augusto Santos Lima",
+      "portaria_desfeita": "504",
+      "data": "2026-08-31",
+      "data_br": "31/08/2026",
+      "ato": "PORTARIA Nº 587",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-587-de-28-de-agosto-de-2026-729057471"
+    }
+  ]
+}
