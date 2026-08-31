@@ -456,6 +456,27 @@ _RE_ANUL_NOME = re.compile(
 # Número da portaria desfeita ("Tornar sem efeito a Portaria … nº 504, de …").
 _RE_ANUL_PORTARIA = re.compile(r"(?:portaria|ato)[^\d\n]{0,40}?(\d[\d.]*)", re.IGNORECASE)
 
+# POR QUE a nomeação foi desfeita. O ato quase sempre diz, e é o que mais
+# interessa a quem acompanha a fila: "desistiu" conta uma história bem diferente
+# de "a portaria saiu com erro". Quando o ato não declara, fica vazio — não vale
+# a pena chutar. A ordem importa: o primeiro que casar é o que vale.
+_MOTIVOS_ANULACAO = (
+    ("Desistência", r"desist[êe]ncia|desistiu|declin(?:ou|a[çc][ãa]o)|ren[úu]ncia"),
+    ("Não tomou posse no prazo",
+     r"n[ãa]o\s+(?:ter\s+|haver\s+)?tom(?:ado|ou)\s+posse|prazo\s+(?:legal\s+)?para\s+(?:a\s+)?posse"
+     r"|decurso\s+d[eo]\s+prazo|n[ãa]o\s+entrou\s+em\s+exerc[íi]cio"),
+    ("Perícia médica", r"per[íi]cia\s+m[ée]dica|inspe[çc][ãa]o\s+m[ée]dica|considerad[oa]\s+inapt"),
+    ("Erro na portaria", r"erro\s+(?:material|de\s+digita[çc][ãa]o)|equ[íi]voco|incorre[çc][ãa]o"),
+    ("A pedido", r"\ba\s+pedido\b"),
+)
+
+
+def _motivo_anulacao(trecho):
+    for rotulo, padrao in _MOTIVOS_ANULACAO:
+        if re.search(padrao, trecho, re.IGNORECASE):
+            return rotulo
+    return ""
+
 
 def _trechos_por_artigo(texto):
     """Divide a portaria em trechos "Art. 1º…", "Art. 2º…".
@@ -476,9 +497,10 @@ def _trechos_por_artigo(texto):
 def extrair_anulacoes(texto):
     """Nomes cuja NOMEAÇÃO foi tornada sem efeito por este ato.
 
-    Devolve [{"nome", "portaria"}] — 'portaria' é a que foi desfeita, quando o
-    ato a cita. Só valem trechos que falem de NOMEAÇÃO: "tornar sem efeito"
-    também é usado para designação, cessão e outros atos que não interessam aqui.
+    Devolve [{"nome", "portaria", "motivo"}] — 'portaria' é a que foi desfeita e
+    'motivo' o que o ato declarou (vazio quando ele não diz). Só valem trechos que
+    falem de NOMEAÇÃO: "tornar sem efeito" também é usado para designação, cessão
+    e outros atos que não interessam aqui.
     """
     out = []
     vistos = set()
@@ -487,6 +509,7 @@ def extrair_anulacoes(texto):
             continue
         mport = _RE_ANUL_PORTARIA.search(trecho)
         portaria = mport.group(1) if mport else ""
+        motivo = _motivo_anulacao(trecho)
         for m in _RE_ANUL_NOME.finditer(trecho):
             if not _nome_valido(m.group(1)):
                 continue
@@ -495,7 +518,7 @@ def extrair_anulacoes(texto):
             if not ch or ch in vistos:
                 continue
             vistos.add(ch)
-            out.append({"nome": nome, "portaria": portaria})
+            out.append({"nome": nome, "portaria": portaria, "motivo": motivo})
     return out
 
 

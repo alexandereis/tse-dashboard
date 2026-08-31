@@ -27,6 +27,8 @@ O painel é organizado em **abas**:
 - **Visão Geral** — números principais (total, analistas, técnicos, órgãos),
   as **convocações do dia**, o **mapa do Brasil** colorido por volume de
   nomeações e a evolução ao longo do tempo.
+- **Movimentações** — as nomeações que os tribunais **tornaram sem efeito**:
+  quem saiu, quando, por quê e o link das portarias.
 - **Por Estado** — um card para cada tribunal, com o total e a divisão entre
   Analista e Técnico; clicar num estado abre a lista daquele órgão.
 - **Por Cargo** — comparativo lado a lado entre **Analista** e **Técnico**.
@@ -49,9 +51,18 @@ busca essas publicações e as organiza automaticamente, várias vezes ao dia. Q
 sai uma nomeação nova, o painel se atualiza sozinho.
 
 Quando um tribunal **torna sem efeito** uma nomeação (o candidato não tomou posse,
-desistiu, ou a portaria saiu com erro), o painel também acompanha: o nome sai da
-lista. Já uma **exoneração** não tira ninguém — quem foi exonerado tomou posse e
-depois saiu, então a convocação aconteceu de verdade e continua no histórico.
+desistiu, ou a portaria saiu com erro), o painel acompanha: a pessoa sai da conta
+de *nomeações em vigor*, mas continua visível na aba **Movimentações** e, se você
+quiser, na Lista Completa — com o nome riscado e o motivo. Já uma **exoneração**
+não tira ninguém: quem foi exonerado tomou posse e depois saiu, então a convocação
+aconteceu de verdade.
+
+Por isso o painel mostra **dois números**: quantas nomeações estão em vigor hoje e
+quantas convocações já foram publicadas no total. Comparando com outras fontes,
+a diferença costuma ser exatamente essa.
+
+O painel **não diz quem entrou no lugar de quem** — o Diário Oficial não publica
+esse vínculo, e apontar um nome ali seria chute, não informação oficial.
 
 ## ⚖️ Aviso
 

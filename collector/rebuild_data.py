@@ -68,27 +68,33 @@ def main():
     add = 0
     for r in atuais:
         if chave(r) not in base:
-            base[chave(r)] = r
+            base[chave(r)] = anul.limpar_marca(r)
             add += 1
 
-    regs = sorted(base.values(),
+    publicados = sorted(base.values(),
+                        key=lambda r: (r.get("data", ""), r.get("nome", "")),
+                        reverse=True)
+
+    # O carimbo de "sem efeito" é reaplicado SEMPRE, por último: o seed e o
+    # histórico trazem os registros de volta a cada regeneração (veja anulacoes.py).
+    vigentes, sem_efeito = anul.aplicar_anulacoes(publicados, anul.carregar(ARQ_ANULACOES))
+    regs = sorted(vigentes + sem_efeito,
                   key=lambda r: (r.get("data", ""), r.get("nome", "")),
                   reverse=True)
 
-    # As nomeações tornadas sem efeito saem SEMPRE, por último: o seed e o
-    # histórico as trariam de volta a cada regeneração (veja anulacoes.py).
-    regs, removidos = anul.aplicar_anulacoes(regs, anul.carregar(ARQ_ANULACOES))
-
     saida = {
         "atualizado_em": datetime.now(timezone.utc).isoformat(),
-        "total": len(regs), "registros": regs,
+        "total": len(vigentes),
+        "total_publicado": len(regs),
+        "total_sem_efeito": len(sem_efeito),
+        "registros": regs,
     }
     os.makedirs(os.path.dirname(ARQ_DADOS), exist_ok=True)
     with open(ARQ_DADOS, "w", encoding="utf-8") as f:
         json.dump(saida, f, ensure_ascii=False, indent=2)
-    print(f"data/nomeacoes.json regenerado: {len(regs)} registros "
-          f"(seed {len(seed)} + {add} vindos da base/coletor "
-          f"- {len(removidos)} com nomeação tornada sem efeito).")
+    print(f"data/nomeacoes.json regenerado: {len(vigentes)} em vigor + "
+          f"{len(sem_efeito)} tornadas sem efeito = {len(regs)} "
+          f"(seed {len(seed)} + {add} vindos da base/coletor).")
 
 
 if __name__ == "__main__":

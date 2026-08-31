@@ -43,9 +43,44 @@ def chave_anulacao(a):
             _numero(a.get("portaria_desfeita", "")), a.get("data", ""))
 
 
+_CAMPOS_MARCA = ("situacao", "sem_efeito_em", "sem_efeito_em_br", "sem_efeito_ato",
+                 "sem_efeito_url", "sem_efeito_motivo")
+
+
+def limpar_marca(registro):
+    """Cópia do registro sem o carimbo de 'sem efeito'.
+
+    A marca é sempre recolocada a partir do arquivo de anulações; guardar a
+    anterior faria uma anulação revogada continuar valendo no painel.
+    """
+    return {k: v for k, v in registro.items() if k not in _CAMPOS_MARCA}
+
+
+def marcar(registro, anulacao):
+    """Cópia do registro com o carimbo do ato que desfez a nomeação.
+
+    É cópia de propósito: o mesmo dicionário vem do seed e é reaproveitado a cada
+    montagem da base — sujá-lo faria o carimbo grudar onde não devia.
+    """
+    marcado = dict(registro)
+    marcado.update({
+        "situacao": "sem_efeito",
+        "sem_efeito_em": anulacao.get("data", ""),
+        "sem_efeito_em_br": anulacao.get("data_br", ""),
+        "sem_efeito_ato": anulacao.get("ato", ""),
+        "sem_efeito_url": anulacao.get("url", ""),
+        "sem_efeito_motivo": anulacao.get("motivo", ""),
+    })
+    return marcado
+
+
 def aplicar_anulacoes(registros, anulacoes):
-    """Devolve (registros_que_ficam, registros_removidos)."""
-    fora = set()          # índices removidos
+    """Devolve (nomeações em vigor, nomeações tornadas sem efeito).
+
+    As da segunda lista saem CARIMBADAS com o ato que as desfez (data, portaria,
+    motivo e link) — o painel as mostra assim, em vez de fazer a pessoa sumir.
+    """
+    fora = {}             # índice -> anulação que o atingiu
     for a in anulacoes:
         uf = a.get("uf", "")
         nome = _sem_acento(a.get("nome", ""))
@@ -64,10 +99,11 @@ def aplicar_anulacoes(registros, anulacoes):
             exatos = [i for i in candidatos if _numero(registros[i].get("portaria")) == alvo]
             if exatos:
                 candidatos = exatos
-        fora.update(candidatos)
+        for i in candidatos:
+            fora[i] = a
     ficam = [r for i, r in enumerate(registros) if i not in fora]
-    removidos = [r for i, r in enumerate(registros) if i in fora]
-    return ficam, removidos
+    sem_efeito = [marcar(r, fora[i]) for i, r in enumerate(registros) if i in fora]
+    return ficam, sem_efeito
 
 
 def carregar(caminho):

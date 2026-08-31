@@ -62,8 +62,39 @@ CASOS = {
 NAO_NOMEIA = ["SE 587 (real: tornar sem efeito ... referente a nomeacao do candidato)"]
 
 
+# O ato quase sempre diz POR QUE a nomeação foi desfeita. É a informação que o
+# concurseiro mais quer ("desistiu" é muito diferente de "erro na portaria"), e
+# sai de graça do mesmo texto. Quando o ato não declara, fica vazio — nunca
+# chutamos um motivo.
+MOTIVOS = {
+ "desistencia": (
+    "Art. 1 Tornar sem efeito, em razao de apresentacao de termo de desistencia, a nomeacao do "
+    "candidato PEDRO HENRIQUE SOUZA, para o cargo de Analista Judiciario, Especialidade Tecnologia "
+    "da Informacao.", "Desistência"),
+ "nao tomou posse": (
+    "Art. 1 Tornar sem efeito a nomeacao de MARIA CLARA DE ANDRADE, por nao ter tomado posse no "
+    "prazo legal, no cargo de Tecnico Judiciario, Especialidade Programacao de Sistemas.",
+    "Não tomou posse no prazo"),
+ "pericia medica": (
+    "Art. 1 TORNAR SEM EFEITO, por ausencia em pericia medica, a nomeacao de MARCOS ALVES DE "
+    "OLIVEIRA, nomeado pela Portaria TRE-SP n. 209/2025, ao cargo de Analista Judiciario - Area "
+    "Apoio Especializado - Especialidade Tecnologia da Informacao.", "Perícia médica"),
+ "sem motivo declarado": (
+    "Art. 1 Tornar sem efeito a Portaria de Pessoal n 504, de 23 de Julho de 2026, referente a "
+    "nomeacao do candidato YTALLO AUGUSTO SANTOS LIMA, para o cargo de Tecnico Judiciario.", ""),
+}
+
+
 def main():
     ok = True
+    for tag, (txt, esperado) in MOTIVOS.items():
+        got = [a.get("motivo", "<sem campo>") for a in extrair_anulacoes(txt)]
+        bateu = got == [esperado]
+        if not bateu: ok = False
+        print(f'[{"OK  " if bateu else "FALHA"}] motivo: {tag} -> {got!r}')
+        if not bateu:
+            print(f"       esperado: [{esperado!r}]")
+
     for tag, (txt, esperado) in CASOS.items():
         got = [a["nome"] for a in extrair_anulacoes(txt)]
         falta = [n for n in esperado if n not in got]

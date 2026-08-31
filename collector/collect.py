@@ -533,7 +533,10 @@ def main():
         base[chave_registro(reg)] = reg
     for reg in anterior:
         if chave_registro(reg) not in base:
-            base[chave_registro(reg)] = reg
+            # O carimbo de "sem efeito" é recolocado adiante, a partir do
+            # data/anulacoes.json — guardar o antigo deixaria a marca grudada se
+            # a anulação um dia deixasse de valer.
+            base[chave_registro(reg)] = anul.limpar_marca(reg)
     print(f"\nRegistros de base (seed + histórico): {len(base)}")
 
     try:
@@ -564,15 +567,25 @@ def main():
     total_anul = anul.salvar(ARQ_ANULACOES, conhecidas + desfeitas)
     print(f"Anulações conhecidas: {total_anul} ({len(novas)} nova(s) nesta execução)")
 
-    registros = sorted(base.values(),
+    publicados = sorted(base.values(),
+                        key=lambda r: (r.get("data", ""), r.get("nome", "")),
+                        reverse=True)
+    vigentes, sem_efeito = anul.aplicar_anulacoes(publicados,
+                                                  anul.carregar(ARQ_ANULACOES))
+    for r in sem_efeito:
+        print(f"   tornada sem efeito: {r['uf']} — {r['nome']} "
+              f"({r.get('sem_efeito_motivo') or 'motivo não declarado'})")
+
+    # O arquivo leva as duas listas juntas, marcadas: quem procura no painel um
+    # nome que viu em outro lugar precisa achá-lo e entender por que ele não
+    # conta mais. O front filtra pelo campo "situacao".
+    registros = sorted(vigentes + sem_efeito,
                        key=lambda r: (r.get("data", ""), r.get("nome", "")),
                        reverse=True)
-    registros, removidos = anul.aplicar_anulacoes(registros, anul.carregar(ARQ_ANULACOES))
-    for r in removidos:
-        print(f"   fora do painel (nomeação sem efeito): {r['uf']} — {r['nome']}")
 
     def assinatura(lista):
-        campos = ("uf", "cargo", "nome", "data", "data_br", "portaria", "url")
+        campos = ("uf", "cargo", "nome", "data", "data_br", "portaria", "url",
+                  "situacao", "sem_efeito_em", "sem_efeito_motivo")
         return sorted("|".join(str(r.get(c, "")) for c in campos) for r in lista)
 
     if assinatura(registros) == assinatura(anterior):
@@ -581,12 +594,16 @@ def main():
 
     saida = {
         "atualizado_em": datetime.now(timezone.utc).isoformat(),
-        "total": len(registros), "registros": registros,
+        "total": len(vigentes),                  # nomeações em vigor
+        "total_publicado": len(registros),       # tudo que já saiu no DOU
+        "total_sem_efeito": len(sem_efeito),
+        "registros": registros,
     }
     os.makedirs(os.path.dirname(ARQ_DADOS), exist_ok=True)
     with open(ARQ_DADOS, "w", encoding="utf-8") as f:
         json.dump(saida, f, ensure_ascii=False, indent=2)
-    print(f"\nOK! Houve novidade. {len(registros)} registros gravados.")
+    print(f"\nOK! Houve novidade. {len(vigentes)} nomeações em vigor "
+          f"+ {len(sem_efeito)} tornadas sem efeito = {len(registros)} gravadas.")
     return 0
 
 

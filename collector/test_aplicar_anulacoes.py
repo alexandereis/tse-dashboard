@@ -63,6 +63,36 @@ CASOS = [
 ]
 
 
+def caso_registro_sai_marcado_com_o_que_aconteceu():
+    """Quem sai não pode simplesmente sumir.
+
+    Quem procura no painel um nome que viu em outro lugar precisa achá-lo e
+    entender por que ele não conta mais — some sem explicação é pior para a
+    confiança do que ficar de fora da conta.
+    """
+    registros = [reg("SE", "Ytallo Augusto Santos Lima", "2026-07-28", "PORTARIA Nº 504")]
+    a = anul("SE", "Ytallo Augusto Santos Lima", "2026-08-31", "504")
+    a.update({"ato": "PORTARIA Nº 587", "url": "https://www.in.gov.br/x",
+              "motivo": "Desistência", "data_br": "31/08/2026"})
+    ficam, fora = aplicar_anulacoes(registros, [a])
+    problemas = []
+    if len(fora) != 1:
+        return [f"esperava 1 registro marcado, veio {len(fora)}"]
+    m = fora[0]
+    esperado = {"situacao": "sem_efeito", "sem_efeito_em": "2026-08-31",
+                "sem_efeito_em_br": "31/08/2026", "sem_efeito_ato": "PORTARIA Nº 587",
+                "sem_efeito_url": "https://www.in.gov.br/x",
+                "sem_efeito_motivo": "Desistência"}
+    for k, v in esperado.items():
+        if m.get(k) != v:
+            problemas.append(f"{k}: {m.get(k)!r} (esperado {v!r})")
+    if registros[0].get("situacao"):
+        problemas.append("sujou o registro original (deveria trabalhar numa cópia)")
+    if ficam:
+        problemas.append(f"deixou {len(ficam)} em vigor, esperava 0")
+    return problemas
+
+
 def caso_salvar_sem_novidade_nao_mexe_no_arquivo():
     """Regravar a mesma lista não pode mudar o arquivo.
 
@@ -86,14 +116,18 @@ def caso_salvar_sem_novidade_nao_mexe_no_arquivo():
 
 def main():
     ok = True
-    problemas = caso_salvar_sem_novidade_nao_mexe_no_arquivo()
-    if problemas:
-        ok = False
-        print("[FALHA] salvar sem novidade nao mexe no arquivo")
-        for p in problemas:
-            print(f"        {p}")
-    else:
-        print("[OK  ] salvar sem novidade nao mexe no arquivo")
+    for tag, funcao in (("salvar sem novidade nao mexe no arquivo",
+                         caso_salvar_sem_novidade_nao_mexe_no_arquivo),
+                        ("registro sai marcado com o que aconteceu",
+                         caso_registro_sai_marcado_com_o_que_aconteceu)):
+        problemas = funcao()
+        if problemas:
+            ok = False
+            print(f"[FALHA] {tag}")
+            for p in problemas:
+                print(f"        {p}")
+        else:
+            print(f"[OK  ] {tag}")
 
     for tag, registros, anuls, esperado in CASOS:
         ficaram, removidos = aplicar_anulacoes(registros, anuls)

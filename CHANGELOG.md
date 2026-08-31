@@ -14,6 +14,48 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.0] — 2026-08-31
+
+**Os dois números, e o que aconteceu com quem saiu**
+
+A 1.16.0 tirou do painel as nomeações que os tribunais tornaram sem efeito — o
+que estava certo, mas criou um efeito colateral: quem comparasse o painel com
+outra fonte veria **menos convocações do que realmente houve**, e quem procurasse
+o nome de alguém que teve a nomeação desfeita não encontraria nada, sem nenhuma
+explicação. Sumir é pior do que aparecer errado.
+
+**Agora o painel mostra os dois números:**
+
+- **Nomeações em vigor** (as que valem hoje) — é o que alimenta o mapa, os
+  gráficos e as contagens por estado e cargo.
+- **Convocações já publicadas** (tudo que saiu no DOU) — é o número que diz até
+  onde a fila do concurso andou, e o que costuma bater com outras fontes.
+
+A diferença entre os dois são exatamente as nomeações tornadas sem efeito, e
+agora ela fica visível em vez de virar dúvida.
+
+**Nova aba "Movimentações"**, com todas elas: quem saiu, de qual tribunal, em que
+cargo, quando foi nomeado, quando a nomeação foi desfeita, **por quê** e o link
+das duas portarias. O motivo sai do próprio texto do ato — hoje 11 desistências,
+1 perícia médica e 14 sem motivo declarado.
+
+**Na Lista Completa**, uma caixa "incluir nomeações tornadas sem efeito" traz
+essas pessoas de volta à lista, com o nome riscado e a etiqueta *sem efeito*.
+E se você buscar um nome que só existe entre as desfeitas, o painel avisa em vez
+de devolver tela vazia. O CSV exportado ganhou as colunas de situação, data,
+motivo e ato que desfez — um CSV onde a nomeação desfeita se confunde com a
+válida vira dado errado assim que sai daqui.
+
+**O que o painel NÃO faz — de propósito:** dizer quem entrou no lugar de quem.
+O Diário Oficial não publica esse vínculo. Dos 55 atos de anulação encontrados,
+só 8 também nomeiam alguém no mesmo documento — e nem nesses a conta fecha um a
+um (numa portaria do TRE-MG saíram 5 e entraram 7; numa do TRE-DF saíram 8 e
+entrou 1). Dava para adivinhar pela classificação, mas seria palpite nosso
+apresentado como informação oficial, e num painel que as pessoas usam para
+decidir a vida isso é pior do que não ter o dado.
+
+---
+
 ## [1.16.0] — 2026-08-31
 
 **Nomeação tornada sem efeito agora sai do painel**
