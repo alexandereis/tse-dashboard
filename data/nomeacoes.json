@@ -1,7 +1,35 @@
 {
-  "atualizado_em": "2026-08-24T05:43:49.580534+00:00",
-  "total": 309,
+  "atualizado_em": "2026-08-31T09:30:47.018246+00:00",
+  "total": 311,
   "registros": [
+    {
+      "uf": "SE",
+      "orgao": "Sergipe",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "João Pedro Santos de Mendonça",
+      "classificacao": 5,
+      "data": "2026-08-31",
+      "data_br": "31/08/2026",
+      "portaria": "PORTARIA Nº 589",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-589-de-28-de-agosto-de-2026-729061344",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SE",
+      "orgao": "Sergipe",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Claudenildo dos Santos",
+      "classificacao": 6,
+      "data": "2026-08-31",
+      "data_br": "31/08/2026",
+      "portaria": "PORTARIA Nº 590",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-590-de-28-de-agosto-de-2026-729038191",
+      "fonte": "dou"
+    },
     {
       "uf": "PB",
       "orgao": "Paraíba",
