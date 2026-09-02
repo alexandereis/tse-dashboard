@@ -1,9 +1,37 @@
 {
-  "atualizado_em": "2026-08-31T17:35:38.018966+00:00",
-  "total": 285,
-  "total_publicado": 311,
-  "total_sem_efeito": 26,
+  "atualizado_em": "2026-09-02T07:47:26.494304+00:00",
+  "total": 286,
+  "total_publicado": 313,
+  "total_sem_efeito": 27,
   "registros": [
+    {
+      "uf": "MS",
+      "orgao": "Mato Grosso do Sul",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Rodolfo Batista de Carvalho",
+      "classificacao": 4,
+      "data": "2026-09-02",
+      "data_br": "02/09/2026",
+      "portaria": "PORTARIA Nº 211",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-211-de-28-de-agosto-de-2026-729467697",
+      "fonte": "dou"
+    },
+    {
+      "uf": "RR",
+      "orgao": "Roraima",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Leandro Ferreira Barbosa",
+      "classificacao": 3,
+      "data": "2026-09-02",
+      "data_br": "02/09/2026",
+      "portaria": "PORTARIA Nº 328",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-328-de-28-de-agosto-de-2026-729489666",
+      "fonte": "dou"
+    },
     {
       "uf": "SE",
       "orgao": "Sergipe",
@@ -268,7 +296,13 @@
       "data_br": "20/08/2026",
       "portaria": "PORTARIA Nº 192",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-192-de-19-de-agosto-de-2026-726695403",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-02",
+      "sem_efeito_em_br": "02/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 211",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-211-de-28-de-agosto-de-2026-729467697",
+      "sem_efeito_motivo": ""
     },
     {
       "uf": "CE",

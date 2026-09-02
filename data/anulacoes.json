@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-08-31T17:35:28.719930+00:00",
-  "total": 83,
+  "atualizado_em": "2026-09-02T07:47:26.485777+00:00",
+  "total": 84,
   "anulacoes": [
     {
       "uf": "AP",
@@ -831,6 +831,15 @@
       "data_br": "31/08/2026",
       "ato": "PORTARIA Nº 587",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-587-de-28-de-agosto-de-2026-729057471"
+    },
+    {
+      "uf": "MS",
+      "nome": "Christiano Moreira Medeiros",
+      "portaria_desfeita": "192",
+      "data": "2026-09-02",
+      "data_br": "02/09/2026",
+      "ato": "PORTARIA Nº 211",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-211-de-28-de-agosto-de-2026-729467697"
     }
   ]
 }
