@@ -14,6 +14,40 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.2] — 2026-09-04
+
+**Correção — número da portaria desfeita e motivo da anulação**
+
+Ao conferir a 1.17.1 contra todo o histórico de anulações (87 registros, 59
+atos reabertos), apareceram dois problemas — um criado pela própria 1.17.1 e
+um antigo:
+
+**1) Ato sem "Art. 1º" lia o número errado.** O TRE-ES publica atos sem
+artigos: cabeçalho, preâmbulo e "Tornar sem efeito…" num bloco só. Com o
+divisor de artigos corrigido na 1.17.1, o número da portaria desfeita passou a
+ser lido do **cabeçalho do próprio ato** (Ato 289 "desfazia" o Ato 289) — antes
+só dava certo por acidente, porque a referência à lei no preâmbulo partia o
+texto no lugar conveniente. Esse número é o que decide **qual** nomeação sai
+quando a mesma pessoa foi nomeada duas vezes, então não pode estar errado.
+Agora o parser procura o número **depois** do "tornar sem efeito" e, só se não
+houver, a citação mais próxima antes dele; e "candidato" deixou de contar como
+"ato" (um "candidato FULANO, classificado em 3º lugar" rendia portaria "3").
+
+**2) O robô não gravava o motivo.** A 1.17.0 prometeu o motivo da anulação na
+aba Movimentações, mas só a varredura daquela versão o gravava — as anulações
+que o robô pegava depois saíam sem o campo, e a aba mostrava "motivo não
+declarado" mesmo quando o ato dizia "desistência" com todas as letras. Foi o
+caso das três do TRE-RS de 04/09. Corrigido nos dois caminhos do coletor (DOU e
+Escavador), com teste.
+
+**Dados**
+- `data/anulacoes.json` reprocessado a partir dos próprios atos com o parser
+  corrigido: 9 registros atualizados (2 do TRE-MT ganharam o número da portaria
+  desfeita; 6 ganharam o motivo "Desistência"; 1 ganhou o campo vazio). Nenhum
+  registro entrou ou saiu, e nenhuma nomeação de TI mudou de situação.
+- Testes: 3 casos novos de número da portaria desfeita e 1 caso novo do
+  coletor (motivo e portaria da anulação).
+
 ## [1.17.1] — 2026-09-04
 
 **Correção — a nomeação do TRE-RN de 04/09 não apareceu**

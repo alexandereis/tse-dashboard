@@ -97,8 +97,37 @@ MOTIVOS = {
 }
 
 
+# QUAL portaria foi desfeita. O número é o que permite apagar só a nomeação
+# certa de quem foi nomeado duas vezes (veja anulacoes.py), então não pode vir
+# do cabeçalho do próprio ato nem de um "classificado em 3º lugar".
+PORTARIAS = {
+ "ES 289 (real: ato sem 'Art.', preambulo e corpo no mesmo trecho)": (
+    "ATO N 289, de 17 de agosto de 2026 O Desembargador Namyr Carlos de Souza Filho, Presidente do "
+    "Tribunal Regional Eleitoral do Espirito Santo, no uso de suas atribuicoes legais, previstas no "
+    "art. 11, inciso XXI, do Regimento Interno do Tribunal, com base no art. 9, inciso I, e art. 10 "
+    "da Lei n 8.112/90, resolve: Tornar sem efeito, a partir de 22.07.2026, a nomeacao de Bernardo "
+    "Cruz Abreu Pereira, constante do Ato TRE/ES n 232, de 25.06.2026, publicada no Diario Oficial "
+    "da Uniao em 30.06.2026, para o cargo de Tecnico Judiciario - Area Apoio Especializado - "
+    "Especialidade Programacao de Sistemas, em razao de pedido do nominado de desistencia.", "232"),
+ "'candidato' e 'classificado' nao sao 'ato'": (
+    "Art. 1 Tornar sem efeito a nomeacao do candidato PAULO SOUZA, classificado em 3 lugar, feita "
+    "pela Portaria n 504, de 23 de julho de 2026, para o cargo de Tecnico Judiciario, Especialidade "
+    "Programacao de Sistemas.", "504"),
+ "portaria citada antes do gatilho": (
+    "Art. 1 A Portaria n 88, de 10 de fevereiro de 2026, que nomeou a candidata CARLA DE ANDRADE "
+    "MENEZES para o cargo de Analista Judiciario, Especialidade Tecnologia da Informacao, fica "
+    "revogada.", "88"),
+}
+
+
 def main():
     ok = True
+    for tag, (txt, esperado) in PORTARIAS.items():
+        got = [a.get("portaria", "<sem campo>") for a in extrair_anulacoes(txt)]
+        bateu = got == [esperado]
+        if not bateu: ok = False
+        print(f'[{"OK  " if bateu else "FALHA"}] portaria desfeita: {tag} -> {got!r} (esperado {esperado!r})')
+
     for tag, (txt, esperado) in MOTIVOS.items():
         got = [a.get("motivo", "<sem campo>") for a in extrair_anulacoes(txt)]
         bateu = got == [esperado]

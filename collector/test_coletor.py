@@ -144,10 +144,54 @@ def caso_ato_de_anulacao_vira_anulacao():
     return problemas
 
 
+ITEM_ANULACAO_RS = {
+    "hierarchyStr": "Poder Judiciário/Tribunal Regional Eleitoral do Rio Grande do Sul",
+    "title": "PORTARIA TRE-RS P Nº 2.779, DE 28 DE AGOSTO DE 2026",
+    "urlTitle": "portaria-tre-rs-p-n-2.779-de-28-de-agosto-de-2026-730202857",
+    "content": "",
+    "pubDate": "04/09/2026",
+}
+
+# Texto real (DOU de 04/09/2026). O ato diz o motivo com todas as letras.
+TEXTO_ANULACAO_RS = (
+    "PORTARIA TRE-RS P Nº 2.779, DE 28 DE AGOSTO DE 2026 A PRESIDENTE DO TRIBUNAL REGIONAL "
+    "ELEITORAL, no exercício de suas atribuições legais e regimentais, resolve: Art. 1º TORNAR SEM "
+    "EFEITO, tendo em vista Termo de Desistência Definitiva firmado pelo candidato, a Portaria "
+    "TRE-RS P n. 2.751, de 5 de agosto de 2026, publicada na edição do Diário Oficial da União de "
+    "10 de agosto de 2026, que nomeou MATEUS ARSAND, classificado em 16º lugar na classificação da "
+    "lista geral de candidatos em Concurso Público de Provas, destinado ao provimento das vagas "
+    "deste Tribunal, para ocupar o cargo de Técnico Judiciário, Área Administrativa, Classe A, "
+    "Padrão 1, do Quadro de Pessoal deste Tribunal, criado pela Lei nº 15.374, de 02.04.2026. "
+    "Art. 2º Esta Portaria entra em vigor na data de sua publicação."
+)
+
+
+def caso_anulacao_leva_o_motivo():
+    """A anulação sai com o MOTIVO que o ato declara. Sem isso a aba Movimentações
+    dizia "motivo não declarado" para tudo que o robô pegava, mesmo quando o ato
+    dizia "desistência" com todas as letras."""
+    original = _com_download((TEXTO_ANULACAO_RS, "https://www.in.gov.br/x"))
+    try:
+        regs, anuls, avaliado = collect.processar_portaria(ITEM_ANULACAO_RS)
+    finally:
+        collect.baixar_texto_portaria = original
+    problemas = []
+    if [a["nome"] for a in anuls] != ["Mateus Arsand"]:
+        problemas.append(f"anulacoes {[a['nome'] for a in anuls]} (esperado ['Mateus Arsand'])")
+    if anuls and anuls[0].get("motivo") != "Desistência":
+        problemas.append(f"motivo {anuls[0].get('motivo')!r} (esperado 'Desistência')")
+    if anuls and anuls[0].get("portaria_desfeita") != "2.751":
+        problemas.append(f"portaria desfeita {anuls[0].get('portaria_desfeita')!r} (esperado '2.751')")
+    if regs:
+        problemas.append(f"virou nomeacao: {[r['nome'] for r in regs]}")
+    return problemas
+
+
 CASOS = {
     "busca: resumo sem o nome do tribunal (TRE-MS 196)": caso_resumo_sem_nome_do_tribunal,
     "download falhou: ato não conta como avaliado": caso_download_falhou_nao_marca_como_visto,
     "ato que torna sem efeito vira anulação (TRE-SE 587)": caso_ato_de_anulacao_vira_anulacao,
+    "anulação leva o motivo e a portaria desfeita (TRE-RS 2.779)": caso_anulacao_leva_o_motivo,
 }
 
 

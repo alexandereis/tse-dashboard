@@ -301,6 +301,10 @@ def processar_portaria(item, dia=None):
         anuladas.append({
             "uf": sigla, "nome": an["nome"],
             "portaria_desfeita": an["portaria"],
+            # Sem o motivo aqui, a aba Movimentações mostrava "motivo não
+            # declarado" para toda anulação que o robô pegava — mesmo quando o
+            # ato dizia "desistência" com todas as letras.
+            "motivo": an.get("motivo", ""),
             "data": data, "data_br": data_br,
             "ato": rotulo_portaria, "url": url,
         })
@@ -374,6 +378,7 @@ def _registros_pagina_escavador(texto, dia_iso, url):
             anuladas.append({
                 "uf": sigla, "nome": an["nome"],
                 "portaria_desfeita": an["portaria"],
+                "motivo": an.get("motivo", ""),
                 "data": dia_iso, "data_br": data_br,
                 "ato": rot, "url": url,
             })

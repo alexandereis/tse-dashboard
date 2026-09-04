@@ -467,7 +467,26 @@ _RE_ANUL_NOME = re.compile(
 )
 
 # Número da portaria desfeita ("Tornar sem efeito a Portaria … nº 504, de …").
-_RE_ANUL_PORTARIA = re.compile(r"(?:portaria|ato)[^\d\n]{0,40}?(\d[\d.]*)", re.IGNORECASE)
+# Palavra inteira: "candidato" e "ato" não são a mesma coisa — sem o \b, o
+# "candidato FULANO, classificado em 3º lugar" rendia portaria "3".
+_RE_ANUL_PORTARIA = re.compile(r"\b(?:portaria|ato)\b[^\d\n]{0,40}?(\d[\d.]*)", re.IGNORECASE)
+
+
+def _portaria_desfeita(trecho, gatilho):
+    """Número da portaria que o ato desfez.
+
+    Procura DEPOIS do gatilho ("Tornar sem efeito a Portaria nº 504…") e, se não
+    houver, a citação mais próxima ANTES dele ("A Portaria nº 88 … fica
+    revogada"). Nunca a primeira do trecho: num ato sem "Art." (TRE-ES, Ato 289
+    de 19/08/2026) o trecho começa pelo cabeçalho, e o primeiro número seria o
+    do próprio ato — e esse número é o que decide qual nomeação sai de quem foi
+    nomeado duas vezes (veja anulacoes.py).
+    """
+    m = _RE_ANUL_PORTARIA.search(trecho, gatilho.end())
+    if m:
+        return m.group(1)
+    antes = list(_RE_ANUL_PORTARIA.finditer(trecho, 0, gatilho.start()))
+    return antes[-1].group(1) if antes else ""
 
 # POR QUE a nomeação foi desfeita. O ato quase sempre diz, e é o que mais
 # interessa a quem acompanha a fila: "desistiu" conta uma história bem diferente
@@ -542,10 +561,10 @@ def extrair_anulacoes(texto):
     out = []
     vistos = set()
     for trecho in _trechos_por_artigo(texto):
-        if not _RE_ANUL_GATILHO.search(trecho):
+        gatilho = _RE_ANUL_GATILHO.search(trecho)
+        if not gatilho:
             continue
-        mport = _RE_ANUL_PORTARIA.search(trecho)
-        portaria = mport.group(1) if mport else ""
+        portaria = _portaria_desfeita(trecho, gatilho)
         motivo = _motivo_anulacao(trecho)
         for m in _RE_ANUL_NOME.finditer(trecho):
             if not _nome_valido(m.group(1)):
