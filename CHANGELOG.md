@@ -14,6 +14,32 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.5] — 2026-09-04
+
+**Duas nomeações do TRE-AM desfeitas em setembro de 2025 constavam como
+válidas há quase um ano**
+
+A varredura chegou a 12/09/2025 (256 dias úteis, 3.548 atos da Justiça
+Eleitoral, 212 nomeados de TI, **nenhum fora da base**) e encontrou a
+Portaria 917 do **TRE-AM**, de 25/09/2025: "TORNAR SEM EFEITO a nomeação de
+**Leonardo Silva Almeida e de Francisco Adalberto Rocha Junior**, no cargo de
+Técnico Judiciário … Programação de Sistemas … nomeados por meio da Portaria
+nº 727/2025". Os dois estavam no painel como **convocados válidos desde
+30/07/2025**. É exatamente o formato "Fulano e de Ciclano" que a 1.17.4
+ensinou o parser a separar — na época da 1.16.0 o bloco de 9 palavras era
+descartado inteiro, e ninguém saía. O ato não declara motivo.
+
+Também entrou a Portaria 2.582 do **TRE-RS** (30/01/2026), que desfaz uma
+nomeação de Técnico da Área Administrativa (fora de TI) "conforme disposto no
+**§ 6º do art. 13** da Lei 8.112": a fórmula legal na ordem invertida agora
+também conta como motivo "Não tomou posse no prazo".
+
+**Dados**
+- **284** nomeações em vigor (eram 286), **315** convocações publicadas,
+  **31** tornadas sem efeito (eram 29). Arquivo de anulações: 95 → 98.
+- Reparsagem dos 98 registros de anulação com o parser final: zero diferenças.
+- Testes: +1 caso de motivo (ordem invertida, texto real do TRE-RS).
+
 ## [1.17.4] — 2026-09-04
 
 **Anulação em lista e "Fulana e de Ciclano": o parser lia só o primeiro nome**

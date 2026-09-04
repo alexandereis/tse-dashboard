@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-04T15:23:25.003219+00:00",
-  "total": 95,
+  "atualizado_em": "2026-09-04T16:23:50.810710+00:00",
+  "total": 98,
   "anulacoes": [
     {
       "uf": "AP",
@@ -153,6 +153,26 @@
       "data_br": "15/09/2025",
       "ato": "PORTARIA Nº 419",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-419-de-12-de-setembro-de-2025-655754772"
+    },
+    {
+      "uf": "AM",
+      "nome": "Francisco Adalberto Rocha Junior",
+      "portaria_desfeita": "727",
+      "motivo": "",
+      "data": "2025-09-25",
+      "data_br": "25/09/2025",
+      "ato": "PORTARIA Nº 917",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-917-de-18-de-setembro-de-2025-658139980"
+    },
+    {
+      "uf": "AM",
+      "nome": "Leonardo Silva Almeida",
+      "portaria_desfeita": "727",
+      "motivo": "",
+      "data": "2025-09-25",
+      "data_br": "25/09/2025",
+      "ato": "PORTARIA Nº 917",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-917-de-18-de-setembro-de-2025-658139980"
     },
     {
       "uf": "SP",
@@ -383,6 +403,16 @@
       "data_br": "13/01/2026",
       "ato": "PORTARIA Nº 1",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-1-de-12-de-janeiro-de-2026-680705255"
+    },
+    {
+      "uf": "RS",
+      "nome": "Joao Victor Mattana",
+      "portaria_desfeita": "2.477",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-01-30",
+      "data_br": "30/01/2026",
+      "ato": "PORTARIA Nº 2.582",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.582-de-13-de-janeiro-de-2026-684430630"
     },
     {
       "uf": "DF",

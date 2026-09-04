@@ -516,7 +516,9 @@ _MOTIVOS_ANULACAO = (
      # Fórmula legal: o art. 13, § 6º, da Lei 8.112/90 diz que "será tornado
      # sem efeito o ato de provimento se a posse não ocorrer no prazo". Citar o
      # dispositivo É declarar o motivo (TRE-RJ, Ato 216 de 08/07/2026).
-     r"|art(?:igo)?\.?\s*13\s*,?\s*(?:§|par[áa]grafo)\s*6"),
+     r"|art(?:igo)?\.?\s*13\s*,?\s*(?:§|par[áa]grafo)\s*6"
+     # …e na ordem invertida: "§ 6º do art. 13" (TRE-RS, Portaria 2.582).
+     r"|(?:§|par[áa]grafo)\s*6[ºo°]?\s+do\s+art(?:igo)?\.?\s*13\b"),
     ("Perícia médica", r"per[íi]cia\s+m[ée]dica|inspe[çc][ãa]o\s+m[ée]dica|considerad[oa]\s+inapt"),
     ("Erro na portaria", r"erro\s+(?:material|de\s+digita[çc][ãa]o)|equ[íi]voco|incorre[çc][ãa]o"),
     ("A pedido", r"\ba\s+pedido\b"),

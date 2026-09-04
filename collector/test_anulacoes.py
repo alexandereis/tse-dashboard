@@ -115,6 +115,11 @@ MOTIVOS = {
     "1990, a nomeacao do candidato Anderson Alves Pereira, para ocupar o cargo de Tecnico Judiciario, "
     "Area de Atividade de Apoio Especializado, Especialidade Programacao de Sistemas, Classe A, "
     "Padrao 1, constante do Ato PR n 149, de 20 de maio de 2026.", "Não tomou posse no prazo"),
+ "par. 6 do art. 13 (ordem invertida, RS 2.582 real) = nao tomou posse no prazo": (
+    "Art. 1 TORNAR SEM EFEITO, conforme disposto no § 6 do art. 13 da Lei n. 8.112/90, de 11 de "
+    "dezembro de 1990, a Portaria TRE-RS P n. 2.477, de 29 de outubro de 2025, que nomeou JOAO "
+    "VICTOR MATTANA, classificado em 2 lugar, para ocupar o cargo de Tecnico Judiciario, Area "
+    "Administrativa, Classe A.", "Não tomou posse no prazo"),
  "sem motivo declarado": (
     "Art. 1 Tornar sem efeito a Portaria de Pessoal n 504, de 23 de Julho de 2026, referente a "
     "nomeacao do candidato YTALLO AUGUSTO SANTOS LIMA, para o cargo de Tecnico Judiciario.", ""),

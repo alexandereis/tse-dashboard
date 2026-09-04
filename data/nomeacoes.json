@@ -1,8 +1,8 @@
 {
-  "atualizado_em": "2026-09-04T14:40:36.671469+00:00",
-  "total": 286,
+  "atualizado_em": "2026-09-04T16:23:50.896222+00:00",
+  "total": 284,
   "total_publicado": 315,
-  "total_sem_efeito": 29,
+  "total_sem_efeito": 31,
   "registros": [
     {
       "uf": "RN",
@@ -3746,7 +3746,13 @@
       "data": "2025-07-30",
       "portaria": "PORTARIA Nº 727",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-727-de-25-de-julho-de-2025-645210225",
-      "fonte": "seed"
+      "fonte": "seed",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2025-09-25",
+      "sem_efeito_em_br": "25/09/2025",
+      "sem_efeito_ato": "PORTARIA Nº 917",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-917-de-18-de-setembro-de-2025-658139980",
+      "sem_efeito_motivo": ""
     },
     {
       "uf": "AM",
@@ -3850,7 +3856,13 @@
       "data": "2025-07-30",
       "portaria": "PORTARIA Nº 727",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-727-de-25-de-julho-de-2025-645210225",
-      "fonte": "seed"
+      "fonte": "seed",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2025-09-25",
+      "sem_efeito_em_br": "25/09/2025",
+      "sem_efeito_ato": "PORTARIA Nº 917",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre/am-n-917-de-18-de-setembro-de-2025-658139980",
+      "sem_efeito_motivo": ""
     },
     {
       "uf": "AM",
