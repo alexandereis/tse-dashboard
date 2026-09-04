@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-02T07:47:26.485777+00:00",
-  "total": 84,
+  "atualizado_em": "2026-09-04T07:51:59.382611+00:00",
+  "total": 87,
   "anulacoes": [
     {
       "uf": "AP",
@@ -840,6 +840,33 @@
       "data_br": "02/09/2026",
       "ato": "PORTARIA Nº 211",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-211-de-28-de-agosto-de-2026-729467697"
+    },
+    {
+      "uf": "RS",
+      "nome": "Anatália de Oliveira Silva",
+      "portaria_desfeita": "2.749",
+      "data": "2026-09-04",
+      "data_br": "04/09/2026",
+      "ato": "PORTARIA Nº 2.781",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-p-n-2.781-de-1-de-setembro-de-2026-730197003"
+    },
+    {
+      "uf": "RS",
+      "nome": "Eduarda Harter Gris",
+      "portaria_desfeita": "2.759",
+      "data": "2026-09-04",
+      "data_br": "04/09/2026",
+      "ato": "PORTARIA Nº 2.780",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-p-n-2.780-de-28-de-agosto-de-2026-730129672"
+    },
+    {
+      "uf": "RS",
+      "nome": "Mateus Arsand",
+      "portaria_desfeita": "2.751",
+      "data": "2026-09-04",
+      "data_br": "04/09/2026",
+      "ato": "PORTARIA Nº 2.779",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-p-n-2.779-de-28-de-agosto-de-2026-730202857"
     }
   ]
 }
