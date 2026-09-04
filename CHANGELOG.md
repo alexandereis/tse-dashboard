@@ -14,6 +14,32 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.4] — 2026-09-04
+
+**Anulação em lista e "Fulana e de Ciclano": o parser lia só o primeiro nome**
+
+A varredura da 1.17.3 continuou para trás (até 18/03: 123 dias úteis, 1.912
+atos da Justiça Eleitoral, 127 nomeados de TI, **nenhum fora da base**) e
+trouxe dois formatos de ato de anulação que o parser não lia inteiros:
+
+- **Lista num único "tornar sem efeito"** (TSE, Portaria 146 de 15/04/2026):
+  "…a nomeação dos candidatos: **I -** Fulano, constante da Portaria nº 100…;
+  **II -** Ciclano, …". Só o primeiro nome saía, e ainda com o "I -" colado.
+  Agora cada item é lido por conta própria, com a portaria que **ele** cita.
+- **Duas pessoas numa frase** (TRE-SP, Portaria 207 de 01/09/2025): "a
+  nomeação de **Letícia … e de Jonathan …**". Antes o bloco de 10 palavras era
+  descartado e ninguém entrava; com o limite novo da 1.17.1 entraria como uma
+  pessoa que não existe. Agora "e de/da/do" separa os dois.
+
+Nenhum dos quatro é de TI (Polícia Judicial e Área Administrativa), então o
+painel não muda — mas o formato existe, e da próxima vez pode ser alguém de
+TI. Reparsagem dos 91 registros de anulação conhecidos: zero diferenças.
+
+**Dados**
+- Arquivo de anulações: 91 → 95 (2 do TSE, 2 do TRE-SP). Base inalterada:
+  286 em vigor, 315 publicadas, 29 sem efeito.
+- Testes: +2 casos de anulação com texto real (TSE 146 e TRE-SP 207).
+
 ## [1.17.3] — 2026-09-04
 
 **Duas nomeações do TRE-RJ estavam no painel como válidas, mas tinham sido

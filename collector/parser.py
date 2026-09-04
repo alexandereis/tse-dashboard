@@ -161,7 +161,9 @@ def _trim_nome(bruto):
         tokens.pop(0)
     while tokens and descartavel(tokens[-1]):
         tokens.pop()
-    return " ".join(tokens)
+    # O marcador pode estar escondido atrás do que acabou de sair: em
+    # "candidatos: I - Marcio…" ele só aparece depois que "candidatos:" cai.
+    return _RE_MARCADOR_ITEM.sub("", " ".join(tokens))
 
 
 def _limpar_esp(esp):
@@ -460,10 +462,24 @@ _RE_ANUL_GATILHO = re.compile(
 # "…tornar sem efeito a nomeação de X".
 _RE_ANUL_NOME = re.compile(
     r"(?:nomea[çc][ãa]o\s+d[oea]s?\s*|nomeou\s+(?:[oa](?:\(a\))?\s+)?)"
-    r"(?:candida[dt][oa](?:\(a\))?\s+|sr\.?\s+|sra\.?\s+|servidor(?:a)?\s+)?"
+    r"(?:candida[dt][oa]s?(?:\(a\))?\s*:?\s+|sr\.?\s+|sra\.?\s+|servidor(?:a)?\s+)?"
     r"([A-ZÀ-Ú][^,.;\n]{3,70}?)"
-    r"\s*(?=,|\.|;|\s+para\b|\s+no\s+cargo\b|\s+do\s+cargo\b|\s+classificad)",
+    r"\s*(?=,|\.|;|\s+para\b|\s+no\s+cargo\b|\s+do\s+cargo\b|\s+classificad|\s+constante\b)",
     re.IGNORECASE,
+)
+
+# Separa "Fulana e de Ciclano" / "Fulano e da Ciclana" em duas pessoas.
+_RE_E_DE = re.compile(r"\s+e\s+d[eao]s?\s+", re.IGNORECASE)
+
+# Lista dentro de um único "tornar sem efeito … a nomeação dos candidatos:
+# I - Fulano, constante da Portaria nº 100…; II - Ciclano, …" (TSE, Portaria
+# 146 de 15/04/2026). O regex acima só alcança o primeiro nome, porque só há
+# um "nomeação"; cada item precisa ser lido por conta própria — e cada um cita
+# a sua portaria, que pode ser diferente da do vizinho.
+_RE_ANUL_ITEM = re.compile(
+    r"(?:^|[:;.]\s*)(?:[IVXL]{1,5}|\d{1,3})\s*[-–.)]\s*"
+    r"([A-ZÀ-Ú][^,.;\n]{3,70}?)"
+    r"\s*(?=,|\.|;|\s+para\b|\s+no\s+cargo\b|\s+do\s+cargo\b|\s+classificad|\s+constante\b)"
 )
 
 # Número da portaria desfeita ("Tornar sem efeito a Portaria … nº 504, de …").
@@ -570,15 +586,32 @@ def extrair_anulacoes(texto):
             continue
         portaria = _portaria_desfeita(trecho, gatilho)
         motivo = _motivo_anulacao(trecho)
+
+        def registrar(bruto, portaria_item=None):
+            # "a nomeação de Fulana e de Ciclano" (TRE-SP, Portaria 207 de
+            # 28/08/2025) são duas pessoas. Nenhum nome tem "e de/da/do" no
+            # meio, então a divisão é segura — e sem ela o parser criava uma
+            # pessoa de 10 palavras que não existe.
+            for parte in _RE_E_DE.split(bruto):
+                if not _nome_valido(parte):
+                    continue
+                nome = formatar_nome(_trim_nome(parte))
+                ch = sem_acento(nome)
+                if not ch or ch in vistos:
+                    continue
+                vistos.add(ch)
+                out.append({"nome": nome, "portaria": portaria_item or portaria,
+                            "motivo": motivo})
+
         for m in _RE_ANUL_NOME.finditer(trecho):
-            if not _nome_valido(m.group(1)):
-                continue
-            nome = formatar_nome(_trim_nome(m.group(1)))
-            ch = sem_acento(nome)
-            if not ch or ch in vistos:
-                continue
-            vistos.add(ch)
-            out.append({"nome": nome, "portaria": portaria, "motivo": motivo})
+            registrar(m.group(1))
+        # Itens de lista: a portaria de cada um é a primeira citada entre o
+        # nome e o item seguinte; sem citação própria, vale a do trecho.
+        itens = list(_RE_ANUL_ITEM.finditer(trecho, gatilho.end()))
+        for k, m in enumerate(itens):
+            fim = itens[k + 1].start() if k + 1 < len(itens) else len(trecho)
+            mp = _RE_ANUL_PORTARIA.search(trecho, m.end(), fim)
+            registrar(m.group(1), mp.group(1) if mp else None)
     return out
 
 

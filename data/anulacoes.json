@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-04T14:40:36.559814+00:00",
-  "total": 91,
+  "atualizado_em": "2026-09-04T15:23:25.003219+00:00",
+  "total": 95,
   "anulacoes": [
     {
       "uf": "AP",
@@ -81,6 +81,28 @@
       "data_br": "26/08/2025",
       "ato": "PORTARIA Nº 370",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-370-de-21-de-agosto-de-2025-650838244"
+    },
+    {
+      "nome": "Jonathan Ribeiro da Cruz",
+      "portaria": "187",
+      "motivo": "Desistência",
+      "uf": "SP",
+      "ato": "PORTARIA Nº 207",
+      "data": "2025-09-01",
+      "data_br": "01/09/2025",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-207-de-28-de-agosto-de-2025-652146467",
+      "portaria_desfeita": "187"
+    },
+    {
+      "nome": "Letícia Jannotti Leite Biasoli",
+      "portaria": "187",
+      "motivo": "Desistência",
+      "uf": "SP",
+      "ato": "PORTARIA Nº 207",
+      "data": "2025-09-01",
+      "data_br": "01/09/2025",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-207-de-28-de-agosto-de-2025-652146467",
+      "portaria_desfeita": "187"
     },
     {
       "uf": "SP",
@@ -461,6 +483,26 @@
       "data_br": "15/04/2026",
       "ato": "PORTARIA Nº 145",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-145-de-14-de-abril-de-2026-699609195"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Ciro Vinicius Vieira de Cerqueira",
+      "portaria_desfeita": "100",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-04-15",
+      "data_br": "15/04/2026",
+      "ato": "PORTARIA Nº 146",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-146-de-14-de-abril-de-2026-699615001"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Marcio Henrique dos Santos Silva",
+      "portaria_desfeita": "100",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-04-15",
+      "data_br": "15/04/2026",
+      "ato": "PORTARIA Nº 146",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-146-de-14-de-abril-de-2026-699615001"
     },
     {
       "uf": "SP",

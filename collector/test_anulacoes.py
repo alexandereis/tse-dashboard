@@ -54,6 +54,25 @@ CASOS = {
     "Apoio Especializado, Programacao de Sistemas. Art. 2 Esta Portaria entra em vigor na data "
     "de sua publicacao.", ["Paulo Roberto Alves de Souza"]),
 
+ "TSE 146 (real: lista 'I - Fulano, ...; II - Ciclano, ...' num unico 'a nomeacao dos candidatos')": (
+    "Art. 1 Tornar sem efeito, por perda do prazo legal para a posse, a nomeacao dos candidatos: "
+    "I - Marcio Henrique dos Santos Silva, constante da Portaria TSE n 100, de 6 de marco de 2026, "
+    "publicada no Diario Oficial da Uniao do dia 11 de marco de 2026, no cargo de Tecnico Judiciario, "
+    "Area Apoio Especializado, Policia Judicial, Classe A, Padrao 1, vago em decorrencia da "
+    "aposentadoria de Michael Yani Martins Neto, em 10 de outubro de 2025, conforme a Portaria TSE "
+    "n 447, de 8 outubro de 2025; II - Ciro Vinicius Vieira de Cerqueira, constante da Portaria TSE "
+    "n 100, de 6 de marco de 2026, no cargo de Tecnico Judiciario, Area Apoio Especializado, Policia "
+    "Judicial, vago em decorrencia da posse em outro cargo publico inacumulavel de Felipe Goncalves "
+    "Monteiro, em 5 de dezembro de 2025, conforme a Portaria TSE n 572, de 10 de dezembro de 2025. "
+    "Art. 2 Esta portaria entra em vigor na data de sua publicacao.",
+    ["Marcio Henrique dos Santos Silva", "Ciro Vinicius Vieira de Cerqueira"]),
+
+ "SP 207 (real: 'a nomeacao de Fulana e de Ciclano' sao duas pessoas)": (
+    "Art. 2 TORNAR SEM EFEITO, por desistencia temporaria, a nomeacao de Leticia Jannotti Leite "
+    "Biasoli e de Jonathan Ribeiro da Cruz, pela Portaria TRE-SP n. 187/2025, no Diario Oficial da "
+    "Uniao n. 144, de 1/8/2025, para ocupar o cargo de Tecnico Judiciario - Area Administrativa.",
+    ["Leticia Jannotti Leite Biasoli", "Jonathan Ribeiro da Cruz"]),
+
  # --- NAO podem anular ---------------------------------------------------
  "nomeacao comum nao anula ninguem": (
     "Art. 1 NOMEAR o(a) candidato(a) JOAO PEDRO SANTOS DE MENDONCA, classificado(a) em 5 lugar, "
