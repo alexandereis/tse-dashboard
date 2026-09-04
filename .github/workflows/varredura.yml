@@ -1,0 +1,84 @@
+name: Varredura mensal do DOU (rede de segurança do coletor)
+
+# O coletor diário só sabe o que o parser devolve; um formato novo faz a
+# nomeação sumir em silêncio. Uma vez por mês esta varredura reabre as edições
+# dos últimos 45 dias com o parser atual e compara com o painel:
+#   * anulação que o arquivo não tem  -> entra no data/anulacoes.json e é commitada
+#   * nomeado fora da base ou ato suspeito -> o job FALHA, e o GitHub avisa por
+#     e-mail; é revisão humana (pode ser retificação de grafia do DOU)
+on:
+  schedule:
+    - cron: "0 14 1 * *"   # dia 1 de cada mês, 11:00 de Brasília (fora da janela do coletor)
+  workflow_dispatch:
+    inputs:
+      dias:
+        description: "Quantos dias para trás varrer"
+        default: "45"
+        required: false
+
+permissions:
+  contents: write
+
+# Mesmo grupo do coletor: os dois nunca escrevem em data/ ao mesmo tempo.
+concurrency:
+  group: coletor-dou
+  cancel-in-progress: false
+
+jobs:
+  varrer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r collector/requirements.txt
+
+      - name: Varrer o DOU e incorporar anulações
+        id: varredura
+        run: |
+          set +e
+          python collector/varredura.py --dias "${{ github.event.inputs.dias || '45' }}" --incorporar 2>&1 | tee varredura.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Commitar os dados se houve mudança
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/nomeacoes.json data/anulacoes.json; then
+            echo "Nenhuma anulação nova. Nada a commitar."
+          else
+            git add data/nomeacoes.json data/anulacoes.json
+            git commit -m "chore: varredura mensal incorpora anulações ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+            echo "Anulações incorporadas e enviadas!"
+          fi
+
+      - name: Resumo
+        run: |
+          {
+            echo "## Varredura mensal do DOU"
+            echo
+            grep -E '^== ' varredura.log || true
+            echo
+            if grep -qE '>>> ' varredura.log; then
+              echo "### Itens para olhar"
+              echo '```'
+              grep -E '>>> ' varredura.log
+              echo '```'
+            else
+              echo "Nada fora do painel nesse período."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Falhar se sobrou revisão humana
+        if: steps.varredura.outputs.rc != '0'
+        run: |
+          echo "A varredura encontrou nomeado fora da base ou ato suspeito. Veja o resumo do job."
+          exit 1

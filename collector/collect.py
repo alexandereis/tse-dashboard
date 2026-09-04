@@ -233,7 +233,7 @@ def eh_ato_je(item):
     return "eleitoral" in sem_acento(hier + " " + title)
 
 
-def processar_portaria(item, dia=None):
+def processar_portaria(item, dia=None, texto=None):
     """Devolve (registros, anulacoes, avaliado).
 
     'avaliado' diz se o ato foi REALMENTE analisado — ou seja, se a portaria
@@ -244,6 +244,9 @@ def processar_portaria(item, dia=None):
     'anulacoes' são as nomeações que ESTE ato tornou sem efeito — o mesmo ato
     costuma anular umas e nomear outras (o TRE-MG publica os dois em artigos
     alternados na mesma portaria), por isso as duas listas saem juntas.
+
+    'texto', quando informado, é o texto integral já baixado (a auditoria o
+    lê antes, para farejar o ato) — aí não se baixa de novo.
     """
     titulo = item.get("title", "") or ""
     hierarquia = item.get("hierarchyStr", "") or ""
@@ -252,7 +255,10 @@ def processar_portaria(item, dia=None):
 
     sigla = identificar_orgao(hierarquia, titulo, snippet)
 
-    texto, url = baixar_texto_portaria(url_title) if url_title else ("", "")
+    if texto is not None:
+        url = BASE_ARTIGO + url_title if url_title else ""
+    else:
+        texto, url = baixar_texto_portaria(url_title) if url_title else ("", "")
     avaliado = bool(texto)          # conseguimos o texto integral da portaria?
     if not texto:
         texto = snippet

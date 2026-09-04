@@ -64,6 +64,24 @@ a diferença costuma ser exatamente essa.
 O painel **não diz quem entrou no lugar de quem** — o Diário Oficial não publica
 esse vínculo, e apontar um nome ali seria chute, não informação oficial.
 
+## 🔧 Manutenção (para quem cuida do painel)
+
+O robô só sabe o que o parser devolve; um formato de portaria novo faz a
+nomeação sumir em silêncio. Três comandos servem de rede de segurança:
+
+```bash
+python collector/auditar_dia.py 04-09-2026     # tudo que a Justiça Eleitoral publicou no dia,
+                                               # o que o parser leu e o que ficou "suspeito"
+python collector/conferir_anulacoes.py         # reabre os atos de data/anulacoes.json com o
+                                               # parser atual; rode antes de publicar mudança no parser
+python collector/varredura.py --dias 45        # reabre as edições do período e compara com o painel
+```
+
+Os três saem com código 1 quando há algo para olhar. A varredura também roda
+sozinha **uma vez por mês** (workflow "Varredura mensal do DOU"): incorpora as
+anulações que faltavam e, se sobrar nomeado fora da base ou ato suspeito, o job
+falha e o GitHub avisa por e-mail. Testes: `python collector/test_*.py`.
+
 ## ⚖️ Aviso
 
 Painel **independente**, feito por concurseiro para concurseiro, **sem vínculo

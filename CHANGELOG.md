@@ -14,6 +14,43 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.18.0] — 2026-09-04
+
+**Rede de segurança: auditoria de um dia, conferência das anulações e
+varredura mensal automática**
+
+O dia 04/09 mostrou o limite do robô: ele só sabe o que o parser devolve, e
+um formato novo faz a nomeação sumir em silêncio. Quatro nomeações desfeitas
+ficaram meses no painel como válidas, e ninguém teria como saber olhando só
+para os testes. O que achou tudo isso foram dois scripts improvisados e uma
+varredura de cinco horas — agora eles são ferramentas do projeto:
+
+- **`collector/auditar_dia.py DD-MM-AAAA`** — lista todos os atos da Justiça
+  Eleitoral do dia com o que o parser leu de cada um, marca o que **não está
+  na base**, a anulação **fora do arquivo** e o ato **suspeito** (fala em
+  nomear para cargo efetivo, cita termo de TI e o parser não achou ninguém — o
+  exato sintoma da 1.17.1). É a conferência diária contra o DOU, em segundos.
+- **`collector/conferir_anulacoes.py [--atualizar]`** — reabre os atos de
+  `data/anulacoes.json` com o parser atual e compara nome, portaria desfeita e
+  motivo. Foi essa conferência que pegou a regressão da 1.17.1. Roda antes de
+  qualquer mudança no parser; com `--atualizar`, grava o que melhorou.
+- **`collector/varredura.py --dias N [--incorporar]`** — reabre as edições do
+  período, dia a dia, retomável, e compara com o painel. Incorpora anulações
+  sozinha; nomeado fora da base fica para revisão humana, porque pode ser
+  retificação de grafia do DOU.
+- **Workflow "Varredura mensal do DOU"** — dia 1 de cada mês, 45 dias para
+  trás, no mesmo grupo do coletor para nunca escreverem juntos. Commita as
+  anulações que faltavam e **falha o job** (aviso por e-mail do GitHub) se
+  sobrar algo para olhar. Também pode ser disparado à mão, escolhendo o período.
+
+Tudo compartilha uma biblioteca (`collector/auditoria.py`) e usa o mesmo
+caminho de leitura do coletor — o `processar_portaria` aceita agora o texto já
+baixado, para não abrir a portaria duas vezes.
+
+**Dados**: nenhuma mudança (284 em vigor, 315 publicadas, 31 sem efeito, 98
+anulações). Testes: novo `test_auditoria.py` com 5 casos; os três comandos
+rodados de verdade contra o DOU de 04/09 sem nenhuma pendência.
+
 ## [1.17.6] — 2026-09-04
 
 **Retificação do DOU não cria uma segunda pessoa — e o fechamento da varredura**
