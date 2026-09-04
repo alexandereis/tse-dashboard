@@ -91,6 +91,11 @@ MOTIVOS = {
     "Art. 1 TORNAR SEM EFEITO, por ausencia em pericia medica, a nomeacao de MARCOS ALVES DE "
     "OLIVEIRA, nomeado pela Portaria TRE-SP n. 209/2025, ao cargo de Analista Judiciario - Area "
     "Apoio Especializado - Especialidade Tecnologia da Informacao.", "Perícia médica"),
+ "art. 13, par. 6 da Lei 8.112 = nao tomou posse no prazo (RJ 216, real)": (
+    "Art. 1 Tornar sem efeito, com fundamento no art. 13, § 6, da Lei n 8.112, de 11 de dezembro de "
+    "1990, a nomeacao do candidato Anderson Alves Pereira, para ocupar o cargo de Tecnico Judiciario, "
+    "Area de Atividade de Apoio Especializado, Especialidade Programacao de Sistemas, Classe A, "
+    "Padrao 1, constante do Ato PR n 149, de 20 de maio de 2026.", "Não tomou posse no prazo"),
  "sem motivo declarado": (
     "Art. 1 Tornar sem efeito a Portaria de Pessoal n 504, de 23 de Julho de 2026, referente a "
     "nomeacao do candidato YTALLO AUGUSTO SANTOS LIMA, para o cargo de Tecnico Judiciario.", ""),

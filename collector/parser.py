@@ -496,7 +496,11 @@ _MOTIVOS_ANULACAO = (
     ("Desistência", r"desist[êe]ncia|desistiu|declin(?:ou|a[çc][ãa]o)|ren[úu]ncia"),
     ("Não tomou posse no prazo",
      r"n[ãa]o\s+(?:ter\s+|haver\s+)?tom(?:ado|ou)\s+posse|prazo\s+(?:legal\s+)?para\s+(?:a\s+)?posse"
-     r"|decurso\s+d[eo]\s+prazo|n[ãa]o\s+entrou\s+em\s+exerc[íi]cio"),
+     r"|decurso\s+d[eo]\s+prazo|n[ãa]o\s+entrou\s+em\s+exerc[íi]cio"
+     # Fórmula legal: o art. 13, § 6º, da Lei 8.112/90 diz que "será tornado
+     # sem efeito o ato de provimento se a posse não ocorrer no prazo". Citar o
+     # dispositivo É declarar o motivo (TRE-RJ, Ato 216 de 08/07/2026).
+     r"|art(?:igo)?\.?\s*13\s*,?\s*(?:§|par[áa]grafo)\s*6"),
     ("Perícia médica", r"per[íi]cia\s+m[ée]dica|inspe[çc][ãa]o\s+m[ée]dica|considerad[oa]\s+inapt"),
     ("Erro na portaria", r"erro\s+(?:material|de\s+digita[çc][ãa]o)|equ[íi]voco|incorre[çc][ãa]o"),
     ("A pedido", r"\ba\s+pedido\b"),

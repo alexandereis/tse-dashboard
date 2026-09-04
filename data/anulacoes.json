@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-04T14:26:54.696856+00:00",
-  "total": 87,
+  "atualizado_em": "2026-09-04T14:40:36.559814+00:00",
+  "total": 91,
   "anulacoes": [
     {
       "uf": "AP",
@@ -691,6 +691,46 @@
       "data_br": "06/07/2026",
       "ato": "PORTARIA Nº 405",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-405-de-2-de-julho-de-2026-716904829"
+    },
+    {
+      "uf": "RJ",
+      "nome": "Anderson Alves Pereira",
+      "portaria_desfeita": "149",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-07-08",
+      "data_br": "08/07/2026",
+      "ato": "ATO Nº 216",
+      "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-216-de-6-de-julho-de-2026-717537268"
+    },
+    {
+      "uf": "RJ",
+      "nome": "Gabriel Binda Lima",
+      "portaria_desfeita": "148",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-07-08",
+      "data_br": "08/07/2026",
+      "ato": "ATO Nº 215",
+      "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-215-de-6-de-julho-de-2026-717522875"
+    },
+    {
+      "uf": "RJ",
+      "nome": "Guilherme Velasco de Oliveira",
+      "portaria_desfeita": "170",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-07-08",
+      "data_br": "08/07/2026",
+      "ato": "ATO Nº 217",
+      "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-217-de-6-de-julho-de-2026-717520526"
+    },
+    {
+      "uf": "MS",
+      "nome": "Márcio Sabedot Oliveira",
+      "portaria_desfeita": "135",
+      "motivo": "",
+      "data": "2026-07-22",
+      "data_br": "22/07/2026",
+      "ato": "PORTARIA Nº 161",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-161-de-20-de-julho-de-2026-720608982"
     },
     {
       "uf": "TO",

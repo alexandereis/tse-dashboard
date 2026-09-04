@@ -14,6 +14,47 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.3] — 2026-09-04
+
+**Duas nomeações do TRE-RJ estavam no painel como válidas, mas tinham sido
+desfeitas em julho**
+
+A correção do divisor de artigos (1.17.1) foi posta à prova numa **varredura
+edição por edição do DOU**, de trás para frente a partir de 04/09, com o parser
+novo. Até 02/07 (47 dias úteis, 823 atos da Justiça Eleitoral), ela encontrou
+**quatro atos que tornam sem efeito uma nomeação** e que o parser antigo tinha
+perdido — todos pelo mesmo motivo: "Tornar sem efeito, **com fundamento no
+art. 13, § 6º**, da Lei 8.112…" ou "Tornar sem efeito **o art. 3º** da Portaria
+135…". A referência ao artigo de lei partia o texto e separava o "tornar sem
+efeito" do nome.
+
+Dois deles atingem nomeações de TI que **estavam no painel como válidas há
+quase dois meses**:
+
+- **Anderson Alves Pereira** — TRE-RJ, Técnico Judiciário (Programação de
+  Sistemas), nomeado pelo Ato 149 de 29/05/2026; nomeação tornada sem efeito
+  pelo Ato 216 de 08/07/2026.
+- **Gabriel Binda Lima** — TRE-RJ, Técnico Judiciário (TI), nomeado pelo Ato
+  148 de 29/05/2026; nomeação tornada sem efeito pelo Ato 215 de 08/07/2026.
+  Ele foi **nomeado de novo como Analista** pelo Ato 278 de 21/08/2026, e essa
+  nomeação **continua valendo** — a regra da portaria exata (1.16.0) fez o que
+  prometia.
+
+Os outros dois (TRE-RJ, Ato 217; TRE-MS, Portaria 161) são de candidatos de
+outras áreas e entram só no arquivo de anulações.
+
+**Motivo por fórmula legal.** Esses atos não escrevem "não tomou posse": citam
+o **art. 13, § 6º, da Lei 8.112/90**, que é exatamente a regra que torna sem
+efeito a nomeação de quem não toma posse no prazo. O parser agora reconhece
+a citação e registra o motivo, em vez de "motivo não declarado".
+
+**Dados**
+- **286** nomeações em vigor (eram 288), **315** convocações publicadas, **29**
+  tornadas sem efeito (eram 27). Arquivo de anulações: 87 → 91.
+- A varredura segue rodando para trás até junho de 2025; o que mais aparecer
+  entra num próximo ajuste de dados.
+- Testes: +1 caso de motivo (art. 13, § 6º, texto real do TRE-RJ).
+
 ## [1.17.2] — 2026-09-04
 
 **Correção — número da portaria desfeita e motivo da anulação**

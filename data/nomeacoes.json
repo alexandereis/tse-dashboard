@@ -1,8 +1,8 @@
 {
-  "atualizado_em": "2026-09-04T13:50:23.069067+00:00",
-  "total": 288,
+  "atualizado_em": "2026-09-04T14:40:36.671469+00:00",
+  "total": 286,
   "total_publicado": 315,
-  "total_sem_efeito": 27,
+  "total_sem_efeito": 29,
   "registros": [
     {
       "uf": "RN",
@@ -1416,7 +1416,13 @@
       "data": "2026-05-29",
       "portaria": "ATO PR Nº 148",
       "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-148-de-20-de-maio-de-2026-709218194",
-      "fonte": "seed"
+      "fonte": "seed",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-07-08",
+      "sem_efeito_em_br": "08/07/2026",
+      "sem_efeito_ato": "ATO Nº 215",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/ato-pr-n-215-de-6-de-julho-de-2026-717522875",
+      "sem_efeito_motivo": "Não tomou posse no prazo"
     },
     {
       "uf": "RJ",
@@ -1429,7 +1435,13 @@
       "data": "2026-05-29",
       "portaria": "ATO PR Nº 149",
       "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-149-de-20-de-maio-de-2026-709171976",
-      "fonte": "seed"
+      "fonte": "seed",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-07-08",
+      "sem_efeito_em_br": "08/07/2026",
+      "sem_efeito_ato": "ATO Nº 216",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/ato-pr-n-216-de-6-de-julho-de-2026-717537268",
+      "sem_efeito_motivo": "Não tomou posse no prazo"
     },
     {
       "uf": "PI",
