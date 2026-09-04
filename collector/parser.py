@@ -582,7 +582,7 @@ def extrair_anulacoes(texto):
     """
     out = []
     vistos = set()
-    for trecho in _trechos_por_artigo(texto):
+    for trecho in _trechos_por_artigo(_so_leia_se(texto)):
         gatilho = _RE_ANUL_GATILHO.search(trecho)
         if not gatilho:
             continue
@@ -629,6 +629,19 @@ _RE_COMISSAO = re.compile(
 )
 
 
+# RETIFICAÇÃO: o DOU republica o ato em dois blocos — "Onde se lê: …" (o texto
+# errado) e "Leia-se: …" (o certo). Só o segundo vale. Sem isso o parser lia
+# os dois e, como a chave do registro é o nome, uma retificação de grafia
+# ("BARRETO" -> "BARRETTO", TRE-BA, 26/08/2025) criava uma segunda pessoa.
+_RE_ONDE_SE_LE = re.compile(
+    r"onde\s+se\s+l[êe]\s*:?[\s\S]*?(?=leia-?\s*se\s*:?)", re.IGNORECASE,
+)
+
+
+def _so_leia_se(texto):
+    return _RE_ONDE_SE_LE.sub(" ", texto)
+
+
 def _trechos_de_provimento(texto):
     """Os trechos do ato que podem conter convocação — os de função/cargo em
     comissão ficam de fora. A divisão é por artigo, porque o mesmo ato mistura
@@ -646,6 +659,7 @@ def extrair_nomeados(texto):
     """
     out = []
     vistos = set()
+    texto = _so_leia_se(texto)
     anulados = {sem_acento(a["nome"]) for a in extrair_anulacoes(texto)}
     # Junta com quebra de linha, não com espaço: assim um artigo descartado não
     # gruda o fim de um no começo do outro e cria um casamento que não existe.

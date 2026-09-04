@@ -14,6 +14,38 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.6] — 2026-09-04
+
+**Retificação do DOU não cria uma segunda pessoa — e o fechamento da varredura**
+
+Quando o Diário corrige um ato, ele republica em dois blocos: "**Onde se lê:**
+…" (o texto errado) e "**Leia-se:** …" (o certo). O parser lia os dois. Como a
+chave de um registro é o nome, uma retificação de grafia — "EVERTON SIMOES
+**BARRETO**" → "**BARRETTO**", TRE-BA, 26/08/2025 — virava uma segunda pessoa
+no painel se caísse na janela do robô. Agora só o "Leia-se" vale, tanto para
+nomeação quanto para anulação. Teste com o texto real.
+
+**Varredura completa, encerrada.** Todas as edições da Seção 2 do DOU de
+**01/06/2025 a 04/09/2026** foram reabertas com o parser novo: **330 dias
+úteis, 4.440 atos da Justiça Eleitoral, 335 nomeados de TI, 95 atos de
+anulação, nenhuma falha de download**. Resultado:
+
+- **Nenhuma nomeação de TI faltando na base.** Os três alertas de "não está na
+  base" eram grafias anteriores a retificações oficiais (o TRE-BA acima e a
+  republicação da Portaria 209 do TRE-SP, de 21/10/2025, que passou "Marcos
+  Oliveira Coelho" a "Marcos **de** Oliveira Coelho" — a base já seguia a
+  versão corrigida).
+- **Nove atos de anulação** que o parser antigo não lia, todos já incorporados
+  nas versões 1.17.3 a 1.17.5. Quatro nomeações de TI que estavam no painel
+  como válidas saíram (TRE-RJ ×2, TRE-AM ×2); as demais são de outras áreas.
+- Nenhum nome de 7 ou mais palavras perdido além do caso do TRE-RN que abriu
+  o dia.
+
+**Dados**
+- Base inalterada: 284 em vigor, 315 publicadas, 31 sem efeito; 98 anulações.
+- Testes: +1 formato de portaria (retificação). Reparsagem dos 98 registros de
+  anulação com o parser final: zero diferenças.
+
 ## [1.17.5] — 2026-09-04
 
 **Duas nomeações do TRE-AM desfeitas em setembro de 2025 constavam como

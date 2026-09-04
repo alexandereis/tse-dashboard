@@ -204,6 +204,16 @@ CASOS = {
     "Tribunal, nos termos do art. 9, inciso II, da Lei n 8.112/1990, para o exercicio do Cargo em "
     "Comissao CJ-2, na Coordenadoria de Suporte e Equipamentos.", []),
 
+ "BA retificacao (real: so vale o 'Leia-se'; o 'Onde se le' tem a grafia errada)": (
+    "RETIFICACAO Na PORTARIA N 488, DE 25 DE JULHO DE 2025, DO PRESIDENTE DO TRIBUNAL REGIONAL "
+    "ELEITORAL DA BAHIA, que trata do ato de nomeacao de EVERTON SIMOES BARRETTO. Onde se le: "
+    "\" Art. 1 Nomear o candidato EVERTON SIMOES BARRETO, 3 convocado, classificado em 1 lugar na "
+    "lista de vagas reservadas, para ocupar o cargo de Tecnico Judiciario - Area: Apoio "
+    "Especializado, Especialidade: Programacao de Sistemas, Classe A. \" Leia-se: \" Art. 1 Nomear "
+    "o candidato EVERTON SIMOES BARRETTO, 3 convocado, classificado em 1 lugar na lista de vagas "
+    "reservadas, para ocupar o cargo de Tecnico Judiciario - Area: Apoio Especializado, "
+    "Especialidade: Programacao de Sistemas, Classe A. \"", ["Everton Simoes Barretto"]),
+
  "SP 108 (bloco de Area Administrativa nao herda a especialidade de TI)": (
     "Art. 1 TORNAR SEM EFEITO a nomeacao de HUGO SOUSA DA SILVA, nomeado pela Portaria TRE-SP "
     "n.95/2026, no cargo de Analista Judiciario - Area Apoio Especializado - Especialidade "
