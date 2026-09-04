@@ -122,9 +122,19 @@ _BAD = set((
 ).split())
 
 
+# Quantas palavras um nome de pessoa pode ter. O limite existe para descartar
+# um trecho de texto capturado por engano, mas 6 era baixo demais: nome
+# brasileiro com sobrenome composto e conectivos passa disso com facilidade
+# ("Indi Li da Silva Alves Moreira Tenorio", TRE-RN, 04/09/2026, tem 7 — e a
+# nomeação foi descartada em silêncio). Os regexes já limitam o nome a ~70
+# caracteres e a lista _BAD barra palavras que não são de nome, então 10 é
+# folga para gente de verdade sem abrir a porta para frases inteiras.
+_MAX_PALAVRAS_NOME = 10
+
+
 def _nome_valido(s):
     tokens = _trim_nome(s).split()
-    if len(tokens) < 2 or len(tokens) > 6:
+    if len(tokens) < 2 or len(tokens) > _MAX_PALAVRAS_NOME:
         return False
     for t in tokens:
         if sem_acento(t) in _BAD:
@@ -403,9 +413,12 @@ def _extrair_romano(texto):
 
 
 # --- Formato B: blocos "Cargo de X ... Especialidade Y" + "Fulano, Nª colocação" (SP)
+# O nome aceita até _MAX_PALAVRAS_NOME palavras. Com o teto antigo de 6, um nome
+# de 7 palavras não sumia: o regex encaixava as 6 últimas e o painel mostrava o
+# nome sem a primeira palavra.
 _RE_B_NOME = re.compile(
-    r"([A-ZÀ-Ú][A-Za-zÀ-úÇ'.\-]+(?:\s+[A-ZÀ-Úa-zà-ú][A-Za-zÀ-úÇ'.\-]+){1,5}),\s*"
-    r"(\d+)\s*[ªaº]?\s*coloca[çc]"
+    r"([A-ZÀ-Ú][A-Za-zÀ-úÇ'.\-]+(?:\s+[A-ZÀ-Úa-zà-ú][A-Za-zÀ-úÇ'.\-]+){1,%d}),\s*"
+    r"(\d+)\s*[ªaº]?\s*coloca[çc]" % (_MAX_PALAVRAS_NOME - 1)
 )
 
 
@@ -478,13 +491,37 @@ def _motivo_anulacao(trecho):
     return ""
 
 
+def _eh_artigo_da_portaria(texto, pos):
+    """O "Art. Nº" em `pos` é artigo da PRÓPRIA portaria, e não uma referência
+    a artigo de lei?
+
+    Artigo da portaria vem depois do "resolve:" do preâmbulo ou do ponto final
+    do artigo anterior. Referência a lei vem depois de uma palavra: "nos termos
+    do art. 13", "pelo artigo 20", "com base no art. 9º". Conferido em todos os
+    atos da Justiça Eleitoral do DOU de 04/09/2026 (66 ocorrências, sem exceção).
+
+    Tratar a referência como fronteira partia o artigo no meio: "Tornar sem
+    efeito, nos termos do art. 13 da Lei…, a nomeação de FULANO" ficava com o
+    gatilho num pedaço e o nome no outro — e a anulação se perdia.
+    """
+    antes = texto[:pos].rstrip()
+    if not antes:
+        return True
+    if antes[-1] in ".:;)]\"”’":
+        return True
+    return bool(re.search(r"resolvem?$", antes, re.IGNORECASE))
+
+
 def _trechos_por_artigo(texto):
     """Divide a portaria em trechos "Art. 1º…", "Art. 2º…".
 
     Sem isso, um ato que no Art. 1º torna sem efeito uma nomeação e no Art. 2º
     nomeia outra pessoa misturaria os dois — e o coletor apagaria o nome errado.
+    Só conta como fronteira o artigo da própria portaria (veja
+    `_eh_artigo_da_portaria`).
     """
-    pos = [m.start() for m in _RE_ART.finditer(texto)]
+    pos = [m.start() for m in _RE_ART.finditer(texto)
+           if _eh_artigo_da_portaria(texto, m.start())]
     if not pos:
         return [texto]
     trechos = [texto[:pos[0]]] if pos[0] > 0 else []

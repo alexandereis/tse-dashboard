@@ -44,6 +44,15 @@ CASOS = {
     "Unificado da Justica Eleitoral, a candidata ADRIANA BENICIO GALVAO, para exercer, em carater "
     "efetivo, o cargo de Analista Judiciario, Area Apoio Especializado, Especialidade Analise de "
     "Sistemas de Informacao, Classe A.", ["Adriana Benicio Galvao"]),
+ "RN 277 (real: nome com 7 palavras nao pode ser descartado)": (
+    "Art. 1 NOMEAR, com fundamento no inciso I do art. 9 da Lei n 8.112, de 11 de dezembro de 1990 e "
+    "observada a ordem de classificacao, em razao de habilitacao no Concurso Publico Nacional "
+    "Unificado da Justica Eleitoral, a candidata Indi Li da Silva Alves Moreira Tenorio, para "
+    "exercer, em carater efetivo, neste Tribunal, o cargo de Tecnico Judiciario - Area Apoio "
+    "Especializado - Programacao de Sistemas, Classe A, Padrao 1, criado pela Lei n 8.215/1991, "
+    "vago em decorrencia da aposentadoria do servidor Epitacio Nunes da Silva Junior, conforme a "
+    "Portaria PRES TRE/RN n. 12, de 24 de janeiro de 2025. Art. 2 A candidata nomeada tera o prazo "
+    "de 30 (trinta) dias para tomar posse no cargo.", ["Indi Li da Silva Alves Moreira Tenorio"]),
  "AC (caixa alta; exclui servidor anterior)": (
     "NOMEAR os candidatos abaixo mencionados, os cargos de Tecnico Judiciario - Area Apoio "
     "Especializado, Especialidade Programacao de Sistemas, respectivamente JONATHAN MESSIAS E SILVA "
@@ -97,6 +106,11 @@ CASOS = {
     "NOMEAR, para o Cargo de Tecnico Judiciario, Area Apoio Especializado, Especialidade Programacao "
     "de Sistemas, os seguintes: Hibernon Olegario da Silva Junior, 10a colocacao; Laize Pereira "
     "Santos, 11a colocacao.", ["Hibernon Olegario da Silva Junior", "Laize Pereira Santos"]),
+ "SP (nome com 7 palavras sai inteiro, nao truncado)": (
+    "NOMEAR, para o Cargo de Tecnico Judiciario, Area Apoio Especializado, Especialidade Programacao "
+    "de Sistemas, os seguintes: Maria Aparecida da Conceicao de Oliveira Santos, 10a colocacao; "
+    "Laize Pereira Santos, 11a colocacao.",
+    ["Maria Aparecida da Conceicao de Oliveira Santos", "Laize Pereira Santos"]),
  "DF 152 multi-art (Formato A nao cruza artigo; exclui Eng. Mecanica)": (
     "Art. 8 Tornar sem efeito a nomeacao do candidato Fulano de Tal, Especialidade Tecnologia da "
     "Informacao, em razao de termo de desistencia. Art. 9 Nomear o candidato Joao Batista Grigorio "
@@ -183,6 +197,12 @@ CASOS = {
     "Art. 2 Nomear FREDERICO GOMES JABBUR, Analista Judiciario, Apoio Especializado - Analise de "
     "Sistemas - Suporte, do Quadro de Pessoal deste Tribunal, para o exercicio do Cargo em Comissao "
     "CJ-2, na Coordenadoria de Suporte e Equipamentos.", []),
+
+ "MG (CARGO EM COMISSAO com referencia a lei antes do CJ-2 nao vira convocacao)": (
+    "Art. 1 Dispensar ANDRE ALVES DE ALENCAR da funcao. Art. 2 Nomear FREDERICO GOMES JABBUR, "
+    "Analista Judiciario, Apoio Especializado - Analise de Sistemas, do Quadro de Pessoal deste "
+    "Tribunal, nos termos do art. 9, inciso II, da Lei n 8.112/1990, para o exercicio do Cargo em "
+    "Comissao CJ-2, na Coordenadoria de Suporte e Equipamentos.", []),
 
  "SP 108 (bloco de Area Administrativa nao herda a especialidade de TI)": (
     "Art. 1 TORNAR SEM EFEITO a nomeacao de HUGO SOUSA DA SILVA, nomeado pela Portaria TRE-SP "

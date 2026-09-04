@@ -14,6 +14,54 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.17.1] — 2026-09-04
+
+**Correção — a nomeação do TRE-RN de 04/09 não apareceu**
+
+A PORTARIA PRES 277 do **TRE-RN** (DOU de 04/09/2026) nomeou **Indi Li da Silva
+Alves Moreira Tenorio** para Técnico Judiciário (Programação de Sistemas), e ela
+não entrou no painel — a convocação do TRE-AP do mesmo dia entrou normalmente.
+
+**O que aconteceu.** O parser lia a portaria certinho: achava o nome, o cargo e
+a especialidade. Quem descartava era o **filtro de "nome válido"** — ele existe
+para jogar fora trechos de texto capturados por engano, e só aceitava nomes de
+**até 6 palavras**. Esse tem **7** (sobrenome composto mais o "da"). A nomeação
+sumia em silêncio, sem erro nenhum. Doze nomes já na base têm exatamente 6
+palavras; o limite estava no fio da navalha.
+
+Agora o limite é **10 palavras** — os padrões de leitura já limitam o nome a
+~70 caracteres e a lista de palavras proibidas continua barrando o que não é
+nome de gente, então a folga não abre a porta para frase inteira. O mesmo teto
+de 6 estava escondido em mais dois lugares, corrigidos juntos:
+
+- No formato do **TRE-SP** ("Fulano, Nª colocação") um nome de 7 palavras não
+  sumia: entrava **sem a primeira palavra**.
+- Nos atos que **tornam sem efeito** uma nomeação, um nome de 7 palavras não era
+  reconhecido — e a pessoa continuaria no painel como convocada.
+
+**De quebra, mais um erro achado no caminho.** Uma referência a artigo de lei
+dentro de um artigo da portaria ("…nos termos do **art. 13** da Lei 8.112…") era
+tratada como se fosse o começo de um novo artigo, e o texto era partido no meio.
+Para nomeação não fazia diferença (os pedaços são juntados de novo), mas para os
+atos que **tornam sem efeito** fazia: o "tornar sem efeito" ficava num pedaço e o
+nome no outro, e a anulação se perdia. Também fechava uma porta para falso
+positivo: um servidor nomeado para **cargo em comissão** podia entrar como
+convocado se a referência à lei viesse antes do "CJ-2". Agora só conta como
+artigo da portaria o "Art. Nº" que vem depois do "resolve:" ou do ponto final
+do artigo anterior — conferido nas 66 ocorrências dos 18 atos da Justiça
+Eleitoral publicados em 04/09.
+
+**Dados**
+- +Indi Li da Silva Alves Moreira Tenorio — **TRE-RN**, Técnico Judiciário
+  (Programação de Sistemas), PORTARIA PRES 277, 04/09/2026. **288** nomeações em
+  vigor, **315** convocações publicadas (27 tornadas sem efeito).
+- Seed sincronizado com a base (+10 registros desde 21/08).
+- Auditoria de tudo que a busca do DOU alcança (17/08 a 04/09: 101 portarias
+  da Justiça Eleitoral, 19 nomeados de TI): nenhuma outra nomeação havia sido
+  perdida por esse motivo nesse período.
+- Testes: 31 formatos de portaria (3 novos), 9 casos de anulação (2 novos) e
+  4 de motivo, 6 de aplicação de anulação, 3 do coletor, 12 de órgão.
+
 ## [1.17.0] — 2026-08-31
 
 **Os dois números, e o que aconteceu com quem saiu**

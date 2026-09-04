@@ -42,6 +42,18 @@ CASOS = {
     "CARLA DE ANDRADE MENEZES, classificada em 4 lugar, para o cargo de Analista Judiciario, Area "
     "de Apoio Especializado - Tecnologia da Informacao.", ["Carla de Andrade Menezes"]),
 
+ "nome com 7 palavras tambem e anulado": (
+    "Art. 1 Tornar sem efeito a Portaria n 504, de 23 de Julho de 2026, referente a nomeacao do "
+    "candidato INDI LI DA SILVA ALVES MOREIRA TENORIO, para o cargo de Tecnico Judiciario, Area de "
+    "Apoio Especializado, Especialidade Programacao de Sistemas.",
+    ["Indi Li da Silva Alves Moreira Tenorio"]),
+
+ "referencia a artigo de lei no meio do Art. 1 nao separa o gatilho do nome": (
+    "Art. 1 Tornar sem efeito, nos termos do art. 13, paragrafo 6, da Lei n 8.112/1990, a "
+    "nomeacao do candidato PAULO ROBERTO ALVES DE SOUZA, para o cargo de Tecnico Judiciario, "
+    "Apoio Especializado, Programacao de Sistemas. Art. 2 Esta Portaria entra em vigor na data "
+    "de sua publicacao.", ["Paulo Roberto Alves de Souza"]),
+
  # --- NAO podem anular ---------------------------------------------------
  "nomeacao comum nao anula ninguem": (
     "Art. 1 NOMEAR o(a) candidato(a) JOAO PEDRO SANTOS DE MENDONCA, classificado(a) em 5 lugar, "
