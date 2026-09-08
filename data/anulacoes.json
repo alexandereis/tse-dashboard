@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-04T16:23:50.810710+00:00",
-  "total": 98,
+  "atualizado_em": "2026-09-08T07:58:03.999409+00:00",
+  "total": 99,
   "anulacoes": [
     {
       "uf": "AP",
@@ -983,6 +983,16 @@
       "ato": "PORTARIA Nº 2.779",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-p-n-2.779-de-28-de-agosto-de-2026-730202857",
       "motivo": "Desistência"
+    },
+    {
+      "uf": "AL",
+      "nome": "Patricia Carla dos Santos Vieira",
+      "portaria_desfeita": "269",
+      "motivo": "",
+      "data": "2026-09-08",
+      "data_br": "08/09/2026",
+      "ato": "PORTARIA Nº 289",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-289-tre-al/pre/dg/sgp/sracf-de-4-de-setembro-de-2026-730367315"
     }
   ]
 }
