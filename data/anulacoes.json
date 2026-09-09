@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-08T07:58:03.999409+00:00",
-  "total": 99,
+  "atualizado_em": "2026-09-09T08:01:26.866000+00:00",
+  "total": 100,
   "anulacoes": [
     {
       "uf": "AP",
@@ -993,6 +993,16 @@
       "data_br": "08/09/2026",
       "ato": "PORTARIA Nº 289",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-289-tre-al/pre/dg/sgp/sracf-de-4-de-setembro-de-2026-730367315"
+    },
+    {
+      "uf": "RS",
+      "nome": "Juliana Both Engel",
+      "portaria_desfeita": "2.752",
+      "motivo": "Desistência",
+      "data": "2026-09-09",
+      "data_br": "09/09/2026",
+      "ato": "PORTARIA Nº 2.773",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.773-de-20-de-agosto-de-2026-730661649"
     }
   ]
 }
