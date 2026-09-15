@@ -1,9 +1,37 @@
 {
-  "atualizado_em": "2026-09-09T08:01:26.875763+00:00",
-  "total": 288,
-  "total_publicado": 319,
-  "total_sem_efeito": 31,
+  "atualizado_em": "2026-09-15T08:31:29.607179+00:00",
+  "total": 289,
+  "total_publicado": 321,
+  "total_sem_efeito": 32,
   "registros": [
+    {
+      "uf": "ES",
+      "orgao": "Espírito Santo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Gabriel Inácio Barboza",
+      "classificacao": 0,
+      "data": "2026-09-15",
+      "data_br": "15/09/2026",
+      "portaria": "ATO Nº 311",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-311-de-10-de-setembro-de-2026-731868682",
+      "fonte": "dou"
+    },
+    {
+      "uf": "ES",
+      "orgao": "Espírito Santo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Eduardo Saldanha Bragato",
+      "classificacao": 0,
+      "data": "2026-09-15",
+      "data_br": "15/09/2026",
+      "portaria": "ATO Nº 312",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-312-de-10-de-setembro-de-2026-731780888",
+      "fonte": "dou"
+    },
     {
       "uf": "GO",
       "orgao": "Goiás",
@@ -924,7 +952,13 @@
       "data_br": "24/07/2026",
       "portaria": "PORTARIA Nº 25.019",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-25.019-de-23-de-julho-de-2026-721138444",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-15",
+      "sem_efeito_em_br": "15/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 25.151",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-n-25.151-de-4-de-setembro-de-2026-731788131",
+      "sem_efeito_motivo": "Desistência"
     },
     {
       "uf": "PA",

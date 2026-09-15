@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-09T08:01:26.866000+00:00",
-  "total": 100,
+  "atualizado_em": "2026-09-15T08:31:29.597286+00:00",
+  "total": 101,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1003,6 +1003,16 @@
       "data_br": "09/09/2026",
       "ato": "PORTARIA Nº 2.773",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.773-de-20-de-agosto-de-2026-730661649"
+    },
+    {
+      "uf": "PA",
+      "nome": "Marcelo Nascimento Moutinho",
+      "portaria_desfeita": "25.019",
+      "motivo": "Desistência",
+      "data": "2026-09-15",
+      "data_br": "15/09/2026",
+      "ato": "PORTARIA Nº 25.151",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-25.151-de-4-de-setembro-de-2026-731788131"
     }
   ]
 }
