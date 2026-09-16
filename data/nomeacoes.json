@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-09-15T08:31:29.607179+00:00",
-  "total": 289,
-  "total_publicado": 321,
-  "total_sem_efeito": 32,
+  "atualizado_em": "2026-09-16T08:25:50.992889+00:00",
+  "total": 288,
+  "total_publicado": 322,
+  "total_sem_efeito": 34,
   "registros": [
+    {
+      "uf": "PB",
+      "orgao": "Paraíba",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Guilherme Ramalho Magalhães",
+      "classificacao": 1,
+      "data": "2026-09-16",
+      "data_br": "16/09/2026",
+      "portaria": "PORTARIA Nº 312",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-312-tre-pb/ptre/aspre-de-14-de-setembro-de-2026*-732091796",
+      "fonte": "dou"
+    },
     {
       "uf": "ES",
       "orgao": "Espírito Santo",
@@ -666,7 +680,13 @@
       "data_br": "18/08/2026",
       "portaria": "PORTARIA Nº 518",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-518-de-14-de-agosto-de-2026-725911631",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-16",
+      "sem_efeito_em_br": "16/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 615",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-n-615-de-14-de-setembro-de-2026-732137285",
+      "sem_efeito_motivo": "Desistência"
     },
     {
       "uf": "MA",
@@ -722,7 +742,13 @@
       "data_br": "12/08/2026",
       "portaria": "PORTARIA Nº 2.766",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.766-de-10-de-agosto-de-2026-724761153",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-16",
+      "sem_efeito_em_br": "16/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 2.788",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.788-de-14-de-setembro-de-2026-732099829",
+      "sem_efeito_motivo": "Não tomou posse no prazo"
     },
     {
       "uf": "PR",

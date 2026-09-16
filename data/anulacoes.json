@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-15T08:31:29.597286+00:00",
-  "total": 101,
+  "atualizado_em": "2026-09-16T08:25:50.982573+00:00",
+  "total": 105,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1013,6 +1013,46 @@
       "data_br": "15/09/2026",
       "ato": "PORTARIA Nº 25.151",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-25.151-de-4-de-setembro-de-2026-731788131"
+    },
+    {
+      "uf": "RS",
+      "nome": "Tiago Panerai Pereira",
+      "portaria_desfeita": "229",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-09-16",
+      "data_br": "16/09/2026",
+      "ato": "PORTARIA Nº 2.788",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.788-de-14-de-setembro-de-2026-732099829"
+    },
+    {
+      "uf": "TSE",
+      "nome": "André Luiz Fernandes de Mello",
+      "portaria_desfeita": "518",
+      "motivo": "Desistência",
+      "data": "2026-09-16",
+      "data_br": "16/09/2026",
+      "ato": "PORTARIA Nº 615",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-615-de-14-de-setembro-de-2026-732137285"
+    },
+    {
+      "uf": "TSE",
+      "nome": "João Antonio Franco Lambartini",
+      "portaria_desfeita": "523",
+      "motivo": "Desistência",
+      "data": "2026-09-16",
+      "data_br": "16/09/2026",
+      "ato": "PORTARIA Nº 616",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-616-de-14-de-setembro-de-2026-732099908"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Sara de Assis Aquino",
+      "portaria_desfeita": "516",
+      "motivo": "Desistência",
+      "data": "2026-09-16",
+      "data_br": "16/09/2026",
+      "ato": "PORTARIA Nº 614",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-614-de-14-de-setembro-de-2026-732062954"
     }
   ]
 }
