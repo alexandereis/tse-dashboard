@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-16T08:25:50.982573+00:00",
-  "total": 105,
+  "atualizado_em": "2026-09-17T08:32:32.926515+00:00",
+  "total": 108,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1053,6 +1053,36 @@
       "data_br": "16/09/2026",
       "ato": "PORTARIA Nº 614",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-614-de-14-de-setembro-de-2026-732062954"
+    },
+    {
+      "uf": "SP",
+      "nome": "Claudete Aparecida Guedes",
+      "portaria_desfeita": "250",
+      "motivo": "Perícia médica",
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "ato": "PORTARIA Nº 294",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074"
+    },
+    {
+      "uf": "SP",
+      "nome": "Gustavo Calcavara",
+      "portaria_desfeita": "250",
+      "motivo": "Desistência",
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "ato": "PORTARIA Nº 294",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074"
+    },
+    {
+      "uf": "SP",
+      "nome": "Hallan Cosmo dos Santos",
+      "portaria_desfeita": "234",
+      "motivo": "Perícia médica",
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "ato": "PORTARIA Nº 302",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-302-de-15-de-setembro-de-2026-732376626"
     }
   ]
 }

@@ -1,9 +1,79 @@
 {
-  "atualizado_em": "2026-09-16T08:25:50.992889+00:00",
-  "total": 288,
-  "total_publicado": 322,
-  "total_sem_efeito": 34,
+  "atualizado_em": "2026-09-17T08:32:32.937384+00:00",
+  "total": 290,
+  "total_publicado": 327,
+  "total_sem_efeito": 37,
   "registros": [
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Raimundo Ferreira Ribeiro",
+      "classificacao": 9,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 302",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-302-de-15-de-setembro-de-2026-732376626",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Patrick Sponhardi Lopes",
+      "classificacao": 32,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 302",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-302-de-15-de-setembro-de-2026-732376626",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "João Antonio Carvalho Monteiro de Oliveira",
+      "classificacao": 4,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 294",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Flavio Vicentini Junior",
+      "classificacao": 13,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 294",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Claudio Cabaleiro da Costa",
+      "classificacao": 14,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 294",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
+      "fonte": "dou"
+    },
     {
       "uf": "PB",
       "orgao": "Paraíba",
@@ -714,7 +784,13 @@
       "data_br": "13/08/2026",
       "portaria": "PORTARIA Nº 250",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-250-de-12-de-agosto-de-2026-725027436",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-17",
+      "sem_efeito_em_br": "17/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 294",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
+      "sem_efeito_motivo": "Desistência"
     },
     {
       "uf": "SP",
@@ -728,7 +804,13 @@
       "data_br": "13/08/2026",
       "portaria": "PORTARIA Nº 250",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-250-de-12-de-agosto-de-2026-725027436",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-17",
+      "sem_efeito_em_br": "17/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 294",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
+      "sem_efeito_motivo": "Perícia médica"
     },
     {
       "uf": "RS",
@@ -832,7 +914,13 @@
       "data_br": "05/08/2026",
       "portaria": "PORTARIA Nº 234",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-234-de-27-de-julho-de-2026-723509349",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-09-17",
+      "sem_efeito_em_br": "17/09/2026",
+      "sem_efeito_ato": "PORTARIA Nº 302",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-302-de-15-de-setembro-de-2026-732376626",
+      "sem_efeito_motivo": "Perícia médica"
     },
     {
       "uf": "GO",
