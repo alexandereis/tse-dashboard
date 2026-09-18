@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-17T08:32:32.926515+00:00",
-  "total": 108,
+  "atualizado_em": "2026-09-18T08:06:54.293679+00:00",
+  "total": 114,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1083,6 +1083,66 @@
       "data_br": "17/09/2026",
       "ato": "PORTARIA Nº 302",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-302-de-15-de-setembro-de-2026-732376626"
+    },
+    {
+      "uf": "MG",
+      "nome": "Karol Wojtyla Santos",
+      "portaria_desfeita": "254",
+      "motivo": "",
+      "data": "2026-09-18",
+      "data_br": "18/09/2026",
+      "ato": "PORTARIA Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
+    },
+    {
+      "uf": "MG",
+      "nome": "Raquel Monteiro de Souza",
+      "portaria_desfeita": "254",
+      "motivo": "",
+      "data": "2026-09-18",
+      "data_br": "18/09/2026",
+      "ato": "PORTARIA Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
+    },
+    {
+      "uf": "MG",
+      "nome": "Sheila dos Santos Bernardes",
+      "portaria_desfeita": "254",
+      "motivo": "",
+      "data": "2026-09-18",
+      "data_br": "18/09/2026",
+      "ato": "PORTARIA Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
+    },
+    {
+      "uf": "MG",
+      "nome": "Talitha de Souza Teixeira",
+      "portaria_desfeita": "254",
+      "motivo": "",
+      "data": "2026-09-18",
+      "data_br": "18/09/2026",
+      "ato": "PORTARIA Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
+    },
+    {
+      "uf": "MG",
+      "nome": "Vivian Bernardes de Souza",
+      "portaria_desfeita": "254",
+      "motivo": "",
+      "data": "2026-09-18",
+      "data_br": "18/09/2026",
+      "ato": "PORTARIA Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
+    },
+    {
+      "uf": "MG",
+      "nome": "Yasmin Marcaccini Guide",
+      "portaria_desfeita": "254",
+      "motivo": "",
+      "data": "2026-09-18",
+      "data_br": "18/09/2026",
+      "ato": "PORTARIA Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
     }
   ]
 }
