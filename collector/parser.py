@@ -172,6 +172,11 @@ def _limpar_esp(esp):
     # corta sufixos que às vezes "colam" no fim da especialidade
     esp = re.sub(r"\s+(classe|padr[ãa]o|n[isí]|do quadro|para integrar|ordem|nome|origem).*$", "",
                  esp, flags=re.IGNORECASE).strip(" ,-–")
+    # Alguns tribunais escrevem o cargo inteiro em CAIXA ALTA ("ESPECIALIDADE EM
+    # PROGRAMAÇÃO DE SISTEMAS", TRE-PA). Guardar assim faria a mesma
+    # especialidade virar duas na exportação do painel.
+    if esp.isupper():
+        esp = formatar_nome(esp)
     return esp
 
 
@@ -214,10 +219,23 @@ def _extrair_a(texto):
 
 
 # --- Famílias 1/2: inline com texto entre "Nomear" e o nome (AP, ES, MS, PB…)
+# Quem mais pode estar sendo nomeado no mesmo artigo: a janela entre o nome e o
+# cargo não pode passar por cima de OUTRO candidato, senão o primeiro herda o
+# cargo do segundo (e um nomeado da Área Judiciária vira TI). Só conta a forma
+# "o candidato FULANO" — "a candidatos negros" é lista de vagas, não outra pessoa.
+_OUTRO_CANDIDATO = r"\b[oa](?:\(a\))?\s+candida[dt][oa](?:\(a\))?\s+[A-ZÀ-Ú]"
+
+# A janela era de 280 caracteres e não alcançava o cargo quando o tribunal
+# escreve o edital inteiro entre o nome e o cargo: no Art. 3º da Portaria 25.151
+# do TRE-PA (16/09/2026) são 435 caracteres, e a nomeação de TI sumiu em
+# silêncio. Com 520 ela cabe. O que segura o exagero não é o tamanho, são os
+# limites: a janela não cruza outro "nomear", outro candidato, nem a quebra de
+# linha que separa os artigos (veja `_trechos_de_provimento`).
 _RE_INLINE = re.compile(
-    r"nomear(?:(?!\bnomear\b)[\s\S]){0,240}?\b(?:o|a)(?:\(a\))?\s+"
+    r"nomear(?:(?!\bnomear\b)[^\n]){0,240}?\b(?:o|a)(?:\(a\))?\s+"
     r"(?:sr\.?\s+|sra\.?\s+|candida[dt][oa](?:\(a\))?\s+)"
-    r"([A-ZÀ-Ú][^,]{3,70}?)\s*,(?:(?!\bnomear\b)[\s\S]){0,280}?" + _CARGOESP,
+    r"([A-ZÀ-Ú][^,]{3,70}?)\s*,"
+    r"(?:(?!\bnomear\b|" + _OUTRO_CANDIDATO + r")[^\n]){0,520}?" + _CARGOESP,
     re.IGNORECASE,
 )
 
@@ -242,8 +260,12 @@ def _extrair_inline(texto):
 
 
 # --- Família "direta": "Nomear FULANO DE TAL, ... cargo ... especialidade X" (SC)
+# A janela é a mesma da família inline, pelo mesmo motivo: o TRE-CE escreve o
+# CPF e a lista de cotas entre o nome e o cargo — 330 caracteres na Portaria 691
+# de 19/08/2026 — e a nomeação de TI de Raul Ramires Lima Oliveira sumiu.
 _RE_DIRETO = re.compile(
-    r"(?i:nomear)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’.\- ]{5,55}?)\s*,(?:(?!(?i:nomear))[\s\S]){0,280}?(?i:" + _CARGOESP + r")"
+    r"(?i:nomear)\s+([A-ZÀ-Ú][A-ZÀ-Ú'’.\- ]{5,55}?)\s*,"
+    r"(?:(?!(?i:nomear)|(?i:" + _OUTRO_CANDIDATO + r"))[^\n]){0,520}?(?i:" + _CARGOESP + r")"
 )
 
 
@@ -283,9 +305,16 @@ def _extrair_caps(texto):
 # é aceito se esse bloco for de TI. Assim, nomes de uma seção Administrativa não
 # "vazam" para a especialidade de TI da seção anterior.
 _RE_CARGO_HEAD = re.compile(
-    r"cargo[s]?\s+de\s+(analista|t[ée]cnico)\s+judici[áa]rio([\s\S]{0,160})",
+    r"cargo[s]?\s+de\s*:?\s+(analista|t[ée]cnico)\s+judici[áa]rio([\s\S]{0,160})",
     re.IGNORECASE,
 )
+
+# "…do 1º cargo de Analista Judiciário criado pela Lei…" NÃO é cabeçalho: é a
+# ORIGEM DA VAGA, repetida em cada linha da tabela (TRE-PE, Portaria 905 de
+# 17/09/2026). Lida como cabeçalho, ela virava a fronteira mais próxima do nome
+# seguinte — um bloco sem especialidade — e os nomeados de TI sumiam. O ordinal
+# colado no "cargo" ("do 1º cargo de…") é o que a distingue de um cabeçalho.
+_RE_VAGA_ORDINAL = re.compile(r"\d+\s*[ºo°ª]?\s*$")
 
 
 def _esp_do_desc(desc):
@@ -302,9 +331,13 @@ def _esp_do_desc(desc):
 # artigo que só tornava sem efeito outra nomeação) e entravam no painel.
 # O "Classe/Padrão" obrigatório é o que distingue o cabeçalho de uma menção
 # corrida como "Técnico Judiciário - Área: Apoio Especializado…".
+# O único dois-pontos aceito no meio é o de "Especialidade:" — o TRE-PE escreve
+# "Analista Judiciário, Área de Apoio Especializado, Especialidade: Tecnologia
+# da Informação, Classe A, Padrão 1:" e, sem essa exceção, o cabeçalho de TI
+# inteiro deixava de ser reconhecido (Portaria 905 de 17/09/2026).
 _RE_CARGO_HEAD_LISTA = re.compile(
     r"(analista|t[ée]cnico)\s+judici[áa]rio\s*[-–,]\s*"
-    r"([^:\n]{0,150}?(?:classe|padr[ãa]o)[^:\n]{0,25}?):",
+    r"((?:[^:\n]|(?<=especialidade):){0,150}?(?:classe|padr[ãa]o)[^:\n]{0,25}?):",
     re.IGNORECASE,
 )
 
@@ -314,6 +347,8 @@ def _blocos_cargo(texto):
     out = []
     for regex in (_RE_CARGO_HEAD, _RE_CARGO_HEAD_LISTA):
         for m in regex.finditer(texto):
+            if regex is _RE_CARGO_HEAD and _RE_VAGA_ORDINAL.search(texto[:m.start()][-12:]):
+                continue        # "do 1º cargo de Analista…" é origem da vaga
             desc = m.group(2)
             out.append((m.start(), _cargo_norm(m.group(1)), _esp_do_desc(desc), eh_ti(desc)))
     out.sort()
@@ -640,6 +675,79 @@ _RE_ONDE_SE_LE = re.compile(
 
 def _so_leia_se(texto):
     return _RE_ONDE_SE_LE.sub(" ", texto)
+
+
+# ---------------------------------------------------------------------------
+# ATO QUE CORRIGE OUTRO ATO — republicação e retificação
+# ---------------------------------------------------------------------------
+# O DOU corrige um ato já publicado de dois jeitos:
+#
+#   REPUBLICAÇÃO — sai a portaria inteira de novo, com asterisco no título e a
+#   nota no fim: "Republicada por incorreção no nome do candidato informado na
+#   Portaria nº 312/2026, publicada em 24/08/2026" (TRE-PB, 16/09/2026).
+#   RETIFICAÇÃO — sai só o pedaço, em dois blocos, "Onde se lê" e "Leia-se"
+#   (TRE-BA, 26/08/2025); veja `_so_leia_se`.
+#
+# Nos dois casos NÃO há nomeação nova: é a mesma nomeação, com o nome escrito
+# certo. Sem reconhecer isso, o coletor criava uma segunda pessoa — foi o que
+# aconteceu com "Guilherme Ramalho" (24/08) e "Guilherme Ramalho Magalhães"
+# (16/09), a mesma pessoa em duas linhas do painel. Quem casa a correção com a
+# nomeação original é o correcoes.py; aqui só se lê o que o ato declara.
+_RE_REPUBLICACAO = re.compile(
+    r"republica[çc][ãa]o\s+por|republicad[oa]\s+(?:por|em\s+raz[ãa]o)"
+    r"|por\s+ter\s+sa[íi]do\s+com\s+incorre[çc][ãa]o",
+    re.IGNORECASE,
+)
+
+_RE_RETIFICACAO = re.compile(r"\bretifica[çc][ãa]o\b|\bretificar\b", re.IGNORECASE)
+
+# "…na Portaria nº 312/2026 TRE-PB…", "Na PORTARIA Nº 488, DE 25 DE JULHO…"
+_RE_ATO_CITADO = re.compile(r"\b(portaria|ato)\b[^\d\n]{0,40}?(\d[\d.]*)", re.IGNORECASE)
+
+# "publicada em 24/08/2026", "publicada no DOU de 05/08/2025"
+_RE_DATA_PUBLICACAO = re.compile(
+    r"publicad[oa]s?\s+(?:n[oa]\s+[^,\n]{0,40}?\s+)?(?:em|de)\s+(\d{2})/(\d{2})/(\d{4})",
+    re.IGNORECASE,
+)
+
+
+def _ato_citado(trecho, rotulo_proprio=""):
+    """Rótulo do ato citado no trecho ("PORTARIA Nº 312"); se o trecho não
+    citar nenhum, vale o rótulo do próprio ato — uma republicação sai com o
+    mesmo número da portaria que ela substitui."""
+    m = _RE_ATO_CITADO.search(trecho)
+    return f"{m.group(1).upper()} Nº {m.group(2)}" if m else rotulo_proprio
+
+
+def ato_de_correcao(titulo, texto, rotulo_proprio=""):
+    """O ato corrige outro ato já publicado? Devolve o que ele declara:
+
+        {"tipo": "republicacao"|"retificacao",
+         "ato": "PORTARIA Nº 312",       # o ato corrigido
+         "data_original": "2026-08-24"}  # quando ele saiu, se o texto disser
+
+    ou None quando é um ato comum. É de propósito que só a declaração explícita
+    conta: tratar um ato comum como correção faria o coletor renomear gente.
+    """
+    cabeca = f"{titulo or ''} {texto or ''}"
+    m = _RE_REPUBLICACAO.search(cabeca)
+    if m:
+        nota = cabeca[m.start():]
+        tipo, ato = "republicacao", _ato_citado(nota, rotulo_proprio)
+    elif (_RE_RETIFICACAO.search(titulo or "")
+          or _RE_ONDE_SE_LE.search(texto or "")
+          or re.search(r"\bleia-?\s*se\b", texto or "", re.IGNORECASE)):
+        if not _RE_RETIFICACAO.search(cabeca):
+            return None
+        nota = cabeca
+        tipo, ato = "retificacao", _ato_citado(cabeca)
+    else:
+        return None
+    if not ato:
+        return None
+    md = _RE_DATA_PUBLICACAO.search(nota)
+    data_original = f"{md.group(3)}-{md.group(2)}-{md.group(1)}" if md else ""
+    return {"tipo": tipo, "ato": ato, "data_original": data_original}
 
 
 def _trechos_de_provimento(texto):

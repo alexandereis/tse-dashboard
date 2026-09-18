@@ -74,6 +74,18 @@ def marcar(registro, anulacao):
     return marcado
 
 
+def _nomes_do_registro(registro):
+    """Todos os nomes pelos quais a pessoa já saiu no DOU.
+
+    Quando o Diário corrige o nome (republicação/retificação, veja
+    correcoes.py), a nomeação passa a valer com a grafia nova, mas um ato que a
+    desfaça pode citar a antiga — e citar a nova também. As duas contam, senão
+    a nomeação continuaria no painel depois de desfeita.
+    """
+    return {_sem_acento(registro.get("nome", "")),
+            _sem_acento(registro.get("nome_publicado", ""))} - {""}
+
+
 def aplicar_anulacoes(registros, anulacoes):
     """Devolve (nomeações em vigor, nomeações tornadas sem efeito).
 
@@ -92,7 +104,7 @@ def aplicar_anulacoes(registros, anulacoes):
             i for i, r in enumerate(registros)
             if i not in fora
             and r.get("uf") == uf
-            and _sem_acento(r.get("nome", "")) == nome
+            and nome in _nomes_do_registro(r)
             and (not data or (r.get("data") or "") <= data)
         ]
         if alvo:

@@ -20,11 +20,13 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import anulacoes as anul
+import correcoes as corr
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ_DADOS = os.path.join(RAIZ, "data", "nomeacoes.json")
 ARQ_SEED = os.path.join(RAIZ, "seed", "seed.json")
 ARQ_ANULACOES = os.path.join(RAIZ, "data", "anulacoes.json")
+ARQ_CORRECOES = os.path.join(RAIZ, "data", "correcoes.json")
 
 
 def sem_acento(t):
@@ -71,7 +73,12 @@ def main():
             base[chave(r)] = anul.limpar_marca(r)
             add += 1
 
-    publicados = sorted(base.values(),
+    # As correções do DOU (republicação/retificação) são reaplicadas SEMPRE, como
+    # as anulações: o seed guarda a grafia que saiu no ato original e a
+    # regeneração a traria de volta como uma segunda pessoa (veja correcoes.py).
+    corrigidos, aplicadas = corr.aplicar(list(base.values()),
+                                         corr.carregar(ARQ_CORRECOES))
+    publicados = sorted(corrigidos,
                         key=lambda r: (r.get("data", ""), r.get("nome", "")),
                         reverse=True)
 
@@ -94,7 +101,8 @@ def main():
         json.dump(saida, f, ensure_ascii=False, indent=2)
     print(f"data/nomeacoes.json regenerado: {len(vigentes)} em vigor + "
           f"{len(sem_efeito)} tornadas sem efeito = {len(regs)} "
-          f"(seed {len(seed)} + {add} vindos da base/coletor).")
+          f"(seed {len(seed)} + {add} vindos da base/coletor; "
+          f"{aplicadas} correção(ões) do DOU aplicada(s)).")
 
 
 if __name__ == "__main__":

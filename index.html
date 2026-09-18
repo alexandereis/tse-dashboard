@@ -235,6 +235,11 @@
         <div class="flex-1">
           <h3 class="font-bold text-white">Lista de nomeados</h3>
           <p class="text-xs text-slate-400">Filtre por estado, cargo ou pesquise pelo nome.</p>
+          <p class="text-[11px] text-slate-500 mt-1 max-w-xl">
+            Quando o Diário republica a portaria para corrigir um nome, a nomeação continua
+            com a <strong>data do ato original</strong> — o link <em>republicação</em> ao lado
+            da portaria leva ao texto corrigido. A busca também acha pela grafia antiga.
+          </p>
           <label class="inline-flex items-center gap-2 mt-2 text-xs text-slate-400 cursor-pointer select-none">
             <input id="incluirSemEfeito" type="checkbox" class="accent-amber-500 w-3.5 h-3.5">
             Incluir nomeações tornadas sem efeito
@@ -329,7 +334,7 @@
   </main>
 
   <script>
-    const APP_VERSION = '1.18.0';
+    const APP_VERSION = '1.19.0';
     const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); // tira acentos
     // Os 28 órgãos da Justiça Eleitoral (26 estados + DF + TSE).
     const TODOS_ORGAOS = {
@@ -652,7 +657,10 @@
       return fonte.filter(d=>
         (!uf || d.uf===uf) &&
         (!cargo || d.cargo===cargo) &&
-        (!q || norm(d.nome).includes(q))
+        // "nome_publicado" é a grafia que saiu no ato original quando o DOU
+        // corrigiu o nome depois: quem procura o nome que leu no Diário antigo
+        // precisa achar a pessoa do mesmo jeito.
+        (!q || norm(d.nome).includes(q) || norm(d.nome_publicado).includes(q))
       );
     }
 
@@ -806,11 +814,13 @@
       // A situação vai junto: um CSV em que a nomeação desfeita não se distingue
       // da válida vira dado errado assim que sai do painel.
       const head = ['Nome','UF','Órgão','Cargo','Especialidade','Data','Portaria','Link',
-                    'Situação','Sem efeito em','Motivo','Ato que desfez'];
+                    'Situação','Sem efeito em','Motivo','Ato que desfez',
+                    'Nome no ato original','Texto corrigido em'];
       const esc = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
       const linhas = dados.map(d => [d.nome,d.uf,d.orgao,d.cargo,d.especialidade,d.data_br,d.portaria,d.url,
         d.situacao === 'sem_efeito' ? 'Tornada sem efeito' : 'Em vigor',
-        d.sem_efeito_em_br || '', d.sem_efeito_motivo || '', d.sem_efeito_ato || ''].map(esc).join(','));
+        d.sem_efeito_em_br || '', d.sem_efeito_motivo || '', d.sem_efeito_ato || '',
+        d.nome_publicado || '', d.corrigido_em_br || ''].map(esc).join(','));
       const csv = '﻿' + [head.join(','), ...linhas].join('\n'); // BOM p/ acentos no Excel
       const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
       const a = document.createElement('a');
@@ -967,6 +977,19 @@
       return `<tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">Nenhum resultado para os filtros atuais.</td></tr>`;
     }
 
+    // Quando o DOU erra o nome de um nomeado, ele não publica nomeação nova:
+    // republica a portaria ou publica uma retificação. A nomeação continua
+    // valendo com a data e o ato originais, e aqui fica o link do texto
+    // corrigido — é nele que está o nome certo.
+    function correcaoDoAto(d){
+      if(!d.corrigido_url) return '';
+      const rotulo = d.corrigido_tipo === 'retificacao' ? 'retificação' : 'republicação';
+      const grafia = d.nome_publicado ? ` — saiu como “${d.nome_publicado}”` : '';
+      return `<br><a href="${d.corrigido_url}" target="_blank" rel="noopener"
+        class="text-[11px] text-slate-400 hover:underline whitespace-nowrap"
+        title="Texto corrigido pelo DOU em ${d.corrigido_em_br||''}${grafia}">${rotulo} ↗</a>`;
+    }
+
     function renderTabela(){
       let dados = dadosFiltrados(querSemEfeito()).slice();
       const col = ordenarPor;
@@ -994,7 +1017,7 @@
           <td class="px-4 py-3"><span class="inline-flex items-center gap-1.5"><span class="text-[10px] font-bold px-1.5 py-0.5 rounded" style="background:${corOrgao(d.uf)}26;color:${corOrgao(d.uf)}">${d.uf}</span>${d.orgao||''}</span></td>
           <td class="px-4 py-3"><span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:${corCargo(d.cargo)}26;color:${corCargo(d.cargo)}">${d.cargo||''}</span></td>
           <td class="px-4 py-3 whitespace-nowrap">${d.data_br||''}</td>
-          <td class="px-4 py-3">${d.url?`<a href="${d.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:underline whitespace-nowrap">${d.portaria||'Ver'} ↗</a>`:(d.portaria||'')}</td>
+          <td class="px-4 py-3">${d.url?`<a href="${d.url}" target="_blank" rel="noopener" class="text-indigo-400 hover:underline whitespace-nowrap">${d.portaria||'Ver'} ↗</a>`:(d.portaria||'')}${correcaoDoAto(d)}</td>
         </tr>`;
       }).join('') || vazio();
       const universo = querSemEfeito() ? TODOS.length : DADOS.length;

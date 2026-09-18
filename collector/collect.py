@@ -36,14 +36,16 @@ from config import (
 )
 from parser import (
     limpar_html, sem_acento, identificar_orgao, extrair_nomeados,
-    extrair_anulacoes,
+    extrair_anulacoes, ato_de_correcao,
 )
 import anulacoes as anul
+import correcoes as corr
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ_DADOS = os.path.join(RAIZ, "data", "nomeacoes.json")
 ARQ_SEED = os.path.join(RAIZ, "seed", "seed.json")
 ARQ_ANULACOES = os.path.join(RAIZ, "data", "anulacoes.json")
+ARQ_CORRECOES = os.path.join(RAIZ, "data", "correcoes.json")
 
 BASE_EDICAO = "https://www.in.gov.br/leiturajornal"
 BASE_BUSCA = "https://www.in.gov.br/consulta/-/buscar/dou"
@@ -279,6 +281,15 @@ def processar_portaria(item, dia=None, texto=None):
     mport = re.search(r"(PORTARIA|ATO)[^\d]*(\d[\d.]*)", titulo, re.IGNORECASE)
     rotulo_portaria = (f"{mport.group(1).upper()} Nº {mport.group(2)}"
                        if mport else (titulo[:45] or "Portaria"))
+
+    # O ato corrige outro já publicado (republicação/retificação)? Então estes
+    # nomes NÃO são convocação nova: são a mesma, com o nome escrito certo. A
+    # marca "_correcao" viaja com o registro até o correcoes.py, que casa cada
+    # um com a nomeação original. Uma retificação avulsa sai com o título
+    # "RETIFICAÇÃO": quem dá o número é o ato que ela conserta.
+    correcao = ato_de_correcao(titulo, texto, rotulo_portaria if mport else "") if avaliado else None
+    if correcao and not mport:
+        rotulo_portaria = correcao["ato"]
     info = ORGAOS[sigla]
 
     # data: prioriza a pubDate do item; senão o dia da edição
@@ -294,13 +305,16 @@ def processar_portaria(item, dia=None, texto=None):
 
     registros = []
     for nd in nomeados:
-        registros.append({
+        reg = {
             "uf": sigla, "orgao": info["rotulo"], "cargo": nd["cargo"], "area": "TI",
             "especialidade": nd["especialidade"] or "Tecnologia da Informação",
             "nome": nd["nome"], "classificacao": nd["classificacao"],
             "data": data, "data_br": data_br,
             "portaria": rotulo_portaria, "url": url, "fonte": "dou",
-        })
+        }
+        if correcao:
+            reg["_correcao"] = correcao
+        registros.append(reg)
 
     anuladas = []
     for an in desfeitas:
@@ -351,6 +365,13 @@ def _registros_pagina_escavador(texto, dia_iso, url):
 
     Devolve (registros, anulacoes) — a página do Escavador traz a seção inteira,
     então tanto as nomeações quanto os atos que desfazem nomeação passam por aqui.
+
+    Republicação/retificação NÃO é marcada aqui de propósito: o trecho é
+    recortado por órgão e pode juntar dois atos do mesmo tribunal, então a nota
+    de um ato marcaria o outro. Quando o in.gov.br volta (no mesmo dia ou nos
+    dias seguintes, dentro da janela do coletor), o ato é lido de novo pelo
+    caminho normal e a correção é reconhecida lá — inclusive desfazendo a linha
+    duplicada que tenha entrado por aqui (veja correcoes.aplicar).
     """
     alvo = sem_acento(texto)
     marcas = []
@@ -557,6 +578,19 @@ def main():
         print(f"\n! Falha inesperada na coleta: {e}")
         novos, desfeitas = [], []
 
+    # Correções do DOU (republicação/retificação): o mesmo nomeado com o nome
+    # escrito de outro jeito não pode virar uma segunda pessoa. A conferência
+    # vem ANTES de somar os novos à base — o que se compara é o ato original.
+    correcoes_conhecidas = corr.carregar(ARQ_CORRECOES)
+    novas_corr, alertas_corr = corr.detectar(novos, list(base.values()),
+                                             conhecidas=correcoes_conhecidas)
+    for c in novas_corr:
+        print(f"   correção do DOU ({c['tipo']}): {c['uf']} — {c['nome_anterior']} "
+              f"-> {c['nome']} ({c['ato']}, {c['data_br']})")
+    for a in alertas_corr:
+        print(f"   ! {a}")
+    total_corr = corr.salvar(ARQ_CORRECOES, correcoes_conhecidas + novas_corr)
+
     add = 0
     for reg in novos:
         ch = chave_registro(reg)
@@ -564,6 +598,7 @@ def main():
             base[ch] = reg
             add += 1
     print(f"\nNovos registros adicionados pelo DOU: {add}")
+    print(f"Correções conhecidas: {total_corr} ({len(novas_corr)} nova(s) nesta execução)")
 
     # Nomeações tornadas sem efeito: guardadas em arquivo próprio e permanente.
     # Sem essa memória o registro voltaria na execução seguinte — o seed o traz
@@ -578,7 +613,13 @@ def main():
     total_anul = anul.salvar(ARQ_ANULACOES, conhecidas + desfeitas)
     print(f"Anulações conhecidas: {total_anul} ({len(novas)} nova(s) nesta execução)")
 
-    publicados = sorted(base.values(),
+    # As correções entram antes das anulações: o ato que desfaz uma nomeação
+    # cita o nome como o DOU publicou depois da correção.
+    corrigidos, aplicadas = corr.aplicar(list(base.values()),
+                                         corr.carregar(ARQ_CORRECOES))
+    if aplicadas:
+        print(f"Correções aplicadas à base: {aplicadas}")
+    publicados = sorted(corrigidos,
                         key=lambda r: (r.get("data", ""), r.get("nome", "")),
                         reverse=True)
     vigentes, sem_efeito = anul.aplicar_anulacoes(publicados,

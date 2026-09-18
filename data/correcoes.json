@@ -1,0 +1,48 @@
+{
+  "atualizado_em": "2026-09-18T14:41:59.621659+00:00",
+  "total": 3,
+  "correcoes": [
+    {
+      "uf": "BA",
+      "ato": "PORTARIA Nº 488",
+      "tipo": "retificacao",
+      "cargo_anterior": "Técnico Judiciário",
+      "nome_anterior": "Everton Simoes Barreto",
+      "cargo": "Técnico Judiciário",
+      "nome": "Everton Simoes Barretto",
+      "especialidade": "Programação de Sistemas",
+      "classificacao": 0,
+      "data": "2025-08-26",
+      "data_br": "26/08/2025",
+      "url": "https://www.in.gov.br/web/dou/-/retificacao-650851857"
+    },
+    {
+      "uf": "SP",
+      "ato": "PORTARIA Nº 209",
+      "tipo": "republicacao",
+      "cargo_anterior": "Analista Judiciário",
+      "nome_anterior": "Marcos Oliveira Coelho",
+      "cargo": "Analista Judiciário",
+      "nome": "Marcos de Oliveira Coelho",
+      "especialidade": "Tecnologia da Informação",
+      "classificacao": 2,
+      "data": "2025-10-21",
+      "data_br": "21/10/2025",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-209-de-28-de-agosto-de-2025-*-663732895"
+    },
+    {
+      "uf": "PB",
+      "ato": "PORTARIA Nº 312",
+      "tipo": "republicacao",
+      "cargo_anterior": "Analista Judiciário",
+      "nome_anterior": "Guilherme Ramalho",
+      "cargo": "Analista Judiciário",
+      "nome": "Guilherme Ramalho Magalhães",
+      "especialidade": "Tecnologia da Informação",
+      "classificacao": 1,
+      "data": "2026-09-16",
+      "data_br": "16/09/2026",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-312-tre-pb/ptre/aspre-de-14-de-setembro-de-2026*-732091796"
+    }
+  ]
+}

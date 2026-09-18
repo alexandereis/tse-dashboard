@@ -1,9 +1,37 @@
 {
-  "atualizado_em": "2026-09-17T08:32:32.937384+00:00",
-  "total": 290,
-  "total_publicado": 327,
+  "atualizado_em": "2026-09-18T14:47:30.796888+00:00",
+  "total": 295,
+  "total_publicado": 332,
   "total_sem_efeito": 37,
   "registros": [
+    {
+      "uf": "PE",
+      "orgao": "Pernambuco",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Ubiracy dos Santos Rego Junior",
+      "classificacao": 2,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 905",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-905-de-10-de-setembro-de-2026-732361138",
+      "fonte": "dou"
+    },
+    {
+      "uf": "PE",
+      "orgao": "Pernambuco",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Rodrigo Ramgund Leite",
+      "classificacao": 5,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 905",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-905-de-10-de-setembro-de-2026-732361138",
+      "fonte": "dou"
+    },
     {
       "uf": "SP",
       "orgao": "São Paulo",
@@ -30,6 +58,34 @@
       "data_br": "17/09/2026",
       "portaria": "PORTARIA Nº 302",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-302-de-15-de-setembro-de-2026-732376626",
+      "fonte": "dou"
+    },
+    {
+      "uf": "PE",
+      "orgao": "Pernambuco",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Lucas Araujo Paz",
+      "classificacao": 2,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 905",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-905-de-10-de-setembro-de-2026-732361138",
+      "fonte": "dou"
+    },
+    {
+      "uf": "PE",
+      "orgao": "Pernambuco",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Leandro Correia da Silva",
+      "classificacao": 6,
+      "data": "2026-09-17",
+      "data_br": "17/09/2026",
+      "portaria": "PORTARIA Nº 905",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-905-de-10-de-setembro-de-2026-732361138",
       "fonte": "dou"
     },
     {
@@ -75,17 +131,17 @@
       "fonte": "dou"
     },
     {
-      "uf": "PB",
-      "orgao": "Paraíba",
-      "cargo": "Analista Judiciário",
+      "uf": "PA",
+      "orgao": "Pará",
+      "cargo": "Técnico Judiciário",
       "area": "TI",
-      "especialidade": "Tecnologia da Informação",
-      "nome": "Guilherme Ramalho Magalhães",
-      "classificacao": 1,
-      "data": "2026-09-16",
-      "data_br": "16/09/2026",
-      "portaria": "PORTARIA Nº 312",
-      "url": "https://www.in.gov.br/web/dou/-/portaria-n-312-tre-pb/ptre/aspre-de-14-de-setembro-de-2026*-732091796",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Thales Henrique Gomes Lobato",
+      "classificacao": 0,
+      "data": "2026-09-15",
+      "data_br": "15/09/2026",
+      "portaria": "PORTARIA Nº 25.151",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-25.151-de-4-de-setembro-de-2026-731788131",
       "fonte": "dou"
     },
     {
@@ -276,13 +332,18 @@
       "cargo": "Analista Judiciário",
       "area": "TI",
       "especialidade": "Tecnologia da Informação",
-      "nome": "Guilherme Ramalho",
+      "nome": "Guilherme Ramalho Magalhães",
       "classificacao": 1,
       "data": "2026-08-24",
       "data_br": "24/08/2026",
       "portaria": "PORTARIA Nº 312",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-312-tre-pb/ptre/aspre-joao-pessoa-21-de-agosto-de-2026-727252277",
-      "fonte": "dou"
+      "fonte": "dou",
+      "nome_publicado": "Guilherme Ramalho",
+      "corrigido_em": "2026-09-16",
+      "corrigido_em_br": "16/09/2026",
+      "corrigido_url": "https://www.in.gov.br/web/dou/-/portaria-n-312-tre-pb/ptre/aspre-de-14-de-setembro-de-2026*-732091796",
+      "corrigido_tipo": "republicacao"
     },
     {
       "uf": "PB",
@@ -526,6 +587,20 @@
       "data_br": "19/08/2026",
       "portaria": "PORTARIA Nº 687",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-687-de-14-de-agosto-de-2026-726408128",
+      "fonte": "dou"
+    },
+    {
+      "uf": "CE",
+      "orgao": "Ceará",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Raul Ramires Lima Oliveira",
+      "classificacao": 3,
+      "data": "2026-08-19",
+      "data_br": "19/08/2026",
+      "portaria": "PORTARIA Nº 691",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-691-de-14-de-agosto-de-2026-726407988",
       "fonte": "dou"
     },
     {
@@ -2740,7 +2815,8 @@
       "data": "2025-09-30",
       "portaria": "PORTARIA Nº 652",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-652-de-22-de-setembro-de-2025-659038205",
-      "fonte": "seed"
+      "fonte": "seed",
+      "classificacao": 2
     },
     {
       "uf": "PE",
@@ -2753,7 +2829,8 @@
       "data": "2025-09-30",
       "portaria": "PORTARIA Nº 652",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-652-de-22-de-setembro-de-2025-659038205",
-      "fonte": "seed"
+      "fonte": "seed",
+      "classificacao": 4
     },
     {
       "uf": "PE",
@@ -2766,7 +2843,8 @@
       "data": "2025-09-30",
       "portaria": "PORTARIA Nº 652",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-652-de-22-de-setembro-de-2025-659038205",
-      "fonte": "seed"
+      "fonte": "seed",
+      "classificacao": 1
     },
     {
       "uf": "PE",
@@ -2779,7 +2857,8 @@
       "data": "2025-09-30",
       "portaria": "PORTARIA Nº 652",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-652-de-22-de-setembro-de-2025-659038205",
-      "fonte": "seed"
+      "fonte": "seed",
+      "classificacao": 1
     },
     {
       "uf": "PE",
@@ -2792,7 +2871,8 @@
       "data": "2025-09-30",
       "portaria": "PORTARIA Nº 652",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-652-de-22-de-setembro-de-2025-659038205",
-      "fonte": "seed"
+      "fonte": "seed",
+      "classificacao": 1
     },
     {
       "uf": "TSE",
@@ -3084,7 +3164,13 @@
       "data": "2025-09-08",
       "portaria": "PORTARIA Nº 209",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-209-de-28-de-agosto-de-2025-653677733",
-      "fonte": "seed"
+      "fonte": "seed",
+      "nome_publicado": "Marcos Oliveira Coelho",
+      "corrigido_em": "2025-10-21",
+      "corrigido_em_br": "21/10/2025",
+      "corrigido_url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-209-de-28-de-agosto-de-2025-*-663732895",
+      "corrigido_tipo": "republicacao",
+      "classificacao": 2
     },
     {
       "uf": "SP",
@@ -3814,13 +3900,18 @@
       "orgao": "Bahia",
       "cargo": "Técnico Judiciário",
       "area": "TI",
-      "especialidade": "Tecnologia da Informação",
+      "especialidade": "Programação de Sistemas",
       "nome": "Everton Simoes Barretto",
       "data_br": "05/08/2025",
       "data": "2025-08-05",
       "portaria": "PORTARIA Nº 488",
       "url": "https://www.in.gov.br/en/web/dou/-/portaria-tre-ba-n-488-de-25-de-julho-de-2025-646260572",
-      "fonte": "seed"
+      "fonte": "seed",
+      "nome_publicado": "Everton Simoes Barreto",
+      "corrigido_em": "2025-08-26",
+      "corrigido_em_br": "26/08/2025",
+      "corrigido_url": "https://www.in.gov.br/web/dou/-/retificacao-650851857",
+      "corrigido_tipo": "retificacao"
     },
     {
       "uf": "BA",

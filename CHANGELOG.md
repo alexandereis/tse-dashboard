@@ -14,6 +14,89 @@ O número segue o formato **MAIOR.MENOR.CORREÇÃO**:
 
 ---
 
+## [1.19.0] — 2026-09-18
+
+**Seis nomeações de TI que o painel não mostrava — e a republicação do DOU
+que virou uma pessoa a mais**
+
+Dois problemas diferentes, achados conferindo o painel com o Diário.
+
+**1. O TRE-PB republicou a portaria e o painel ficou com duas pessoas.** A
+Portaria 312 do TRE-PB saiu em **24/08/2026** com o nome "GUILHERME RAMALHO" e
+foi **republicada em 16/09/2026** — "Republicada por incorreção no nome do
+candidato" — como "GUILHERME RAMALHO **MAGALHÃES**". É a mesma pessoa e a mesma
+nomeação, mas, como a chave de um registro é o nome, o robô leu a republicação
+como convocação nova. Agora o coletor reconhece o ato que corrige outro ato
+(**republicação** e **retificação**), casa o nome corrigido com a nomeação
+original e mantém **uma linha só**:
+
+- a nomeação fica com a **data e a portaria originais** (24/08, Portaria 312) —
+  a convocação aconteceu naquele dia; a republicação só conserta o texto;
+- ao lado da portaria aparece o link **republicação ↗** (ou **retificação ↗**),
+  que leva ao texto corrigido; a busca do painel acha a pessoa também pela
+  **grafia antiga**, e o CSV traz as duas;
+- a correção vira memória permanente em **`data/correcoes.json`** — sem isso o
+  seed traria a grafia antiga de volta na execução seguinte, como acontece com
+  as anulações; o ato que desfizer a nomeação vale com qualquer das grafias;
+- se a republicação **deixar de trazer** alguém que o ato original trazia,
+  ninguém é apagado em silêncio: sai um **alerta** para conferência humana.
+
+O arquivo já nasce com as duas correções antigas que tinham sido acertadas à
+mão no seed — TRE-BA, Portaria 488 ("Barreto" → "Barretto", retificação de
+26/08/2025) e TRE-SP, Portaria 209 ("Marcos Oliveira Coelho" → "Marcos **de**
+Oliveira Coelho", republicação de 21/10/2025). Com a grafia publicada guardada,
+a varredura para de acusá-las como "nomeado fora da base".
+
+**2. Três portarias em formatos que o parser não lia.** Todas apontadas pelo
+filtro de "ato suspeito" da auditoria (v1.18.0):
+
+- **TRE-PE, Portaria 905 (17/09/2026)** — a tabela passou a escrever "os cargos
+  **de:**" e "Especialidade**:** Tecnologia da Informação, Classe A, Padrão 1:",
+  e a repetir "Provimento inicial do **1º cargo de Analista Judiciário** criado
+  pela Lei…" em cada linha. O cabeçalho de TI deixou de ser reconhecido e a
+  origem da vaga passou a valer como cabeçalho: **4 nomeados invisíveis** —
+  Lucas Araujo Paz e Ubiracy dos Santos Rego Junior (Analista TI), Rodrigo
+  Ramgund Leite e Leandro Correia da Silva (Técnico, Programação de Sistemas).
+- **TRE-PA, Portaria 25.151 (16/09/2026)** — 435 caracteres de edital entre o
+  nome e o cargo, numa janela de 280: **Thales Henrique Gomes Lobato**
+  (Técnico, Programação de Sistemas) sumiu.
+- **TRE-CE, Portaria 691 (19/08/2026)** — o mesmo defeito em outra família de
+  formato: o CPF e a lista de cotas entre o nome e o cargo somam 330
+  caracteres. **Raul Ramires Lima Oliveira** (Técnico, Programação de
+  Sistemas, 3º) estava fora do painel havia um mês. Como a portaria já saiu da
+  janela do robô, ele entrou pelo seed, conferido no ato.
+
+As janelas foram para 520 caracteres e ganharam limites de verdade — não
+cruzam outro "nomear", outro candidato nem a fronteira de artigo —, o que
+também impede que o nomeado de uma área não-TI herde o cargo de TI do vizinho
+(caso de teste próprio). A especialidade escrita em CAIXA ALTA passa a ser
+guardada como a dos outros tribunais.
+
+**Dados**
+- **295 em vigor, 332 publicadas, 37 sem efeito** (antes: 290 / 327 / 37): +6
+  nomeações que faltavam (TRE-PE ×4, TRE-PA, TRE-CE) e −1 pessoa duplicada
+  (TRE-PB). 114 anulações no arquivo, sem mudança.
+- `data/correcoes.json` estreia com 3 correções (TRE-PB, TRE-BA, TRE-SP).
+- Seed sincronizado com a base (TRE-CE incluído à mão; os registros do TRE-PB
+  e das demais portarias desde 04/09 vieram do coletor). Cinco registros do
+  TRE-PE de 30/09/2025 (Portaria 652) ganharam a **classificação**, que o
+  parser agora lê do próprio ato.
+- Coletor rodado localmente duas vezes: a segunda responde "Nenhuma novidade".
+- Testes: novo `test_correcoes.py` (12 casos); `test_parser.py` com 4 formatos
+  novos (PE 905, PA 25.151, CE 691 e o de dois nomeados num artigo) e a
+  checagem da especialidade; +1 caso no `test_aplicar_anulacoes.py`.
+- Conferência das anulações com o parser novo: **114 registros em 76 atos,
+  zero diferenças**.
+- **Todas as edições da Seção 2 de 01/06/2025 a 18/09/2026 — 340 dias úteis,
+  4.581 atos da Justiça Eleitoral — foram reabertas e lidas pelos dois
+  parsers, ato a ato.** Nenhum nomeado ou anulação que o parser antigo lia
+  deixou de ser lido; as únicas diferenças são as seis nomeações acima, cinco
+  registros que já estavam na base por outro caminho e a grafia da
+  especialidade. A varredura desse acervo com o painel atualizado termina com
+  **zero nomeados de TI fora da base**. A detecção de correção, passada pelo
+  histórico inteiro, reconheceu 60 atos de republicação/retificação e só
+  alterou o caso do TRE-PB, sem nenhum alerta.
+
 ## [1.18.0] — 2026-09-04
 
 **Rede de segurança: auditoria de um dia, conferência das anulações e

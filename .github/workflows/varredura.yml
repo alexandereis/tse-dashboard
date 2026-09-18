@@ -51,10 +51,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- data/nomeacoes.json data/anulacoes.json; then
+          if git diff --quiet -- data/nomeacoes.json data/anulacoes.json data/correcoes.json; then
             echo "Nenhuma anulação nova. Nada a commitar."
           else
-            git add data/nomeacoes.json data/anulacoes.json
+            git add data/nomeacoes.json data/anulacoes.json data/correcoes.json
             git commit -m "chore: varredura mensal incorpora anulações ($(date -u +'%Y-%m-%d %H:%M UTC'))"
             git push
             echo "Anulações incorporadas e enviadas!"

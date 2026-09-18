@@ -114,8 +114,12 @@ class Base:
     """
 
     def __init__(self, registros, seed, anulacoes):
-        self._nomes = {(r.get("uf", ""), sem_acento(r.get("nome", "")))
-                       for r in list(registros) + list(seed)}
+        # "nome_publicado" é a grafia do ato original quando o DOU corrigiu o
+        # nome depois (veja correcoes.py). Sem ela, reabrir o ato antigo numa
+        # varredura acusaria "não está na base" para quem já está.
+        self._nomes = {(r.get("uf", ""), sem_acento(n))
+                       for r in list(registros) + list(seed)
+                       for n in (r.get("nome", ""), r.get("nome_publicado", "")) if n}
         self._anul_chaves = {anul.chave_anulacao(a) for a in anulacoes}
         self._anul_no_ato = {(a.get("uf", ""), sem_acento(a.get("nome", "")), a.get("url", ""))
                              for a in anulacoes}

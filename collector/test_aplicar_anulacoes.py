@@ -60,6 +60,16 @@ CASOS = [
      [reg("PI", "Heanes José de Sousa Silva", "2026-03-02", "PORTARIA Nº 137")],
      [anul("PI", "HEANES JOSE DE SOUSA SILVA", "2026-03-16", "")],
      []),
+
+    # Depois de uma republicação, a nomeação vale com o nome corrigido, mas o
+    # ato que a desfaz pode citar a grafia que saiu no ato original (veja
+    # correcoes.py). As duas grafias precisam casar, senão a nomeação desfeita
+    # continuaria valendo no painel.
+    ("anulacao pela grafia ANTIGA (nome corrigido depois por republicacao)",
+     [dict(reg("PB", "Guilherme Ramalho Magalhães", "2026-08-24", "PORTARIA Nº 312",
+               "Analista Judiciário"), nome_publicado="Guilherme Ramalho")],
+     [anul("PB", "GUILHERME RAMALHO", "2026-10-01", "312")],
+     []),
 ]
 
 

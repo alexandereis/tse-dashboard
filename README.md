@@ -64,6 +64,13 @@ a diferença costuma ser exatamente essa.
 O painel **não diz quem entrou no lugar de quem** — o Diário Oficial não publica
 esse vínculo, e apontar um nome ali seria chute, não informação oficial.
 
+Quando o Diário **erra o nome** de alguém, ele não publica nomeação nova: republica
+a portaria ("Republicada por incorreção no nome do candidato…") ou publica uma
+retificação ("Onde se lê… Leia-se…"). Nesses casos a nomeação continua **uma só**,
+com a **data e a portaria originais**; o painel passa a mostrar o nome corrigido,
+com o link do texto republicado ao lado da portaria — e a busca continua achando
+a pessoa pela grafia antiga.
+
 ## 🔧 Manutenção (para quem cuida do painel)
 
 O robô só sabe o que o parser devolve; um formato de portaria novo faz a
@@ -77,8 +84,15 @@ python collector/conferir_anulacoes.py         # reabre os atos de data/anulacoe
 python collector/varredura.py --dias 45        # reabre as edições do período e compara com o painel
 ```
 
-Os três saem com código 1 quando há algo para olhar. A varredura também roda
-sozinha **uma vez por mês** (workflow "Varredura mensal do DOU"): incorpora as
+Além do `data/nomeacoes.json` (a base publicada), o robô mantém dois arquivos de
+memória permanente, reaplicados toda vez que a base é montada: o
+`data/anulacoes.json`, com as nomeações que os tribunais tornaram sem efeito, e o
+`data/correcoes.json`, com as republicações/retificações de nome do DOU (quem era,
+quem passou a ser e o ato que corrigiu). Sem eles, o seed traria o registro antigo
+de volta na execução seguinte.
+
+Os três comandos saem com código 1 quando há algo para olhar. A varredura também
+roda sozinha **uma vez por mês** (workflow "Varredura mensal do DOU"): incorpora as
 anulações que faltavam e, se sobrar nomeado fora da base ou ato suspeito, o job
 falha e o GitHub avisa por e-mail. Testes: `python collector/test_*.py`.
 

@@ -45,12 +45,13 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # data/anulacoes.json guarda as nomeações que os tribunais tornaram sem
-          # efeito; ele só muda quando aparece uma anulação nova, então entra no
-          # mesmo commit sem gerar ruído.
-          if git diff --quiet -- data/nomeacoes.json data/anulacoes.json; then
+          # efeito e data/correcoes.json as republicações/retificações de nome;
+          # os dois só mudam quando aparece coisa nova, então entram no mesmo
+          # commit sem gerar ruído.
+          if git diff --quiet -- data/nomeacoes.json data/anulacoes.json data/correcoes.json; then
             echo "Sem novidades no DOU. Nada a commitar."
           else
-            git add data/nomeacoes.json data/anulacoes.json
+            git add data/nomeacoes.json data/anulacoes.json data/correcoes.json
             git commit -m "chore: atualiza nomeações ($(date -u +'%Y-%m-%d %H:%M UTC'))"
             git push
             echo "Dados atualizados e enviados!"
