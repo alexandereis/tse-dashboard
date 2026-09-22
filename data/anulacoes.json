@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-18T08:06:54.293679+00:00",
-  "total": 114,
+  "atualizado_em": "2026-09-22T08:23:34.317260+00:00",
+  "total": 119,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1143,6 +1143,56 @@
       "data_br": "18/09/2026",
       "ato": "PORTARIA Nº 309",
       "url": "https://www.in.gov.br/web/dou/-/portaria-pre-n-309-de-15-de-setembro-de-2026-732658827"
+    },
+    {
+      "uf": "BA",
+      "nome": "Saulo Rios Trindade",
+      "portaria_desfeita": "1.491",
+      "motivo": "",
+      "data": "2026-09-22",
+      "data_br": "22/09/2026",
+      "ato": "PORTARIA Nº 1.589",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre-ba-n-1.589-de-19-de-setembro-de-2026-733249438"
+    },
+    {
+      "uf": "CE",
+      "nome": "Mikelly Farias Brito",
+      "portaria_desfeita": "684",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-09-22",
+      "data_br": "22/09/2026",
+      "ato": "PORTARIA Nº 780",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-780-de-21-de-setembro-de-2026-733281031"
+    },
+    {
+      "uf": "PI",
+      "nome": "Pedro Lopes Barbosa Junior",
+      "portaria_desfeita": "611",
+      "motivo": "",
+      "data": "2026-09-22",
+      "data_br": "22/09/2026",
+      "ato": "PORTARIA Nº 683",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/presi/dg/sgp/coede-n-683-de-18-de-setembro-de-2026-733256129"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Helly Washington Guimarães Mendes Barbosa",
+      "portaria_desfeita": "519",
+      "motivo": "Desistência",
+      "data": "2026-09-22",
+      "data_br": "22/09/2026",
+      "ato": "PORTARIA Nº 630",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-630-de-20-de-setembro-de-2026-733235312"
+    },
+    {
+      "uf": "TSE",
+      "nome": "Thainara Silva Almeida",
+      "portaria_desfeita": "523",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-09-22",
+      "data_br": "22/09/2026",
+      "ato": "PORTARIA Nº 631",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-631-de-20-de-setembro-de-2026-733286058"
     }
   ]
 }
