@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-09-22T08:23:34.317260+00:00",
-  "total": 119,
+  "atualizado_em": "2026-10-01T09:56:49.033464+00:00",
+  "total": 122,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1193,6 +1193,36 @@
       "data_br": "22/09/2026",
       "ato": "PORTARIA Nº 631",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-631-de-20-de-setembro-de-2026-733286058"
+    },
+    {
+      "uf": "RJ",
+      "nome": "Elaine Cristina de Pinho Rodrigues",
+      "portaria_desfeita": "271",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-10-01",
+      "data_br": "01/10/2026",
+      "ato": "ATO Nº 309",
+      "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-309-de-29-de-setembro-de-2026-735911318"
+    },
+    {
+      "uf": "RJ",
+      "nome": "Guilherme Magalhães Gall",
+      "portaria_desfeita": "269",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-10-01",
+      "data_br": "01/10/2026",
+      "ato": "ATO Nº 308",
+      "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-308-de-29-de-setembro-de-2026-735804884"
+    },
+    {
+      "uf": "RJ",
+      "nome": "Matheus Basilio Gagliano",
+      "portaria_desfeita": "276",
+      "motivo": "Não tomou posse no prazo",
+      "data": "2026-10-01",
+      "data_br": "01/10/2026",
+      "ato": "ATO Nº 310",
+      "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-310-de-29-de-setembro-de-2026-735717517"
     }
   ]
 }

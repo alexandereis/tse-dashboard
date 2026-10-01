@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-09-28T17:51:18.986015+00:00",
-  "total": 302,
-  "total_publicado": 340,
-  "total_sem_efeito": 38,
+  "atualizado_em": "2026-10-01T09:56:49.044564+00:00",
+  "total": 301,
+  "total_publicado": 341,
+  "total_sem_efeito": 40,
   "registros": [
+    {
+      "uf": "TO",
+      "orgao": "Tocantins",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Arnaldo Coelho Teixeira Júnior",
+      "classificacao": 0,
+      "data": "2026-10-01",
+      "data_br": "01/10/2026",
+      "portaria": "PORTARIA Nº 699",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-699-de-28-de-setembro-de-2026-735735152",
+      "fonte": "dou"
+    },
     {
       "uf": "TSE",
       "orgao": "TSE - Sede",
@@ -511,7 +525,13 @@
       "data_br": "21/08/2026",
       "portaria": "ATO Nº 276",
       "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-276-de-19-de-agosto-de-2026-726996667",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-10-01",
+      "sem_efeito_em_br": "01/10/2026",
+      "sem_efeito_ato": "ATO Nº 310",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/ato-pr-n-310-de-29-de-setembro-de-2026-735717517",
+      "sem_efeito_motivo": "Não tomou posse no prazo"
     },
     {
       "uf": "RJ",
@@ -539,7 +559,13 @@
       "data_br": "21/08/2026",
       "portaria": "ATO Nº 269",
       "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-269-de-19-de-agosto-de-2026-727011363",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-10-01",
+      "sem_efeito_em_br": "01/10/2026",
+      "sem_efeito_ato": "ATO Nº 308",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/ato-pr-n-308-de-29-de-setembro-de-2026-735804884",
+      "sem_efeito_motivo": "Não tomou posse no prazo"
     },
     {
       "uf": "RJ",
