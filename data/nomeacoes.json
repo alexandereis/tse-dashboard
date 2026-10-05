@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-10-02T09:33:38.961727+00:00",
-  "total": 304,
-  "total_publicado": 344,
+  "atualizado_em": "2026-10-05T10:11:30.999982+00:00",
+  "total": 305,
+  "total_publicado": 345,
   "total_sem_efeito": 40,
   "registros": [
+    {
+      "uf": "PR",
+      "orgao": "Paraná",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Marcelo Augusto Faveri",
+      "classificacao": 3,
+      "data": "2026-10-05",
+      "data_br": "05/10/2026",
+      "portaria": "PORTARIA Nº 333",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-333-de-30-de-setembro-de-2026-736368664",
+      "fonte": "dou"
+    },
     {
       "uf": "CE",
       "orgao": "Ceará",
