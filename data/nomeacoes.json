@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-10-05T10:11:30.999982+00:00",
-  "total": 305,
-  "total_publicado": 345,
+  "atualizado_em": "2026-10-06T09:55:55.228268+00:00",
+  "total": 306,
+  "total_publicado": 346,
   "total_sem_efeito": 40,
   "registros": [
+    {
+      "uf": "PE",
+      "orgao": "Pernambuco",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Mauricio Bandeira Alves de Melo",
+      "classificacao": 4,
+      "data": "2026-10-06",
+      "data_br": "06/10/2026",
+      "portaria": "PORTARIA Nº 1.029",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-1.029-de-29-de-setembro-de-2026-736777013",
+      "fonte": "dou"
+    },
     {
       "uf": "PR",
       "orgao": "Paraná",
