@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-10-01T09:56:49.033464+00:00",
-  "total": 122,
+  "atualizado_em": "2026-10-14T08:31:30.701025+00:00",
+  "total": 123,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1223,6 +1223,16 @@
       "data_br": "01/10/2026",
       "ato": "ATO Nº 310",
       "url": "https://www.in.gov.br/web/dou/-/ato-pr-n-310-de-29-de-setembro-de-2026-735717517"
+    },
+    {
+      "uf": "DF",
+      "nome": "Darlan Henrique da Silva Venturelli",
+      "portaria_desfeita": "220",
+      "motivo": "Desistência",
+      "data": "2026-10-14",
+      "data_br": "14/10/2026",
+      "ato": "PORTARIA Nº 277",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pr-n-277-de-13-de-outubro-de-2026-738114787"
     }
   ]
 }
