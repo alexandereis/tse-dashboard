@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-10-14T08:31:30.701025+00:00",
-  "total": 123,
+  "atualizado_em": "2026-10-15T08:06:56.994279+00:00",
+  "total": 124,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1233,6 +1233,16 @@
       "data_br": "14/10/2026",
       "ato": "PORTARIA Nº 277",
       "url": "https://www.in.gov.br/web/dou/-/portaria-pr-n-277-de-13-de-outubro-de-2026-738114787"
+    },
+    {
+      "uf": "PA",
+      "nome": "Érica Ferreira dos Santos",
+      "portaria_desfeita": "25.151",
+      "motivo": "Desistência",
+      "data": "2026-10-15",
+      "data_br": "15/10/2026",
+      "ato": "PORTARIA Nº 25.257",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-25.257-de-13-de-outubro-de-2026-738344968"
     }
   ]
 }
