@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-10-15T08:06:56.994279+00:00",
-  "total": 124,
+  "atualizado_em": "2026-10-16T08:00:43.643215+00:00",
+  "total": 127,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1243,6 +1243,36 @@
       "data_br": "15/10/2026",
       "ato": "PORTARIA Nº 25.257",
       "url": "https://www.in.gov.br/web/dou/-/portaria-n-25.257-de-13-de-outubro-de-2026-738344968"
+    },
+    {
+      "uf": "MS",
+      "nome": "Rodolfo Batista de Carvalho",
+      "portaria_desfeita": "211",
+      "motivo": "",
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "ato": "PORTARIA Nº 245",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-245-de-14-de-outubro-de-2026-738616680"
+    },
+    {
+      "uf": "SP",
+      "nome": "Claudio Cabaleiro da Costa",
+      "portaria_desfeita": "294",
+      "motivo": "Desistência",
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "ato": "PORTARIA Nº 331",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681"
+    },
+    {
+      "uf": "SP",
+      "nome": "João Antonio Carvalho Monteiro de Oliveira",
+      "portaria_desfeita": "294",
+      "motivo": "Perícia médica",
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "ato": "PORTARIA Nº 331",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681"
     }
   ]
 }

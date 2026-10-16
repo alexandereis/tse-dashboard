@@ -1,9 +1,65 @@
 {
-  "atualizado_em": "2026-10-14T08:31:30.712722+00:00",
-  "total": 309,
-  "total_publicado": 349,
-  "total_sem_efeito": 40,
+  "atualizado_em": "2026-10-16T08:00:43.658734+00:00",
+  "total": 310,
+  "total_publicado": 353,
+  "total_sem_efeito": 43,
   "registros": [
+    {
+      "uf": "PI",
+      "orgao": "Piauí",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Natanael de Carvalho Sousa",
+      "classificacao": 6,
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "portaria": "PORTARIA Nº 725",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/presi/dg/sgp/coede-n-725-de-15-de-outubro-de-2026-738612678",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Marcelo Vitor Feliciano",
+      "classificacao": 15,
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "portaria": "PORTARIA Nº 331",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681",
+      "fonte": "dou"
+    },
+    {
+      "uf": "CE",
+      "orgao": "Ceará",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Lucas Natan de Almeida Melo",
+      "classificacao": 10,
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "portaria": "PORTARIA Nº 830",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-830-de-14-de-outubro-de-2026-738591236",
+      "fonte": "dou"
+    },
+    {
+      "uf": "SP",
+      "orgao": "São Paulo",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Carlos Alberto Roque Ferreira",
+      "classificacao": 5,
+      "data": "2026-10-16",
+      "data_br": "16/10/2026",
+      "portaria": "PORTARIA Nº 331",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681",
+      "fonte": "dou"
+    },
     {
       "uf": "DF",
       "orgao": "Distrito Federal",
@@ -338,7 +394,13 @@
       "data_br": "17/09/2026",
       "portaria": "PORTARIA Nº 294",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-10-16",
+      "sem_efeito_em_br": "16/10/2026",
+      "sem_efeito_ato": "PORTARIA Nº 331",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681",
+      "sem_efeito_motivo": "Perícia médica"
     },
     {
       "uf": "SP",
@@ -366,7 +428,13 @@
       "data_br": "17/09/2026",
       "portaria": "PORTARIA Nº 294",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre-sp-n-294-de-15-de-setembro-de-2026-732382074",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-10-16",
+      "sem_efeito_em_br": "16/10/2026",
+      "sem_efeito_ato": "PORTARIA Nº 331",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681",
+      "sem_efeito_motivo": "Desistência"
     },
     {
       "uf": "PA",
@@ -506,7 +574,13 @@
       "data_br": "02/09/2026",
       "portaria": "PORTARIA Nº 211",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-211-de-28-de-agosto-de-2026-729467697",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-10-16",
+      "sem_efeito_em_br": "16/10/2026",
+      "sem_efeito_ato": "PORTARIA Nº 245",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-tre/pre/gabpre-n-245-de-14-de-outubro-de-2026-738616680",
+      "sem_efeito_motivo": ""
     },
     {
       "uf": "RR",
