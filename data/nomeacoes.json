@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-10-20T08:19:47.326854+00:00",
-  "total": 311,
-  "total_publicado": 354,
+  "atualizado_em": "2026-10-23T08:23:02.783456+00:00",
+  "total": 312,
+  "total_publicado": 355,
   "total_sem_efeito": 43,
   "registros": [
+    {
+      "uf": "SC",
+      "orgao": "Santa Catarina",
+      "cargo": "Técnico Judiciário",
+      "area": "TI",
+      "especialidade": "Programação de Sistemas",
+      "nome": "Mauricio de Alexandrino",
+      "classificacao": 0,
+      "data": "2026-10-23",
+      "data_br": "23/10/2026",
+      "portaria": "PORTARIA Nº 175",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-p/tre-sc-n-175-de-22-de-outubro-de-2026-739974715",
+      "fonte": "dou"
+    },
     {
       "uf": "SC",
       "orgao": "Santa Catarina",
