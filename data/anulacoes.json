@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-10-16T08:00:43.643215+00:00",
-  "total": 127,
+  "atualizado_em": "2026-10-28T09:27:36.585026+00:00",
+  "total": 128,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1273,6 +1273,16 @@
       "data_br": "16/10/2026",
       "ato": "PORTARIA Nº 331",
       "url": "https://www.in.gov.br/web/dou/-/portaria-tre/sp-n-331-de-14-de-outubro-de-2026-738590681"
+    },
+    {
+      "uf": "TO",
+      "nome": "Arnaldo Coelho Teixeira Júnior",
+      "portaria_desfeita": "699",
+      "motivo": "Desistência",
+      "data": "2026-10-28",
+      "data_br": "28/10/2026",
+      "ato": "PORTARIA Nº 812",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-812-de-20-de-outubro-de-2026-740680898"
     }
   ]
 }

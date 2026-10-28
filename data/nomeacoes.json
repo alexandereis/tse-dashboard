@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-10-23T08:23:02.783456+00:00",
+  "atualizado_em": "2026-10-28T09:27:36.600835+00:00",
   "total": 312,
-  "total_publicado": 355,
-  "total_sem_efeito": 43,
+  "total_publicado": 356,
+  "total_sem_efeito": 44,
   "registros": [
+    {
+      "uf": "TO",
+      "orgao": "Tocantins",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "André Borba Netto Assis",
+      "classificacao": 0,
+      "data": "2026-10-28",
+      "data_br": "28/10/2026",
+      "portaria": "PORTARIA Nº 812",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-812-de-20-de-outubro-de-2026-740680898",
+      "fonte": "dou"
+    },
     {
       "uf": "SC",
       "orgao": "Santa Catarina",
@@ -212,7 +226,13 @@
       "data_br": "01/10/2026",
       "portaria": "PORTARIA Nº 699",
       "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-699-de-28-de-setembro-de-2026-735735152",
-      "fonte": "dou"
+      "fonte": "dou",
+      "situacao": "sem_efeito",
+      "sem_efeito_em": "2026-10-28",
+      "sem_efeito_em_br": "28/10/2026",
+      "sem_efeito_ato": "PORTARIA Nº 812",
+      "sem_efeito_url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-812-de-20-de-outubro-de-2026-740680898",
+      "sem_efeito_motivo": "Desistência"
     },
     {
       "uf": "TSE",
