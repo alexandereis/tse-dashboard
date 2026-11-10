@@ -1,6 +1,6 @@
 {
-  "atualizado_em": "2026-10-28T09:27:36.585026+00:00",
-  "total": 128,
+  "atualizado_em": "2026-11-10T10:55:50.901755+00:00",
+  "total": 129,
   "anulacoes": [
     {
       "uf": "AP",
@@ -1283,6 +1283,16 @@
       "data_br": "28/10/2026",
       "ato": "PORTARIA Nº 812",
       "url": "https://www.in.gov.br/web/dou/-/portaria-pres/dg/sgp/coede/seged-n-812-de-20-de-outubro-de-2026-740680898"
+    },
+    {
+      "uf": "ES",
+      "nome": "Tornar Sem Efeito O 412/2017",
+      "portaria_desfeita": "411",
+      "motivo": "",
+      "data": "2026-11-10",
+      "data_br": "10/11/2026",
+      "ato": "ATO Nº 389",
+      "url": "https://www.in.gov.br/web/dou/-/ato-n-389-de-9-de-novembro-de-2026-743331168"
     }
   ]
 }
