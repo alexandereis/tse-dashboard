@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-11-09T11:06:30.030027+00:00",
-  "total": 315,
-  "total_publicado": 359,
+  "atualizado_em": "2026-11-12T10:49:06.539499+00:00",
+  "total": 316,
+  "total_publicado": 360,
   "total_sem_efeito": 44,
   "registros": [
+    {
+      "uf": "PR",
+      "orgao": "Paraná",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Leandro Koiti Sato",
+      "classificacao": 4,
+      "data": "2026-11-12",
+      "data_br": "12/11/2026",
+      "portaria": "PORTARIA Nº 382",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-382-de-9-de-novembro-de-2026-743912109",
+      "fonte": "dou"
+    },
     {
       "uf": "RJ",
       "orgao": "Rio de Janeiro",
