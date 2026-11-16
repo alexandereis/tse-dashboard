@@ -1,9 +1,23 @@
 {
-  "atualizado_em": "2026-11-13T10:47:09.582012+00:00",
-  "total": 317,
-  "total_publicado": 361,
+  "atualizado_em": "2026-11-16T10:51:17.873936+00:00",
+  "total": 318,
+  "total_publicado": 362,
   "total_sem_efeito": 44,
   "registros": [
+    {
+      "uf": "AC",
+      "orgao": "Acre",
+      "cargo": "Analista Judiciário",
+      "area": "TI",
+      "especialidade": "Tecnologia da Informação",
+      "nome": "Kayton Pedro Garcia Silva de Araujo",
+      "classificacao": 0,
+      "data": "2026-11-16",
+      "data_br": "16/11/2026",
+      "portaria": "PORTARIA Nº 384",
+      "url": "https://www.in.gov.br/web/dou/-/portaria-n-384-presi/gapres-de-10-de-novembro-de-2026-744480802",
+      "fonte": "dou"
+    },
     {
       "uf": "GO",
       "orgao": "Goiás",
